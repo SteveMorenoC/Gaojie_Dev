@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Management - GAOJIE Admin</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body>
+    <!-- Announcement Bar -->
+    <div class="announcement-bar">
+        <div class="announcement-content">
+            <span class="announcement-text">Admin Panel - GAOJIE Skincare Management</span>
+        </div>
+    </div>
+
+    <!-- Main Header -->
+    <header class="header">
+        <div class="header-container">
+            <!-- Logo -->
+            <div class="logo">
+                <a href="/" class="logo-link">GAOJIE</a>
+            </div>
+
+            <!-- Mobile Menu Toggle -->
+            <button id="mobile-menu-toggle" class="mobile-menu-toggle" aria-label="Toggle menu">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
+
+            <!-- Admin Navigation -->
+            <nav class="nav" id="main-nav">
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="/admin-dashboard" class="nav-link">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin-orders" class="nav-link active">Orders</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin-products" class="nav-link">Products</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin-analytics" class="nav-link">Analytics</a>
+                    </li>
+                </ul>
+            </nav>
+
+            <!-- Header Actions -->
+            <div class="header-actions">
+                <a href="/" class="admin-view-site">View Site</a>
+                <div class="admin-profile">
+                    <span class="admin-name">Admin</span>
+                    <button class="admin-logout">Logout</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Admin Orders Content -->
+    <main class="admin-main">
+        <div class="admin-container">
+            <!-- Orders Header -->
+            <div class="admin-orders-header">
+                <div class="admin-page-title-section">
+                    <h1 class="admin-page-title">Order Management</h1>
+                    <p class="admin-page-subtitle">Manage and process customer orders</p>
+                </div>
+                
+                <div class="admin-orders-actions">
+                    <button class="admin-btn secondary" id="export-orders">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                            <path d="M14 10V12.6667C14 13.0203 13.8595 13.3594 13.6095 13.6095C13.3594 13.8595 13.0203 14 12.6667 14H3.33333C2.97971 14 2.64057 13.8595 2.39052 13.6095C2.14048 13.3594 2 13.0203 2 12.6667V10M11.3333 6.66667L8 10L4.66667 6.66667M8 10V2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        Export Orders
+                    </button>
+                </div>
+            </div>
+
+            <!-- Orders Filters -->
+            <div class="admin-orders-filters">
+                <!-- Status Filter Tabs -->
+                <div class="admin-filter-tabs">
+                    <button class="admin-filter-tab active" data-status="all">All Orders <span class="admin-tab-count">127</span></button>
+                    <button class="admin-filter-tab" data-status="pending">Pending <span class="admin-tab-count">8</span></button>
+                    <button class="admin-filter-tab" data-status="processing">Processing <span class="admin-tab-count">15</span></button>
+                    <button class="admin-filter-tab" data-status="shipped">Shipped <span class="admin-tab-count">23</span></button>
+                    <button class="admin-filter-tab" data-status="delivered">Delivered <span class="admin-tab-count">81</span></button>
+                </div>
+
+                <!-- Search and Date Filter -->
+                <div class="admin-filters-row">
+                    <div class="admin-search-container">
+                        <svg class="admin-search-icon" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                            <circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.5"/>
+                            <path d="m13 13 3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                        </svg>
+                        <input type="text" class="admin-search-input" placeholder="Search by order ID, customer name, or product..." id="orders-search">
+                    </div>
+
+                    <div class="admin-date-filters">
+                        <select class="admin-select" id="date-range">
+                            <option value="today">Today</option>
+                            <option value="week">This Week</option>
+                            <option value="month" selected>This Month</option>
+                            <option value="custom">Custom Range</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Orders Table -->
+            <div class="admin-orders-table-container">
+                <table class="admin-orders-table">
+                    <thead>
+                        <tr>
+                            <th class="admin-table-checkbox">
+                                <input type="checkbox" id="select-all-orders" class="admin-checkbox">
+                            </th>
+                            <th class="admin-table-sortable" data-sort="order-id">
+                                Order ID
+                                <svg class="admin-sort-icon" width="12" height="12" viewBox="0 0 12 12" fill="none">
+                                    <path d="M6 2L9 5H3L6 2Z" fill="currentColor"/>
+                                    <path d="M6 10L3 7H9L6 10Z" fill="currentColor"/>
+                                </svg>
+                            </th>
+                            <th class="admin-table-sortable" data-sort="customer">Customer</th>
+                            <th>Products</th>
+                            <th class="admin-table-sortable" data-sort="amount">Amount</th>
+                            <th class="admin-table-sortable" data-sort="status">Status</th>
+                            <th class="admin-table-sortable" data-sort="date">Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="orders-table-body">
+                        <tr class="admin-order-row" data-status="processing">
+                            <td><input type="checkbox" class="admin-checkbox order-checkbox" value="ORD240728001"></td>
+                            <td class="admin-order-id">#ORD240728001</td>
+                            <td class="admin-customer-info">
+                                <div class="admin-customer-name">Siriporn Tanaka</div>
+                                <div class="admin-customer-email">siriporn.t@email.com</div>
+                            </td>
+                            <td class="admin-order-products">
+                                <div class="admin-product-summary">
+                                    <span class="admin-product-name">Amino-Acid Cleanser</span>
+                                    <span class="admin-product-qty">×1</span>
+                                </div>
+                            </td>
+                            <td class="admin-order-amount">฿1,290.00</td>
+                            <td>
+                                <select class="admin-status-select processing" data-order="ORD240728001">
+                                    <option value="pending">Pending</option>
+                                    <option value="processing" selected>Processing</option>
+                                    <option value="shipped">Shipped</option>
+                                    <option value="delivered">Delivered</option>
+                                    <option value="cancelled">Cancelled</option>
+                                </select>
+                            </td>
+                            <td class="admin-order-date">Jul 28, 2025<br><span class="admin-order-time">10:30 AM</span></td>
+                            <td class="admin-order-actions">
+                                <button class="admin-action-icon" title="View Details" onclick="viewOrderDetails('ORD240728001')">
+                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                        <path d="M1 8C2.5 5 5.5 3 8 3S13.5 5 15 8C13.5 11 10.5 13 8 13S2.5 11 1 8Z" stroke="currentColor" stroke-width="1.5"/>
+                                        <circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.5"/>
+                                    </svg>
+                                </button>
+                                <button class="admin-action-icon" title="Print Invoice" onclick="printInvoice('ORD240728001')">
+                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                        <path d="M4 6V2C4 1.44772 4.44772 1 5 1H11C11.5523 1 12 1.44772 12 2V6M4 6H2C1.44772 6 1 6.44772 1 7V11C1 11.5523 1.44772 12 2 12H4M4 6V14C4 14.5523 4.44772 15 5 15H11C11.5523 15 12 14.5523 12 14V12M12 6V12M12 6H14C14.5523 6 15 6.44772 15 7V11C15 11.5523 14.5523 12 14 12H12" stroke="currentColor" stroke-width="1.5"/>
+                                    </svg>
+                                </button>
+                            </td>
+                        </tr>
+
+                        <tr class="admin-order-row" data-status="pending">
+                            <td><input type="checkbox" class="admin-checkbox order-checkbox" value="ORD240728002"></td>
+                            <td class="admin-order-id">#ORD240728002</td>
+                            <td class="admin-customer-info">
+                                <div class="admin-customer-name">Apinya Lertprasert</div>
+                                <div class="admin-customer-email">apinya.l@gmail.com</div>
+                            </td>
+                            <td class="admin-order-products">
+                                <div class="admin-product-summary">
+                                    <span class="admin-product-name">Hydrating Moisturiser + Vitamin C Serum</span>
+                                    <span class="admin-product-qty">×2</span>
+                                </div>
+                            </td>
+                            <td class="admin-order-amount">฿3,480.00</td>
+                            <td>
+                                <select class="admin-status-select pending" data-order="ORD240728002">
+                                    <option value="pending" selected>Pending</option>
+                                    <option value="processing">Processing</option>
+                                    <option value="shipped">Shipped</option>
+                                    <option value="delivered">Delivered</option>
+                                    <option value="cancelled">Cancelled</option>
+                                </select>
+                            </td>
+                            <td class="admin-order-date">Jul 28, 2025<br><span class="admin-order-time">09:15 AM</span></td>
+                            <td class="admin-order-actions">
+                                <button class="admin-action-icon" title="View Details" onclick="viewOrderDetails('ORD240728002')">
+                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                        <path d="M1 8C2.5 5 5.5 3 8 3S13.5 5 15 8C13.5 11 10.5 13 8 13S2.5 11 1 8Z" stroke="currentColor" stroke-width="1.5"/>
+                                        <circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.5"/>
+                                    </svg>
+                                </button>
+                                <button class="admin-action-icon" title="Print Invoice" onclick="printInvoice('ORD240728002')">
+                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                        <path d="M4 6V2C4 1.44772 4.44772 1 5 1H11C11.5523 1 12 1.44772 12 2V6M4 6H2C1.44772 6 1 6.44772 1 7V11C1 11.5523 1.44772 12 2 12H4M4 6V14C4 14.5523 4.44772 15 5 15H11C11.5523 15 12 14.5523 12 14V12M12 6V12M12 6H14C14.5523 6 15 6.44772 15 7V11C15 11.5523 14.5523 12 14 12H12" stroke="currentColor" stroke-width="1.5"/>
+                                    </svg>
+                                </button>
+                            </td>
+                        </tr>
+
+                        <tr class="admin-order-row" data-status="shipped">
+                            <td><input type="checkbox" class="admin-checkbox order-checkbox" value="ORD240727003"></td>
+                            <td class="admin-order-id">#ORD240727003</td>
+                            <td class="admin-customer-info">
+                                <div class="admin-customer-name">Kamon Prapanich</div>
+                                <div class="admin-customer-email">kamon.p@hotmail.com</div>
+                            </td>
+                            <td class="admin-order-products">
+                                <div class="admin-product-summary">
+                                    <span class="admin-product-name">Complete Skincare Set</span>
+                                    <span class="admin-product-qty">×1</span>
+                                </div>
+                            </td>
+                            <td class="admin-order-amount">฿3,590.00</td>
+                            <td>
+                                <select class="admin-status-select shipped" data-order="ORD240727003">
+                                    <option value="pending">Pending</option>
+                                    <option value="processing">Processing</option>
+                                    <option value="shipped" selected>Shipped</option>
+                                    <option value="delivered">Delivered</option>
+                                    <option value="cancelled">Cancelled</option>
+                                </select>
+                            </td>
+                            <td class="admin-order-date">Jul 27, 2025<br><span class="admin-order-time">04:22 PM</span></td>
+                            <td class="admin-order-actions">
+                                <button class="admin-action-icon" title="View Details" onclick="viewOrderDetails('ORD240727003')">
+                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                        <path d="M1 8C2.5 5 5.5 3 8 3S13.5 5 15 8C13.5 11 10.5 13 8 13S2.5 11 1 8Z" stroke="currentColor" stroke-width="1.5"/>
+                                        <circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.5"/>
+                                    </svg>
+                                </button>
+                                <button class="admin-action-icon" title="Track Package" onclick="trackPackage('ORD240727003')">
+                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                        <path d="M12 8.5C12 10.433 10.433 12 8.5 12S5 10.433 5 8.5S6.567 5 8.5 5S12 6.567 12 8.5Z" stroke="currentColor" stroke-width="1.5"/>
+                                        <path d="M8.5 7V8.5L9.5 9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                        <path d="M2.5 8.5L4 7V10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                    </svg>
+                                </button>
+                            </td>
+                        </tr>
+
+                        <tr class="admin-order-row" data-status="delivered">
+                            <td><input type="checkbox" class="admin-checkbox order-checkbox" value="ORD240726004"></td>
+                            <td class="admin-order-id">#ORD240726004</td>
+                            <td class="admin-customer-info">
+                                <div class="admin-customer-name">Niran Wongthong</div>
+                                <div class="admin-customer-email">niran.w@outlook.com</div>
+                            </td>
+                            <td class="admin-order-products">
+                                <div class="admin-product-summary">
+                                    <span class="admin-product-name">Retinol Serum</span>
+                                    <span class="admin-product-qty">×1</span>
+                                </div>
+                            </td>
+                            <td class="admin-order-amount">฿2,190.00</td>
+                            <td>
+                                <select class="admin-status-select delivered" data-order="ORD240726004">
+                                    <option value="pending">Pending</option>
+                                    <option value="processing">Processing</option>
+                                    <option value="shipped">Shipped</option>
+                                    <option value="delivered" selected>Delivered</option>
+                                    <option value="cancelled">Cancelled</option>
+                                </select>
+                            </td>
+                            <td class="admin-order-date">Jul 26, 2025<br><span class="admin-order-time">02:45 PM</span></td>
+                            <td class="admin-order-actions">
+                                <button class="admin-action-icon" title="View Details" onclick="viewOrderDetails('ORD240726004')">
+                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                        <path d="M1 8C2.5 5 5.5 3 8 3S13.5 5 15 8C13.5 11 10.5 13 8 13S2.5 11 1 8Z" stroke="currentColor" stroke-width="1.5"/>
+                                        <circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.5"/>
+                                    </svg>
+                                </button>
+                                <button class="admin-action-icon" title="Print Invoice" onclick="printInvoice('ORD240726004')">
+                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                        <path d="M4 6V2C4 1.44772 4.44772 1 5 1H11C11.5523 1 12 1.44772 12 2V6M4 6H2C1.44772 6 1 6.44772 1 7V11C1 11.5523 1.44772 12 2 12H4M4 6V14C4 14.5523 4.44772 15 5 15H11C11.5523 15 12 14.5523 12 14V12M12 6V12M12 6H14C14.5523 6 15 6.44772 15 7V11C15 11.5523 14.5523 12 14 12H12" stroke="currentColor" stroke-width="1.5"/>
+                                    </svg>
+                                </button>
+                            </td>
+                        </tr>
+
+                        <tr class="admin-order-row" data-status="delivered">
+                            <td><input type="checkbox" class="admin-checkbox order-checkbox" value="ORD240725005"></td>
+                            <td class="admin-order-id">#ORD240725005</td>
+                            <td class="admin-customer-info">
+                                <div class="admin-customer-name">Pranee Mongkol</div>
+                                <div class="admin-customer-email">pranee.m@yahoo.com</div>
+                            </td>
+                            <td class="admin-order-products">
+                                <div class="admin-product-summary">
+                                    <span class="admin-product-name">Travel Cleanser</span>
+                                    <span class="admin-product-qty">×1</span>
+                                </div>
+                            </td>
+                            <td class="admin-order-amount">฿590.00</td>
+                            <td>
+                                <select class="admin-status-select delivered" data-order="ORD240725005">
+                                    <option value="pending">Pending</option>
+                                    <option value="processing">Processing</option>
+                                    <option value="shipped">Shipped</option>
+                                    <option value="delivered" selected>Delivered</option>
+                                    <option value="cancelled">Cancelled</option>
+                                </select>
+                            </td>
+                            <td class="admin-order-date">Jul 25, 2025<br><span class="admin-order-time">11:20 AM</span></td>
+                            <td class="admin-order-actions">
+                                <button class="admin-action-icon" title="View Details" onclick="viewOrderDetails('ORD240725005')">
+                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                        <path d="M1 8C2.5 5 5.5 3 8 3S13.5 5 15 8C13.5 11 10.5 13 8 13S2.5 11 1 8Z" stroke="currentColor" stroke-width="1.5"/>
+                                        <circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.5"/>
+                                    </svg>
+                                </button>
+                                <button class="admin-action-icon" title="Print Invoice" onclick="printInvoice('ORD240725005')">
+                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                        <path d="M4 6V2C4 1.44772 4.44772 1 5 1H11C11.5523 1 12 1.44772 12 2V6M4 6H2C1.44772 6 1 6.44772 1 7V11C1 11.5523 1.44772 12 2 12H4M4 6V14C4 14.5523 4.44772 15 5 15H11C11.5523 15 12 14.5523 12 14V12M12 6V12M12 6H14C14.5523 6 15 6.44772 15 7V11C15 11.5523 14.5523 12 14 12H12" stroke="currentColor" stroke-width="1.5"/>
+                                    </svg>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Bulk Actions & Pagination -->
+            <div class="admin-table-footer">
+                <div class="admin-bulk-actions">
+                    <select class="admin-select" id="bulk-action" disabled>
+                        <option value="">Bulk Actions</option>
+                        <option value="update-status">Update Status</option>
+                        <option value="print-labels">Print Shipping Labels</option>
+                        <option value="export-selected">Export Selected</option>
+                    </select>
+                    <button class="admin-btn secondary" id="apply-bulk-action" disabled>Apply</button>
+                </div>
+
+                <div class="admin-pagination">
+                    <span class="admin-pagination-info">Showing 1-5 of 127 orders</span>
+                    <div class="admin-pagination-controls">
+                        <button class="admin-pagination-btn" disabled>Previous</button>
+                        <span class="admin-pagination-pages">
+                            <button class="admin-pagination-page active">1</button>
+                            <button class="admin-pagination-page">2</button>
+                            <button class="admin-pagination-page">3</button>
+                            <span class="admin-pagination-ellipsis">...</span>
+                            <button class="admin-pagination-page">26</button>
+                        </span>
+                        <button class="admin-pagination-btn">Next</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <!-- Footer Main Content -->
+            <div class="footer-main">
+                <!-- Brand Section -->
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <h3 class="footer-logo-text">GAOJIE</h3>
+                    </div>
+                    <p class="footer-description">
+                        Premium skincare crafted with clinically proven ingredients and scientific innovation for radiant, healthy skin.
+                    </p>
+                    <div class="footer-social">
+                        <a href="#" class="social-link" aria-label="Instagram">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-link" aria-label="TikTok">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Facebook">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Collections -->
+                <div class="footer-column">
+                    <h4 class="footer-column-title">Collections</h4>
+                    <ul class="footer-links">
+                        <li><a href="/cleanser" class="footer-link">Cleansers</a></li>
+                        <li><a href="/moisturiser" class="footer-link">Moisturisers</a></li>
+                        <li><a href="/treatments" class="footer-link">Treatments</a></li>
+                        <li><a href="/lip-care" class="footer-link">Lip Care</a></li>
+                        <li><a href="/sets" class="footer-link">Sets & Bundles</a></li>
+                        <li><a href="/travel" class="footer-link">Travel Size</a></li>
+                    </ul>
+                </div>
+
+                <!-- Company -->
+                <div class="footer-column">
+                    <h4 class="footer-column-title">Company</h4>
+                    <ul class="footer-links">
+                        <li><a href="/about" class="footer-link">About Us</a></li>
+                        <li><a href="/science" class="footer-link">Our Science</a></li>
+                        <li><a href="/ingredients" class="footer-link">Ingredients</a></li>
+                        <li><a href="/sustainability" class="footer-link">Sustainability</a></li>
+                        <li><a href="/reviews" class="footer-link">Reviews</a></li>
+                        <li><a href="/blog" class="footer-link">Skincare Blog</a></li>
+                    </ul>
+                </div>
+
+                <!-- Support -->
+                <div class="footer-column">
+                    <h4 class="footer-column-title">Support</h4>
+                    <ul class="footer-links">
+                        <li><a href="/contact" class="footer-link">Contact Us</a></li>
+                        <li><a href="/faq" class="footer-link">FAQ</a></li>
+                        <li><a href="/shipping" class="footer-link">Shipping Info</a></li>
+                        <li><a href="/returns" class="footer-link">Returns</a></li>
+                        <li><a href="/skincare-quiz" class="footer-link">Skincare Quiz</a></li>
+                        <li><a href="/track-order" class="footer-link">Track Order</a></li>
+                    </ul>
+                </div>
+
+                <!-- Newsletter -->
+                <div class="footer-newsletter">
+                    <span class="newsletter-incentive">Get 15% Off First Order</span>
+                    <h4 class="footer-column-title">Join Our Skincare Community</h4>
+                    <p class="newsletter-description">Be the first to know about new launches, exclusive offers, and expert skincare tips.</p>
+                    
+                    <ul class="newsletter-benefits">
+                        <li>Exclusive early access to new products</li>
+                        <li>Personalized skincare tips & routines</li>
+                        <li>Members-only discounts & promotions</li>
+                        <li>Free skincare consultation offers</li>
+                    </ul>
+                    
+                    <div class="newsletter-form">
+                        <input type="email" class="newsletter-input" placeholder="Enter your email for 15% off" aria-label="Email address">
+                        <button type="submit" class="newsletter-button">Get My 15% Discount</button>
+                    </div>
+                    <p class="newsletter-disclaimer">
+                        By subscribing, you agree to our <a href="/privacy" class="disclaimer-link">Privacy Policy</a>. Unsubscribe anytime.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Footer Bottom -->
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <p class="footer-copyright">© 2025 GAOJIE. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="../JS/admin-script.js"></script>
+</body>
+</html>

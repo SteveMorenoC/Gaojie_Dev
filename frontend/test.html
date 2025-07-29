@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gaojie – Curated Collections Mock‑up</title>
+
+  <!-- Tailwind for quick prototyping -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Alpine.js for lightweight reactivity -->
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+  <style>
+    /* hide scrollbar for horizontal pill list */
+    .scrollbar-hide::-webkit-scrollbar { display: none; }
+    .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
+</head>
+<body class="bg-white text-gray-900 antialiased">
+
+  <!-- Section header -->
+  <header class="py-10">
+    <h1 class="text-center text-3xl lg:text-4xl font-serif font-semibold tracking-tight">
+      Curated Collections
+    </h1>
+    <p class="mt-2 text-center text-gray-600">
+      Each collection is crafted to solve real skin concerns with clinical‑grade formulas
+    </p>
+  </header>
+
+  <!-- Pill filter + grid -->
+  <main
+    x-data="grid()"
+    x-init="init()"
+    class="container mx-auto px-4"
+  >
+
+    <!-- Pill selector -->
+    <nav
+      class="flex gap-2 justify-center overflow-x-auto scrollbar-hide sticky top-0 bg-white py-4 z-10"
+    >
+      <template x-for="seg in segments" :key="seg">
+        <button
+          x-text="seg"
+          class="whitespace-nowrap border rounded-full px-4 py-2 text-sm transition"
+          :class="active===seg
+                   ? 'bg-green-700 text-white border-green-700'
+                   : 'bg-white text-gray-700 hover:bg-gray-100 border-gray-300'"
+          @click="active = seg"
+        ></button>
+      </template>
+    </nav>
+
+    <!-- Product grid -->
+    <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-8">
+      <template x-for="product in filtered()" :key="product.id">
+        <div
+          class="border rounded-lg shadow-sm hover:shadow-md transition overflow-hidden
+                 flex flex-col"
+        >
+          <!-- Image + segment badge -->
+          <div class="relative">
+            <img
+              :src="product.img"
+              :alt="product.name"
+              class="w-full h-64 object-cover object-center"
+            >
+            <span
+              class="absolute top-2 left-2 bg-white/90 text-xs text-gray-800
+                     px-2 py-0.5 rounded-full border border-gray-200"
+              x-text="product.segment"
+            ></span>
+          </div>
+
+          <!-- Copy block -->
+          <div class="p-4 flex flex-col flex-1">
+            <h3 class="font-medium text-lg mb-1" x-text="product.name"></h3>
+
+            <!-- Rating -->
+            <div class="flex items-center text-sm text-gray-600">
+              <svg class="w-4 h-4 text-yellow-500 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.97a1 1 0 00.95.69h4.178c.969 0 1.371 1.24.588 1.81l-3.385 2.46a1 1 0 00-.364 1.118l1.287 3.971c.3.921-.755 1.688-1.538 1.118l-3.385-2.46a1 1 0 00-1.175 0l-3.385 2.46c-.783.57-1.838-.197-1.538-1.118l1.287-3.971a1 1 0 00-.364-1.118L2.05 9.397c-.783-.57-.38-1.81.588-1.81h4.178a1 1 0 00.95-.69l1.286-3.97z"/>
+              </svg>
+              <span x-text="product.rating.toFixed(1)"></span>
+              <span class="ml-1" x-text="'(' + product.reviews + ')'"></span>
+            </div>
+
+            <!-- Price -->
+            <p class="text-lg font-semibold mt-2" x-text="'฿' + product.price"></p>
+
+            <!-- CTA -->
+            <button
+              class="mt-auto bg-green-700 hover:bg-green-800 text-white text-sm py-2 rounded-md"
+            >
+              Add to Cart
+            </button>
+          </div>
+        </div>
+      </template>
+    </div>
+  </main>
+
+  <!-- Alpine data -->
+  <script>
+    function grid () {
+      return {
+        segments: ['All', 'Cleanser', 'Serum', 'Moisturiser', 'Masks', 'Sets'],
+        active:  'All',
+        products: [],
+
+        init () {
+          /* Replace placeholders with real assets/SKU data later */
+          this.products = [
+            { id: 1, name: 'Pure Hydra Cleanser', segment: 'Cleanser',
+              price: 450, rating: 4.8, reviews: 123,
+              img: 'https://picsum.photos/seed/cleanser/500/500' },
+
+            { id: 2, name: 'Vitamin C Radiance Serum', segment: 'Serum',
+              price: 780, rating: 4.7, reviews: 98,
+              img: 'https://picsum.photos/seed/serum/500/500' },
+
+            { id: 3, name: 'Hydra‑Barrier Moisturiser', segment: 'Moisturiser',
+              price: 880, rating: 4.9, reviews: 154,
+              img: 'https://picsum.photos/seed/moisturiser/500/500' },
+
+            { id: 4, name: 'Purifying Clay Mask', segment: 'Masks',
+              price: 690, rating: 4.6, reviews: 74,
+              img: 'https://picsum.photos/seed/mask/500/500' },
+
+            { id: 5, name: 'Glow Essentials Set', segment: 'Sets',
+              price: 1290, rating: 4.8, reviews: 56,
+              img: 'https://picsum.photos/seed/set/500/500' }
+          ];
+        },
+
+        filtered () {
+          return this.active === 'All'
+            ? this.products
+            : this.products.filter(p => p.segment === this.active);
+        }
+      };
+    }
+  </script>
+</body>
+</html>

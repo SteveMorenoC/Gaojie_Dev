@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics & Reports - GAOJIE Admin</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body>
+    <!-- Announcement Bar -->
+    <div class="announcement-bar">
+        <div class="announcement-content">
+            <span class="announcement-text">Admin Panel - GAOJIE Skincare Management</span>
+        </div>
+    </div>
+
+    <!-- Main Header -->
+    <header class="header">
+        <div class="header-container">
+            <!-- Logo -->
+            <div class="logo">
+                <a href="/" class="logo-link">GAOJIE</a>
+            </div>
+
+            <!-- Mobile Menu Toggle -->
+            <button id="mobile-menu-toggle" class="mobile-menu-toggle" aria-label="Toggle menu">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
+
+            <!-- Admin Navigation -->
+            <nav class="nav" id="main-nav">
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="/admin-dashboard" class="nav-link">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin-orders" class="nav-link">Orders</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin-products" class="nav-link">Products</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin-analytics" class="nav-link active">Analytics</a>
+                    </li>
+                </ul>
+            </nav>
+
+            <!-- Header Actions -->
+            <div class="header-actions">
+                <a href="/" class="admin-view-site">View Site</a>
+                <div class="admin-profile">
+                    <span class="admin-name">Admin</span>
+                    <button class="admin-logout">Logout</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Admin Analytics Content -->
+    <main class="admin-main">
+        <div class="admin-container">
+            <!-- Analytics Header -->
+            <div class="admin-analytics-header">
+                <div class="admin-page-title-section">
+                    <h1 class="admin-page-title">Analytics & Reports</h1>
+                    <p class="admin-page-subtitle">Track your business performance and insights</p>
+                </div>
+                
+                <div class="admin-analytics-controls">
+                    <select class="admin-select" id="analytics-period">
+                        <option value="7">Last 7 days</option>
+                        <option value="30" selected>Last 30 days</option>
+                        <option value="90">Last 90 days</option>
+                        <option value="365">Last year</option>
+                    </select>
+                    <button class="admin-btn secondary" id="export-report">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                            <path d="M14 10V12.6667C14 13.0203 13.8595 13.3594 13.6095 13.6095C13.3594 13.8595 13.0203 14 12.6667 14H3.33333C2.97971 14 2.64057 13.8595 2.39052 13.6095C2.14048 13.3594 2 13.0203 2 12.6667V10M11.3333 6.66667L8 10L4.66667 6.66667M8 10V2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        Export Report
+                    </button>
+                </div>
+            </div>
+
+            <!-- Key Performance Metrics -->
+            <div class="admin-analytics-kpis">
+                <div class="admin-kpi-card">
+                    <div class="admin-kpi-header">
+                        <h3 class="admin-kpi-title">Total Revenue</h3>
+                        <div class="admin-kpi-period">Last 30 days</div>
+                    </div>
+                    <div class="admin-kpi-value">฿486,750</div>
+                    <div class="admin-kpi-change positive">
+                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                            <path d="M6 2L9 5H3L6 2Z" fill="currentColor"/>
+                        </svg>
+                        +18.5% vs last month
+                    </div>
+                </div>
+
+                <div class="admin-kpi-card">
+                    <div class="admin-kpi-header">
+                        <h3 class="admin-kpi-title">Total Orders</h3>
+                        <div class="admin-kpi-period">Last 30 days</div>
+                    </div>
+                    <div class="admin-kpi-value">834</div>
+                    <div class="admin-kpi-change positive">
+                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                            <path d="M6 2L9 5H3L6 2Z" fill="currentColor"/>
+                        </svg>
+                        +12.3% vs last month
+                    </div>
+                </div>
+
+                <div class="admin-kpi-card">
+                    <div class="admin-kpi-header">
+                        <h3 class="admin-kpi-title">Average Order Value</h3>
+                        <div class="admin-kpi-period">Last 30 days</div>
+                    </div>
+                    <div class="admin-kpi-value">฿1,584</div>
+                    <div class="admin-kpi-change positive">
+                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                            <path d="M6 2L9 5H3L6 2Z" fill="currentColor"/>
+                        </svg>
+                        +5.2% vs last month
+                    </div>
+                </div>
+
+                <div class="admin-kpi-card">
+                    <div class="admin-kpi-header">
+                        <h3 class="admin-kpi-title">New Customers</h3>
+                        <div class="admin-kpi-period">Last 30 days</div>
+                    </div>
+                    <div class="admin-kpi-value">247</div>
+                    <div class="admin-kpi-change negative">
+                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                            <path d="M6 10L3 7H9L6 10Z" fill="currentColor"/>
+                        </svg>
+                        -3.1% vs last month
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts and Analytics -->
+            <div class="admin-analytics-grid">
+                <!-- Sales Chart -->
+                <div class="admin-analytics-card chart-card">
+                    <div class="admin-card-header">
+                        <h3 class="admin-card-title">Sales Performance</h3>
+                        <div class="admin-chart-controls">
+                            <button class="admin-chart-toggle active" data-chart="revenue">Revenue</button>
+                            <button class="admin-chart-toggle" data-chart="orders">Orders</button>
+                        </div>
+                    </div>
+                    <div class="admin-chart-container">
+                        <div class="admin-chart-placeholder">
+                            <svg width="100%" height="300" viewBox="0 0 800 300" class="admin-sales-chart">
+                                <!-- Chart Grid Lines -->
+                                <defs>
+                                    <pattern id="grid" width="80" height="30" patternUnits="userSpaceOnUse">
+                                        <path d="M 80 0 L 0 0 0 30" fill="none" stroke="#f0f0f0" stroke-width="1"/>
+                                    </pattern>
+                                </defs>
+                                <rect width="800" height="300" fill="url(#grid)"/>
+                                
+                                <!-- Sample Sales Data Line -->
+                                <polyline
+                                    fill="none"
+                                    stroke="#2c3e50"
+                                    stroke-width="3"
+                                    points="40,250 120,220 200,190 280,160 360,140 440,120 520,100 600,80 680,60 760,40"
+                                />
+                                
+                                <!-- Data Points -->
+                                <circle cx="40" cy="250" r="4" fill="#2c3e50"/>
+                                <circle cx="120" cy="220" r="4" fill="#2c3e50"/>
+                                <circle cx="200" cy="190" r="4" fill="#2c3e50"/>
+                                <circle cx="280" cy="160" r="4" fill="#2c3e50"/>
+                                <circle cx="360" cy="140" r="4" fill="#2c3e50"/>
+                                <circle cx="440" cy="120" r="4" fill="#2c3e50"/>
+                                <circle cx="520" cy="100" r="4" fill="#2c3e50"/>
+                                <circle cx="600" cy="80" r="4" fill="#2c3e50"/>
+                                <circle cx="680" cy="60" r="4" fill="#2c3e50"/>
+                                <circle cx="760" cy="40" r="4" fill="#2c3e50"/>
+                                
+                                <!-- Y-axis Labels -->
+                                <text x="20" y="260" class="admin-chart-label">฿0</text>
+                                <text x="20" y="200" class="admin-chart-label">฿10k</text>
+                                <text x="20" y="140" class="admin-chart-label">฿20k</text>
+                                <text x="20" y="80" class="admin-chart-label">฿30k</text>
+                                <text x="20" y="20" class="admin-chart-label">฿40k</text>
+                                
+                                <!-- X-axis Labels -->
+                                <text x="40" y="290" class="admin-chart-label">Jul 1</text>
+                                <text x="200" y="290" class="admin-chart-label">Jul 8</text>
+                                <text x="360" y="290" class="admin-chart-label">Jul 15</text>
+                                <text x="520" y="290" class="admin-chart-label">Jul 22</text>
+                                <text x="680" y="290" class="admin-chart-label">Jul 29</text>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Top Products -->
+                <div class="admin-analytics-card">
+                    <div class="admin-card-header">
+                        <h3 class="admin-card-title">Top Selling Products</h3>
+                        <span class="admin-card-period">Last 30 days</span>
+                    </div>
+                    <div class="admin-top-products-list">
+                        <div class="admin-top-product-item">
+                            <div class="admin-product-rank">1</div>
+                            <div class="admin-product-details">
+                                <div class="admin-product-name">Amino-Acid Cleanser</div>
+                                <div class="admin-product-stats">234 units • ฿302,460</div>
+                            </div>
+                            <div class="admin-product-trend positive">+15%</div>
+                        </div>
+                        
+                        <div class="admin-top-product-item">
+                            <div class="admin-product-rank">2</div>
+                            <div class="admin-product-details">
+                                <div class="admin-product-name">Hydrating Moisturiser</div>
+                                <div class="admin-product-stats">189 units • ฿300,510</div>
+                            </div>
+                            <div class="admin-product-trend positive">+8%</div>
+                        </div>
+                        
+                        <div class="admin-top-product-item">
+                            <div class="admin-product-rank">3</div>
+                            <div class="admin-product-details">
+                                <div class="admin-product-name">Vitamin C Serum</div>
+                                <div class="admin-product-stats">156 units • ฿294,840</div>
+                            </div>
+                            <div class="admin-product-trend positive">+12%</div>
+                        </div>
+                        
+                        <div class="admin-top-product-item">
+                            <div class="admin-product-rank">4</div>
+                            <div class="admin-product-details">
+                                <div class="admin-product-name">Complete Skincare Set</div>
+                                <div class="admin-product-stats">67 units • ฿240,530</div>
+                            </div>
+                            <div class="admin-product-trend positive">+22%</div>
+                        </div>
+                        
+                        <div class="admin-top-product-item">
+                            <div class="admin-product-rank">5</div>
+                            <div class="admin-product-details">
+                                <div class="admin-product-name">Retinol Serum</div>
+                                <div class="admin-product-stats">89 units • ฿194,910</div>
+                            </div>
+                            <div class="admin-product-trend negative">-5%</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Customer Analytics -->
+                <div class="admin-analytics-card">
+                    <div class="admin-card-header">
+                        <h3 class="admin-card-title">Customer Insights</h3>
+                        <span class="admin-card-period">Last 30 days</span>
+                    </div>
+                    <div class="admin-customer-stats">
+                        <div class="admin-stat-item">
+                            <div class="admin-stat-label">Total Customers</div>
+                            <div class="admin-stat-value">1,247</div>
+                            <div class="admin-stat-change positive">+8.2%</div>
+                        </div>
+                        
+                        <div class="admin-stat-item">
+                            <div class="admin-stat-label">Returning Customers</div>
+                            <div class="admin-stat-value">623</div>
+                            <div class="admin-stat-change positive">+15.3%</div>
+                        </div>
+                        
+                        <div class="admin-stat-item">
+                            <div class="admin-stat-label">Customer Retention</div>
+                            <div class="admin-stat-value">49.96%</div>
+                            <div class="admin-stat-change positive">+3.1%</div>
+                        </div>
+                        
+                        <div class="admin-stat-item">
+                            <div class="admin-stat-label">Avg. Lifetime Value</div>
+                            <div class="admin-stat-value">฿3,245</div>
+                            <div class="admin-stat-change positive">+7.8%</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Geographic Sales -->
+                <div class="admin-analytics-card">
+                    <div class="admin-card-header">
+                        <h3 class="admin-card-title">Sales by Region</h3>
+                        <span class="admin-card-period">Last 30 days</span>
+                    </div>
+                    <div class="admin-geographic-stats">
+                        <div class="admin-region-item">
+                            <div class="admin-region-info">
+                                <div class="admin-region-name">Bangkok</div>
+                                <div class="admin-region-percentage">42.3%</div>
+                            </div>
+                            <div class="admin-region-bar">
+                                <div class="admin-region-fill" style="width: 42.3%"></div>
+                            </div>
+                            <div class="admin-region-value">฿205,851</div>
+                        </div>
+                        
+                        <div class="admin-region-item">
+                            <div class="admin-region-info">
+                                <div class="admin-region-name">Chiang Mai</div>
+                                <div class="admin-region-percentage">18.7%</div>
+                            </div>
+                            <div class="admin-region-bar">
+                                <div class="admin-region-fill" style="width: 18.7%"></div>
+                            </div>
+                            <div class="admin-region-value">฿91,022</div>
+                        </div>
+                        
+                        <div class="admin-region-item">
+                            <div class="admin-region-info">
+                                <div class="admin-region-name">Phuket</div>
+                                <div class="admin-region-percentage">12.4%</div>
+                            </div>
+                            <div class="admin-region-bar">
+                                <div class="admin-region-fill" style="width: 12.4%"></div>
+                            </div>
+                            <div class="admin-region-value">฿60,357</div>
+                        </div>
+                        
+                        <div class="admin-region-item">
+                            <div class="admin-region-info">
+                                <div class="admin-region-name">Pattaya</div>
+                                <div class="admin-region-percentage">9.8%</div>
+                            </div>
+                            <div class="admin-region-bar">
+                                <div class="admin-region-fill" style="width: 9.8%"></div>
+                            </div>
+                            <div class="admin-region-value">฿47,701</div>
+                        </div>
+                        
+                        <div class="admin-region-item">
+                            <div class="admin-region-info">
+                                <div class="admin-region-name">Others</div>
+                                <div class="admin-region-percentage">16.8%</div>
+                            </div>
+                            <div class="admin-region-bar">
+                                <div class="admin-region-fill" style="width: 16.8%"></div>
+                            </div>
+                            <div class="admin-region-value">฿81,819</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product Category Performance -->
+                <div class="admin-analytics-card">
+                    <div class="admin-card-header">
+                        <h3 class="admin-card-title">Category Performance</h3>
+                        <span class="admin-card-period">Last 30 days</span>
+                    </div>
+                    <div class="admin-category-stats">
+                        <div class="admin-category-item">
+                            <div class="admin-category-name">Cleansers</div>
+                            <div class="admin-category-metrics">
+                                <div class="admin-category-sales">345 units</div>
+                                <div class="admin-category-revenue">฿398,250</div>
+                                <div class="admin-category-change positive">+18%</div>
+                            </div>
+                        </div>
+                        
+                        <div class="admin-category-item">
+                            <div class="admin-category-name">Serums</div>
+                            <div class="admin-category-metrics">
+                                <div class="admin-category-sales">278 units</div>
+                                <div class="admin-category-revenue">฿521,420</div>
+                                <div class="admin-category-change positive">+12%</div>
+                            </div>
+                        </div>
+                        
+                        <div class="admin-category-item">
+                            <div class="admin-category-name">Moisturisers</div>
+                            <div class="admin-category-metrics">
+                                <div class="admin-category-sales">189 units</div>
+                                <div class="admin-category-revenue">฿300,510</div>
+                                <div class="admin-category-change positive">+8%</div>
+                            </div>
+                        </div>
+                        
+                        <div class="admin-category-item">
+                            <div class="admin-category-name">Sets & Bundles</div>
+                            <div class="admin-category-metrics">
+                                <div class="admin-category-sales">89 units</div>
+                                <div class="admin-category-revenue">฿319,610</div>
+                                <div class="admin-category-change positive">+25%</div>
+                            </div>
+                        </div>
+                        
+                        <div class="admin-category-item">
+                            <div class="admin-category-name">Lip Care</div>
+                            <div class="admin-category-metrics">
+                                <div class="admin-category-sales">67 units</div>
+                                <div class="admin-category-revenue">฿58,630</div>
+                                <div class="admin-category-change negative">-12%</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="admin-analytics-card">
+                    <div class="admin-card-header">
+                        <h3 class="admin-card-title">Recent Activity</h3>
+                        <a href="/admin-orders" class="admin-view-all">View All</a>
+                    </div>
+                    <div class="admin-activity-list">
+                        <div class="admin-activity-item">
+                            <div class="admin-activity-icon order">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M3.5 7H12.5L11.5 16H4.5L3.5 7Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                                    <path d="M6 7V5C6 3.89543 6.89543 3 8 3C9.10457 3 10 3.89543 10 5V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                            <div class="admin-activity-details">
+                                <div class="admin-activity-title">New order from Siriporn T.</div>
+                                <div class="admin-activity-description">Order #ORD240728001 • ฿1,290</div>
+                                <div class="admin-activity-time">2 minutes ago</div>
+                            </div>
+                        </div>
+                        
+                        <div class="admin-activity-item">
+                            <div class="admin-activity-icon stock">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M2 4H14M6 4V2C6 1.44772 6.44772 1 7 1H9C9.55228 1 10 1.44772 10 2V4M12.5 4L12 14C12 14.5523 11.5523 15 11 15H5C4.44772 15 4 14.5523 4 14L3.5 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                            <div class="admin-activity-details">
+                                <div class="admin-activity-title">Low stock alert</div>
+                                <div class="admin-activity-description">Amino-Acid Cleanser: Only 3 units left</div>
+                                <div class="admin-activity-time">15 minutes ago</div>
+                            </div>
+                        </div>
+                        
+                        <div class="admin-activity-item">
+                            <div class="admin-activity-icon customer">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M13 14V12.6667C13 11.9594 12.719 11.2811 12.219 10.781C11.719 10.281 11.0406 10 10.3333 10H5.66667C4.95942 10 4.28115 10.281 3.78105 10.781C3.28095 11.2811 3 11.9594 3 12.6667V14M10.3333 4.66667C10.3333 6.13943 9.13943 7.33333 7.66667 7.33333C6.19391 7.33333 5 6.13943 5 4.66667C5 3.19391 6.19391 2 7.66667 2C9.13943 2 10.3333 3.19391 10.3333 4.66667Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                            <div class="admin-activity-details">
+                                <div class="admin-activity-title">New customer registration</div>
+                                <div class="admin-activity-description">Apinya L. joined from Bangkok</div>
+                                <div class="admin-activity-time">1 hour ago</div>
+                            </div>
+                        </div>
+                        
+                        <div class="admin-activity-item">
+                            <div class="admin-activity-icon review">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M8 1L10.09 5.26L15 6L11.5 9.74L12.18 15L8 12.77L3.82 15L4.5 9.74L1 6L5.91 5.26L8 1Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                            <div class="admin-activity-details">
+                                <div class="admin-activity-title">New 5-star review</div>
+                                <div class="admin-activity-description">Hydrating Moisturiser by Kamon P.</div>
+                                <div class="admin-activity-time">3 hours ago</div>
+                            </div>
+                        </div>
+                        
+                        <div class="admin-activity-item">
+                            <div class="admin-activity-icon shipping">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M11 1H1V11H11V1Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M11 5H13L15 7V11H11V5Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <circle cx="3.5" cy="13.5" r="1.5" stroke="currentColor" stroke-width="1.5"/>
+                                    <circle cx="12.5" cy="13.5" r="1.5" stroke="currentColor" stroke-width="1.5"/>
+                                </svg>
+                            </div>
+                            <div class="admin-activity-details">
+                                <div class="admin-activity-title">Order shipped</div>
+                                <div class="admin-activity-description">Order #ORD240727003 to Chiang Mai</div>
+                                <div class="admin-activity-time">5 hours ago</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <!-- Footer Main Content -->
+            <div class="footer-main">
+                <!-- Brand Section -->
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <h3 class="footer-logo-text">GAOJIE</h3>
+                    </div>
+                    <p class="footer-description">
+                        Premium skincare crafted with clinically proven ingredients and scientific innovation for radiant, healthy skin.
+                    </p>
+                    <div class="footer-social">
+                        <a href="#" class="social-link" aria-label="Instagram">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.40z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-link" aria-label="TikTok">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Facebook">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Collections -->
+                <div class="footer-column">
+                    <h4 class="footer-column-title">Collections</h4>
+                    <ul class="footer-links">
+                        <li><a href="/cleanser" class="footer-link">Cleansers</a></li>
+                        <li><a href="/moisturiser" class="footer-link">Moisturisers</a></li>
+                        <li><a href="/treatments" class="footer-link">Treatments</a></li>
+                        <li><a href="/lip-care" class="footer-link">Lip Care</a></li>
+                        <li><a href="/sets" class="footer-link">Sets & Bundles</a></li>
+                        <li><a href="/travel" class="footer-link">Travel Size</a></li>
+                    </ul>
+                </div>
+
+                <!-- Company -->
+                <div class="footer-column">
+                    <h4 class="footer-column-title">Company</h4>
+                    <ul class="footer-links">
+                        <li><a href="/about" class="footer-link">About Us</a></li>
+                        <li><a href="/science" class="footer-link">Our Science</a></li>
+                        <li><a href="/ingredients" class="footer-link">Ingredients</a></li>
+                        <li><a href="/sustainability" class="footer-link">Sustainability</a></li>
+                        <li><a href="/reviews" class="footer-link">Reviews</a></li>
+                        <li><a href="/blog" class="footer-link">Skincare Blog</a></li>
+                    </ul>
+                </div>
+
+                <!-- Support -->
+                <div class="footer-column">
+                    <h4 class="footer-column-title">Support</h4>
+                    <ul class="footer-links">
+                        <li><a href="/contact" class="footer-link">Contact Us</a></li>
+                        <li><a href="/faq" class="footer-link">FAQ</a></li>
+                        <li><a href="/shipping" class="footer-link">Shipping Info</a></li>
+                        <li><a href="/returns" class="footer-link">Returns</a></li>
+                        <li><a href="/skincare-quiz" class="footer-link">Skincare Quiz</a></li>
+                        <li><a href="/track-order" class="footer-link">Track Order</a></li>
+                    </ul>
+                </div>
+
+                <!-- Newsletter -->
+                <div class="footer-newsletter">
+                    <span class="newsletter-incentive">Get 15% Off First Order</span>
+                    <h4 class="footer-column-title">Join Our Skincare Community</h4>
+                    <p class="newsletter-description">Be the first to know about new launches, exclusive offers, and expert skincare tips.</p>
+                    
+                    <ul class="newsletter-benefits">
+                        <li>Exclusive early access to new products</li>
+                        <li>Personalized skincare tips & routines</li>
+                        <li>Members-only discounts & promotions</li>
+                        <li>Free skincare consultation offers</li>
+                    </ul>
+                    
+                    <div class="newsletter-form">
+                        <input type="email" class="newsletter-input" placeholder="Enter your email for 15% off" aria-label="Email address">
+                        <button type="submit" class="newsletter-button">Get My 15% Discount</button>
+                    </div>
+                    <p class="newsletter-disclaimer">
+                        By subscribing, you agree to our <a href="/privacy" class="disclaimer-link">Privacy Policy</a>. Unsubscribe anytime.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Footer Bottom -->
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <p class="footer-copyright">© 2025 GAOJIE. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <script src="../JS/admin-script.js"></script>
+</body>
+</html>

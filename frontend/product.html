@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amino-Acid Cleanser - GAOJIE</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="product.css">
+</head>
+<body class="product-page">
+    <!-- Announcement Bar -->
+    <div class="announcement-bar">
+        <div class="announcement-content">
+            <span class="announcement-text">✨ Limited Time: Free shipping on orders over ฿1,500</span>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">
+                <a href="main.html" class="logo-link">GAOJIE</a>
+            </div>
+
+            <nav class="nav">
+                <ul class="nav-list">
+                    <li class="nav-item"><a href="#" class="nav-link">Cleansers</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link">Serums</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link">Moisturizers</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link">About</a></li>
+                </ul>
+            </nav>
+
+            <div class="header-actions">
+                <form class="search-form">
+                    <input type="search" class="search-input" placeholder="Search products...">
+                    <button type="submit" class="search-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                            <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2"/>
+                            <path d="M21 21L16.65 16.65" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </button>
+                </form>
+
+                <button class="bag-btn">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" class="bag-icon">
+                        <path d="M6 2L3 6V20C3 21.1 3.9 22 5 22H19C20.1 22 21 21.1 21 20V6L18 2H6Z" stroke="currentColor" stroke-width="2"/>
+                        <path d="M3 6H21" stroke="currentColor" stroke-width="2"/>
+                        <path d="M16 10C16 12.21 14.21 14 12 14C9.79 14 8 12.21 8 10" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                    <span class="bag-count">2</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+        <div class="breadcrumb-container">
+            <a href="main.html">Home</a>
+            <span>/</span>
+            <a href="#">Cleansers</a>
+            <span>/</span>
+            <span>Amino-Acid Cleanser</span>
+        </div>
+    </div>
+
+    <!-- Product Section -->
+    <main class="product-main">
+        <div class="product-container">
+            <div class="product-content">
+                <!-- Product Images -->
+                <div class="product-images">
+                    <div class="main-image">
+                        <img src="https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=600&h=600&fit=crop&crop=center" alt="Amino-Acid Cleanser" id="main-product-image">
+                        <div class="image-badges">
+                            <span class="badge badge-bestseller">Bestseller</span>
+                        </div>
+                        <button class="zoom-btn" id="zoom-trigger">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2"/>
+                                <path d="M21 21L16.65 16.65" stroke="currentColor" stroke-width="2"/>
+                                <path d="M11 8V14M8 11H14" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                        </button>
+                    </div>
+                    
+                    <div class="thumbnail-images">
+                        <img src="https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=100&h=100&fit=crop&crop=center" alt="Front view" class="thumbnail active">
+                        <img src="https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=100&h=100&fit=crop&crop=center" alt="Ingredients" class="thumbnail">
+                        <img src="https://images.unsplash.com/photo-1570194065650-d99fb4bedf0a?w=100&h=100&fit=crop&crop=center" alt="Texture" class="thumbnail">
+                        <img src="https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?w=100&h=100&fit=crop&crop=center" alt="Usage" class="thumbnail">
+                    </div>
+                </div>
+
+                <!-- Product Information -->
+                <div class="product-info">
+                    <div class="product-header">
+                        <h1 class="product-page-title">Amino-Acid Cleanser</h1>
+                        <div class="product-rating">
+                            <div class="stars">★★★★★</div>
+                            <span class="rating-count">(127 reviews)</span>
+                        </div>
+                    </div>
+
+                    <div class="product-price">
+                        <span class="price-current">฿1,290</span>
+                        <span class="price-original">฿1,450</span>
+                        <span class="price-save">Save 11%</span>
+                    </div>
+
+                    <div class="product-benefits">
+                        <h3>Key Benefits</h3>
+                        <ul>
+                            <li>Gentle amino acid formula</li>
+                            <li>Deep cleansing without stripping</li>
+                            <li>Suitable for sensitive skin</li>
+                            <li>pH balanced</li>
+                        </ul>
+                    </div>
+
+                    <div class="product-variants">
+                        <div class="variant-group">
+                            <label>Size:</label>
+                            <div class="variant-options">
+                                <button class="variant-option active" data-price="1290">150ml</button>
+                                <button class="variant-option" data-price="2290">300ml</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="product-actions">
+                        <div class="quantity-selector">
+                            <button class="qty-btn minus">−</button>
+                            <input type="number" value="1" min="1" class="qty-input">
+                            <button class="qty-btn plus">+</button>
+                        </div>
+                        
+                        <div class="action-buttons">
+                            <button class="add-to-cart-btn">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                    <path d="M6 2L3 6V20C3 21.1 3.9 22 5 22H19C20.1 22 21 21.1 21 20V6L18 2H6Z" stroke="currentColor" stroke-width="2"/>
+                                    <path d="M3 6H21" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                                <span>Add to Cart</span>
+                            </button>
+                            
+                            <!-- Choose one of these Buy Now styles -->
+                            
+                            <!-- Option 1: Black/White style 
+                            <button class="buy-now-btn">
+                                <span>Buy Now</span>
+                            </button>
+                        -->
+                            <!-- Option 2: Amazon yellow style (add 'amazon-style' class) -->
+                            <button class="buy-now-btn amazon-style">
+                                <span>Buy Now</span>
+                            </button> 
+                        </div>
+                    </div>
+
+                    <div class="urgency-indicator">
+                        <div class="stock-level">
+                            <span class="stock-dot"></span>
+                            <span>Only 12 left in stock</span>
+                        </div>
+                        <div class="shipping-info">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                <rect x="1" y="3" width="15" height="13" stroke="currentColor" stroke-width="2"/>
+                                <path d="M16 8L20 8L23 11V16H20" stroke="currentColor" stroke-width="2"/>
+                                <circle cx="5.5" cy="18.5" r="2.5" stroke="currentColor" stroke-width="2"/>
+                                <circle cx="18.5" cy="18.5" r="2.5" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                            <span>Free shipping • Arrives by Jan 28</span>
+                        </div>
+                    </div>
+
+                    <div class="trust-signals">
+                        <div class="trust-item">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                <path d="M9 12L11 14L15 10" stroke="currentColor" stroke-width="2"/>
+                                <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                            <span>30-day money-back guarantee</span>
+                        </div>
+                        <div class="trust-item">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                <path d="M12 1L3 5V11C3 16.55 6.84 21.74 12 23C17.16 21.74 21 16.55 21 11V5L12 1Z" fill="currentColor"/>
+                            </svg>
+                            <span>Secured payment</span>
+                        </div>
+                        <div class="trust-item">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                <path d="M21 16V8A2 2 0 0 0 19 6H5A2 2 0 0 0 3 8V16A2 2 0 0 0 5 18H19A2 2 0 0 0 21 16Z" stroke="currentColor" stroke-width="2"/>
+                                <path d="M3 10H21" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                            <span>Free returns</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product Details Tabs -->
+            <div class="product-details">
+                <div class="tabs">
+                    <button class="tab-btn active" data-tab="description">Description</button>
+                    <button class="tab-btn" data-tab="ingredients">Ingredients</button>
+                    <button class="tab-btn" data-tab="usage">How to Use</button>
+                    <button class="tab-btn" data-tab="reviews">Reviews (127)</button>
+                </div>
+
+                <div class="tab-content">
+                    <div class="tab-panel active" id="description">
+                        <h3>Product Description</h3>
+                        <p>Our gentle amino acid cleanser is formulated with a unique blend of natural amino acids that effectively remove impurities while maintaining your skin's natural moisture barrier. Perfect for daily use on all skin types, including sensitive skin.</p>
+                        
+                        <h4>What makes it special:</h4>
+                        <ul>
+                            <li><strong>Amino Acid Technology:</strong> Gentle cleansing that won't strip your skin</li>
+                            <li><strong>pH Balanced:</strong> Maintains your skin's natural pH level</li>
+                            <li><strong>Sulfate-Free:</strong> No harsh sulfates that can cause irritation</li>
+                            <li><strong>Dermatologically Tested:</strong> Safe for sensitive skin</li>
+                        </ul>
+                    </div>
+
+                    <div class="tab-panel" id="ingredients">
+                        <h3>Full Ingredients List</h3>
+                        <p><strong>Key Ingredients:</strong></p>
+                        <ul>
+                            <li><strong>Sodium Cocoyl Glutamate:</strong> Gentle amino acid-based cleanser</li>
+                            <li><strong>Glycerin:</strong> Hydrating and moisture-retaining agent</li>
+                            <li><strong>Chamomile Extract:</strong> Soothing and anti-inflammatory</li>
+                            <li><strong>Green Tea Extract:</strong> Antioxidant protection</li>
+                        </ul>
+                        <p><em>Full INCI list available on packaging.</em></p>
+                    </div>
+
+                    <div class="tab-panel" id="usage">
+                        <h3>How to Use</h3>
+                        <ol>
+                            <li>Wet your face with lukewarm water</li>
+                            <li>Apply a small amount to your palms and create a gentle lather</li>
+                            <li>Massage onto face in circular motions for 30 seconds</li>
+                            <li>Rinse thoroughly with lukewarm water</li>
+                            <li>Pat dry with a clean towel</li>
+                        </ol>
+                        <p><strong>Best used:</strong> Morning and evening as part of your skincare routine.</p>
+                    </div>
+
+                    <div class="tab-panel" id="reviews">
+                        <div class="reviews-summary">
+                            <div class="rating-breakdown">
+                                <div class="overall-rating">
+                                    <span class="rating-number">4.8</span>
+                                    <div class="stars">★★★★★</div>
+                                    <span class="total-reviews">Based on 127 reviews</span>
+                                </div>
+                                <div class="rating-bars">
+                                    <div class="rating-bar">
+                                        <span>5★</span>
+                                        <div class="bar"><div class="fill" style="width: 85%"></div></div>
+                                        <span>85%</span>
+                                    </div>
+                                    <div class="rating-bar">
+                                        <span>4★</span>
+                                        <div class="bar"><div class="fill" style="width: 12%"></div></div>
+                                        <span>12%</span>
+                                    </div>
+                                    <div class="rating-bar">
+                                        <span>3★</span>
+                                        <div class="bar"><div class="fill" style="width: 2%"></div></div>
+                                        <span>2%</span>
+                                    </div>
+                                    <div class="rating-bar">
+                                        <span>2★</span>
+                                        <div class="bar"><div class="fill" style="width: 1%"></div></div>
+                                        <span>1%</span>
+                                    </div>
+                                    <div class="rating-bar">
+                                        <span>1★</span>
+                                        <div class="bar"><div class="fill" style="width: 0%"></div></div>
+                                        <span>0%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="reviews-list">
+                            <div class="review">
+                                <div class="review-header">
+                                    <span class="reviewer-name">Sarah K.</span>
+                                    <div class="review-rating">★★★★★</div>
+                                    <span class="review-date">2 weeks ago</span>
+                                </div>
+                                <p class="review-text">"This cleanser is amazing! It's so gentle but really effective. My skin feels clean but never tight or dry. Perfect for my sensitive skin."</p>
+                                <div class="review-helpful">
+                                    <button class="helpful-btn">👍 Helpful (12)</button>
+                                </div>
+                            </div>
+
+                            <div class="review">
+                                <div class="review-header">
+                                    <span class="reviewer-name">Maria L.</span>
+                                    <div class="review-rating">★★★★★</div>
+                                    <span class="review-date">1 month ago</span>
+                                </div>
+                                <p class="review-text">"I've been using this for 3 months now and my skin has never looked better. The texture is perfect and it doesn't leave any residue."</p>
+                                <div class="review-helpful">
+                                    <button class="helpful-btn">👍 Helpful (8)</button>
+                                </div>
+                            </div>
+
+                            <div class="review">
+                                <div class="review-header">
+                                    <span class="reviewer-name">Jennifer T.</span>
+                                    <div class="review-rating">★★★★☆</div>
+                                    <span class="review-date">2 months ago</span>
+                                </div>
+                                <p class="review-text">"Good cleanser overall. Takes a bit more product than expected to get a good lather, but the results are worth it."</p>
+                                <div class="review-helpful">
+                                    <button class="helpful-btn">👍 Helpful (5)</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button class="load-more-reviews">Load More Reviews</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Visual Gallery Section -->
+            <div class="visual-gallery">
+                <h2>See It In Action</h2>
+                
+                <!-- Video First - Highest Impact -->
+                <div class="product-video">
+                    <video autoplay muted loop playsinline poster="https://images.unsplash.com/photo-1616683693504-3ea7e9ad6fec?w=600&h=400&fit=crop&crop=center">
+                        <source src="#" type="video/mp4">
+                        <!-- Fallback image if video fails -->
+                        <img src="https://images.unsplash.com/photo-1616683693504-3ea7e9ad6fec?w=600&h=400&fit=crop&crop=center" alt="Amino-Acid Cleanser in action">
+                    </video>
+                    <div class="video-caption">
+                        <h4>Watch: Gentle Foaming Action</h4>
+                        <p>See how our amino-acid formula creates rich, creamy lather</p>
+                    </div>
+                </div>
+
+                <!-- 4 Key Images - Conversion-Critical Only -->
+                <div class="gallery-grid">
+                    <div class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1616683693504-3ea7e9ad6fec?w=350&h=250&fit=crop&crop=center" alt="Smooth application texture" loading="lazy">
+                        <div class="gallery-caption">
+                            <h4>Silky Smooth Texture</h4>
+                            <p>Luxurious formula that glides on effortlessly</p>
+                        </div>
+                    </div>
+                    
+                    <div class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1596755389378-c31d21fd1273?w=350&h=250&fit=crop&crop=center" alt="Gentle cleansing foam" loading="lazy">
+                        <div class="gallery-caption">
+                            <h4>Rich, Gentle Lather</h4>
+                            <p>Cleanses deeply without stripping your skin</p>
+                        </div>
+                    </div>
+                    
+                    <div class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=350&h=250&fit=crop&crop=center" alt="Daily skincare routine" loading="lazy">
+                        <div class="gallery-caption">
+                            <h4>Perfect for Daily Use</h4>
+                            <p>Gentle enough for morning and evening</p>
+                        </div>
+                    </div>
+                    
+                    <div class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1556228720-195a672e8a03?w=350&h=250&fit=crop&crop=center" alt="Clean, healthy skin results" loading="lazy">
+                        <div class="gallery-caption">
+                            <h4>Visible Results</h4>
+                            <p>Cleaner, softer, more radiant skin</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="related-products">
+                <h2>Complete Your Routine</h2>
+                <div class="related-grid">
+                    <div class="related-item">
+                        <img src="https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=280&h=280&fit=crop&crop=center" alt="Vitamin C Serum">
+                        <h4>Vitamin C Serum</h4>
+                        <p>฿1,590</p>
+                        <button class="quick-add">Quick Add</button>
+                    </div>
+                    <div class="related-item">
+                        <img src="https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?w=280&h=280&fit=crop&crop=center" alt="Hydrating Moisturizer">
+                        <h4>Hydrating Moisturizer</h4>
+                        <p>฿1,790</p>
+                        <button class="quick-add">Quick Add</button>
+                    </div>
+                    <div class="related-item">
+                        <img src="https://images.unsplash.com/photo-1570194065650-d99fb4bedf0a?w=280&h=280&fit=crop&crop=center" alt="Gentle Toner">
+                        <h4>Gentle Toner</h4>
+                        <p>฿990</p>
+                        <button class="quick-add">Quick Add</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Image Modal -->
+    <div class="image-modal" id="image-modal">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <img src="" alt="" id="modal-image">
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <p class="footer-copyright">© 2025 GAOJIE. All rights reserved.</p>
+                    <div class="footer-legal">
+                        <a href="/privacy" class="legal-link">Privacy Policy</a>
+                        <a href="/terms" class="legal-link">Terms of Service</a>
+                        <a href="/returns" class="legal-link">Returns</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="JS/product.js"></script>
+</body>
+</html>

@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gaojie Instagram Grid</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background-color: #1a1a1a;
+            font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+            color: #fff;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            text-align: center;
+            font-weight: 300;
+            letter-spacing: 8px;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            text-align: center;
+            font-size: 12px;
+            letter-spacing: 2px;
+            color: #888;
+            margin-bottom: 40px;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3px;
+            background-color: #fff;
+            padding: 3px;
+            margin-bottom: 60px;
+        }
+        
+        .post {
+            aspect-ratio: 1;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        
+        .post:hover {
+            transform: scale(0.98);
+        }
+        
+        .post img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .post-content {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            letter-spacing: 3px;
+            text-align: center;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        
+        /* Individual post styles */
+        .black-sand {
+            background: linear-gradient(45deg, #000 0%, #333 50%, #000 100%);
+            color: #fff;
+        }
+        
+        .texture-macro {
+            background: radial-gradient(circle at center, #f5f5f5 0%, #e0e0e0 50%, #d0d0d0 100%);
+            color: #000;
+        }
+        
+        .desert {
+            background: linear-gradient(135deg, #d4a574 0%, #8b6f47 100%);
+            color: #fff;
+        }
+        
+        .quote {
+            background: #000;
+            color: #fff;
+            font-size: 18px;
+            font-weight: 100;
+        }
+        
+        .marble {
+            background: linear-gradient(45deg, #f5f5f5 25%, #e8e8e8 25%, #e8e8e8 50%, #f5f5f5 50%, #f5f5f5 75%, #e8e8e8 75%, #e8e8e8);
+            background-size: 20px 20px;
+            color: #000;
+        }
+        
+        .model {
+            background: #222;
+            color: #fff;
+        }
+        
+        .salt-flat {
+            background: linear-gradient(to bottom, #f0f0f0 0%, #fff 50%, #f0f0f0 100%);
+            color: #000;
+        }
+        
+        .ritual {
+            background: linear-gradient(135deg, #3a3a3a 0%, #1a1a1a 100%);
+            color: #fff;
+        }
+        
+        .obsidian {
+            background: radial-gradient(ellipse at center, #1a1a1a 0%, #000 100%);
+            color: #fff;
+        }
+        
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .post:hover .overlay {
+            opacity: 1;
+        }
+        
+        .product-visual {
+            width: 40px;
+            height: 120px;
+            background: linear-gradient(to bottom, #d4a574 0%, #c19660 100%);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        .section-title {
+            font-size: 16px;
+            letter-spacing: 4px;
+            margin: 40px 0 20px;
+            color: #888;
+        }
+        
+        .color-palette {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 40px;
+        }
+        
+        .color-swatch {
+            width: 80px;
+            height: 80px;
+            border-radius: 4px;
+        }
+        
+        .color-name {
+            font-size: 10px;
+            letter-spacing: 1px;
+            margin-top: 5px;
+            text-align: center;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>GAOJIE</h1>
+        <p class="subtitle">INSTAGRAM GRID CONCEPT</p>
+        
+        <div class="grid">
+            <!-- Row 1 -->
+            <div class="post">
+                <div class="post-content black-sand">
+                    <div class="overlay">
+                        <div class="product-visual"></div>
+                    </div>
+                    <span style="position: absolute; bottom: 20px; right: 20px; font-size: 10px; letter-spacing: 2px;">BLACK SAND</span>
+                </div>
+            </div>
+            
+            <div class="post">
+                <div class="post-content texture-macro">
+                    <div style="width: 150px; height: 150px; border-radius: 50%; background: radial-gradient(circle at 30% 30%, #fff 0%, #f0f0f0 50%, #e0e0e0 100%);"></div>
+                </div>
+            </div>
+            
+            <div class="post">
+                <div class="post-content desert">
+                    <div class="overlay">
+                        <div class="product-visual"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Row 2 -->
+            <div class="post">
+                <div class="post-content quote">
+                    ELEMENTAL
+                </div>
+            </div>
+            
+            <div class="post">
+                <div class="post-content marble">
+                    <div class="overlay">
+                        <div class="product-visual"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="post">
+                <div class="post-content model">
+                    <div style="position: absolute; bottom: 20px; left: 20px; font-size: 10px; letter-spacing: 2px;">PORTRAIT</div>
+                </div>
+            </div>
+            
+            <!-- Row 3 -->
+            <div class="post">
+                <div class="post-content salt-flat">
+                    <div class="overlay">
+                        <div class="product-visual"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="post">
+                <div class="post-content ritual">
+                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 80%; height: 2px; background: #666;"></div>
+                </div>
+            </div>
+            
+            <div class="post">
+                <div class="post-content obsidian">
+                    <div style="width: 120px; height: 120px; border-radius: 50%; background: radial-gradient(circle at 40% 40%, #333 0%, #000 100%); position: relative;">
+                        <div style="position: absolute; top: 30%; left: 35%; width: 40%; height: 40%; background: #f5f5f5; border-radius: 50%; transform: rotate(45deg); opacity: 0.8;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section-title">COLOR PALETTE</div>
+        <div class="color-palette">
+            <div>
+                <div class="color-swatch" style="background: #000;"></div>
+                <div class="color-name">OBSIDIAN</div>
+            </div>
+            <div>
+                <div class="color-swatch" style="background: #f5f5f5;"></div>
+                <div class="color-name">MARBLE</div>
+            </div>
+            <div>
+                <div class="color-swatch" style="background: #d4a574;"></div>
+                <div class="color-name">SAND</div>
+            </div>
+            <div>
+                <div class="color-swatch" style="background: #8b6f47;"></div>
+                <div class="color-name">STONE</div>
+            </div>
+            <div>
+                <div class="color-swatch" style="background: #c19660;"></div>
+                <div class="color-name">ROSE GOLD</div>
+            </div>
+        </div>
+        
+        <div class="section-title">GRID PRINCIPLES</div>
+        <div style="color: #888; font-size: 12px; line-height: 1.8; letter-spacing: 1px;">
+            • TEXTURE OVER DECORATION<br>
+            • NATURAL ELEMENTS ONLY<br>
+            • HARSH LIGHT & DEEP SHADOWS<br>
+            • MINIMAL HUMAN PRESENCE<br>
+            • PRODUCT AS SCULPTURE<br>
+            • WATER IN EVERY FORM<br>
+            • NO SMILES, NO SOFTNESS<br>
+            • BRUTALIST COMPOSITION
+        </div>
+    </div>
+</body>
+</html>

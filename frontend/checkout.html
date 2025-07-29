@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - GAOJIE</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="checkout.css">
+</head>
+<body>
+    <!-- Announcement Bar -->
+    <div class="announcement-bar">
+        <div class="announcement-content">
+            <span class="announcement-text">🔒 Secure checkout • Free shipping on orders over ฿1,500</span>
+        </div>
+    </div>
+
+    <!-- Main Header -->
+    <header class="header">
+        <div class="header-container">
+            <!-- Logo -->
+            <div class="logo">
+                <a href="main.html" class="logo-link">GAOJIE</a>
+            </div>
+
+            <!-- Security Badge -->
+            <div class="checkout-security">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                    <path d="M12 1L3 5V11C3 16.55 6.84 21.74 12 23C17.16 21.74 21 16.55 21 11V5L12 1Z" fill="#10b981"/>
+                </svg>
+                <span>Secure Checkout</span>
+            </div>
+
+            <!-- Support Link -->
+            <div class="checkout-support">
+                <a href="tel:+66-2-123-4567" class="support-link">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                        <path d="M22 16.92V19.92C22 20.52 21.52 21 20.92 21H3.08C2.48 21 2 20.52 2 19.92V16.92C2 16.32 2.48 15.84 3.08 15.84H20.92C21.52 15.84 22 16.32 22 16.92Z" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                    <span>Need Help?</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Checkout Main Content -->
+    <main class="checkout-main">
+        <div class="checkout-container">
+            <!-- Progress Steps -->
+            <div class="checkout-progress">
+                <div class="progress-step active" data-step="1">
+                    <div class="progress-circle">1</div>
+                    <span class="progress-label">Information</span>
+                </div>
+                <div class="progress-line"></div>
+                <div class="progress-step" data-step="2">
+                    <div class="progress-circle">2</div>
+                    <span class="progress-label">Shipping</span>
+                </div>
+                <div class="progress-line"></div>
+                <div class="progress-step" data-step="3">
+                    <div class="progress-circle">3</div>
+                    <span class="progress-label">Payment</span>
+                </div>
+            </div>
+
+            <div class="checkout-content">
+                <!-- Checkout Form -->
+                <div class="checkout-form">
+                    <!-- Step 1: Contact Information -->
+                    <div class="checkout-step active" id="step-1">
+                        <div class="step-header">
+                            <h2>Contact Information</h2>
+                            <p>Already have an account? <a href="#" class="login-link">Sign in</a></p>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" name="email" placeholder="your@email.com" required>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="first-name">First Name</label>
+                                <input type="text" id="first-name" name="first-name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="last-name">Last Name</label>
+                                <input type="text" id="last-name" name="last-name" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" name="phone" placeholder="+66 XX XXX XXXX">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="address">Address</label>
+                            <input type="text" id="address" name="address" placeholder="House number and street name" required>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="city">City</label>
+                                <input type="text" id="city" name="city" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="postal-code">Postal Code</label>
+                                <input type="text" id="postal-code" name="postal-code" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="province">Province</label>
+                            <select id="province" name="province" required>
+                                <option value="">Select Province</option>
+                                <option value="bangkok">Bangkok</option>
+                                <option value="chiang-mai">Chiang Mai</option>
+                                <option value="chiang-rai">Chiang Rai</option>
+                                <option value="phuket">Phuket</option>
+                                <option value="krabi">Krabi</option>
+                                <option value="koh-samui">Koh Samui</option>
+                                <option value="pattaya">Pattaya</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+
+                        <div class="checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="save-info">
+                                
+                                <span>Save this information for next time</span>
+                            </label>
+                        </div>
+
+                        <button type="button" class="continue-btn" onclick="nextStep(2)">
+                            Continue to Shipping
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <!-- Step 2: Shipping Method -->
+                    <div class="checkout-step" id="step-2">
+                        <div class="step-header">
+                            <h2>Shipping Method</h2>
+                            <p>Choose how you'd like to receive your order</p>
+                        </div>
+
+                        <div class="shipping-options">
+                            <label class="shipping-option" data-cost="0">
+                                <input type="radio" name="shipping" value="standard" checked>
+                                <div class="option-content">
+                                    <div class="option-main">
+                                        <span class="option-name">Standard Shipping</span>
+                                        <span class="option-price">Free</span>
+                                    </div>
+                                    <span class="option-time">3-5 business days</span>
+                                </div>
+                            </label>
+
+                            <label class="shipping-option" data-cost="120">
+                                <input type="radio" name="shipping" value="express">
+                                <div class="option-content">
+                                    <div class="option-main">
+                                        <span class="option-name">Express Shipping</span>
+                                        <span class="option-price">฿120</span>
+                                    </div>
+                                    <span class="option-time">1-2 business days</span>
+                                </div>
+                            </label>
+
+                            <label class="shipping-option" data-cost="200">
+                                <input type="radio" name="shipping" value="same-day">
+                                <div class="option-content">
+                                    <div class="option-main">
+                                        <span class="option-name">Same Day Delivery</span>
+                                        <span class="option-price">฿200</span>
+                                    </div>
+                                    <span class="option-time">Order by 2 PM (Bangkok only)</span>
+                                </div>
+                            </label>
+                        </div>
+
+                        <div class="step-actions">
+                            <button type="button" class="back-btn" onclick="previousStep(1)">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                    <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                Back
+                            </button>
+                            <button type="button" class="continue-btn" onclick="nextStep(3)">
+                                Continue to Payment
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                    <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Payment -->
+                    <div class="checkout-step" id="step-3">
+                        <div class="step-header">
+                            <h2>Payment</h2>
+                            <p>All transactions are secure and encrypted</p>
+                        </div>
+
+                        <div class="payment-methods">
+                            <label class="payment-option" data-method="card">
+                                <input type="radio" name="payment" value="card" checked>
+                                <div class="option-content">
+                                    <span class="option-name">Credit / Debit Card</span>
+                                    <div class="card-icons">
+                                        <span class="card-icon">💳</span>
+                                        
+                                    </div>
+                                </div>
+                            </label>
+
+                            <div class="card-form active" id="card-form">
+                                <div class="form-group">
+                                    <label for="card-number">Card Number</label>
+                                    <input type="text" id="card-number" name="card-number" placeholder="1234 5678 9012 3456" required>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="expiry">Expiry Date</label>
+                                        <input type="text" id="expiry" name="expiry" placeholder="MM/YY" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="cvv">CVV</label>
+                                        <input type="text" id="cvv" name="cvv" placeholder="123" required>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="card-name">Name on Card</label>
+                                    <input type="text" id="card-name" name="card-name" required>
+                                </div>
+                            </div>
+
+                            <label class="payment-option" data-method="bank">
+                                <input type="radio" name="payment" value="bank">
+                                <div class="option-content">
+                                    <span class="option-name">Bank Transfer</span>
+                                    <span class="option-note">Local Thai banks</span>
+                                </div>
+                            </label>
+
+                            <label class="payment-option" data-method="cod">
+                                <input type="radio" name="payment" value="cod">
+                                <div class="option-content">
+                                    <span class="option-name">Cash on Delivery</span>
+                                    <span class="option-note">Pay when you receive</span>
+                                </div>
+                            </label>
+                        </div>
+
+                        <div class="billing-section">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="same-address" checked>
+                                <span class="checkbox-custom"></span>
+                                <span>Billing address same as shipping address</span>
+                            </label>
+                        </div>
+
+                        <div class="step-actions">
+                            <button type="button" class="back-btn" onclick="previousStep(2)">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                    <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                Back
+                            </button>
+                            <button type="button" class="complete-order-btn" id="complete-order">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                    <path d="M9 12L11 14L15 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                                Complete Order
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Order Summary -->
+                <div class="order-summary">
+                    <div class="summary-card">
+                        <h3>Order Summary</h3>
+                        
+                        <div class="order-items">
+                            <div class="order-item">
+                                <div class="item-image">
+                                    <img src="https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=60&h=60&fit=crop&crop=center" alt="Product">
+                                    <span class="item-quantity">1</span>
+                                </div>
+                                <div class="item-details">
+                                    <h4>Amino-Acid Cleanser</h4>
+                                    <p>150ml</p>
+                                </div>
+                                <div class="item-price">฿1,290</div>
+                            </div>
+
+                            <div class="order-item">
+                                <div class="item-image">
+                                    <img src="https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?w=60&h=60&fit=crop&crop=center" alt="Product">
+                                    <span class="item-quantity">1</span>
+                                </div>
+                                <div class="item-details">
+                                    <h4>Hydrating Moisturiser</h4>
+                                    <p>50ml</p>
+                                </div>
+                                <div class="item-price">฿1,590</div>
+                            </div>
+                        </div>
+
+                        <div class="promo-code">
+                            <input type="text" placeholder="Discount code" id="promo-input">
+                            <button type="button" id="apply-promo">Apply</button>
+                        </div>
+
+                        <div class="order-totals">
+                            <div class="total-row">
+                                <span>Subtotal</span>
+                                <span id="subtotal">฿2,880</span>
+                            </div>
+                            <div class="total-row" id="discount-row" style="display: none;">
+                                <span>Discount</span>
+                                <span id="discount-amount">-฿0</span>
+                            </div>
+                            <div class="total-row">
+                                <span>Shipping</span>
+                                <span id="shipping-cost">Free</span>
+                            </div>
+                            <div class="total-row">
+                                <span>Tax</span>
+                                <span id="tax-amount">฿202</span>
+                            </div>
+                            <div class="total-row total-final">
+                                <span>Total</span>
+                                <span id="final-total">฿3,082</span>
+                            </div>
+                        </div>
+
+                        <div class="trust-indicators">
+                            <div class="trust-item">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 1L3 5V11C3 16.55 6.84 21.74 12 23C17.16 21.74 21 16.55 21 11V5L12 1Z"/>
+                                </svg>
+                                <span>Secure Payment</span>
+                            </div>
+                            <div class="trust-item">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                    <path d="M9 12L11 14L15 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                                <span>Money Back Guarantee</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+    <script src="JS/checkout.js"></script>
+</body>
+</html>

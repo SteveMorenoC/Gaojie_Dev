@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Management - GAOJIE Admin</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body>
+    <!-- Announcement Bar -->
+    <div class="announcement-bar">
+        <div class="announcement-content">
+            <span class="announcement-text">Admin Panel - GAOJIE Skincare Management</span>
+        </div>
+    </div>
+
+    <!-- Main Header -->
+    <header class="header">
+        <div class="header-container">
+            <!-- Logo -->
+            <div class="logo">
+                <a href="/" class="logo-link">GAOJIE</a>
+            </div>
+
+            <!-- Mobile Menu Toggle -->
+            <button id="mobile-menu-toggle" class="mobile-menu-toggle" aria-label="Toggle menu">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
+
+            <!-- Admin Navigation -->
+            <nav class="nav" id="main-nav">
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="/admin-dashboard" class="nav-link">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin-orders" class="nav-link">Orders</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin-products" class="nav-link active">Products</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin-analytics" class="nav-link">Analytics</a>
+                    </li>
+                </ul>
+            </nav>
+
+            <!-- Header Actions -->
+            <div class="header-actions">
+                <a href="/" class="admin-view-site">View Site</a>
+                <div class="admin-profile">
+                    <span class="admin-name">Admin</span>
+                    <button class="admin-logout">Logout</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Admin Products Content -->
+    <main class="admin-main">
+        <div class="admin-container">
+            <!-- Products Header -->
+            <div class="admin-products-header">
+                <div class="admin-page-title-section">
+                    <h1 class="admin-page-title">Product Management</h1>
+                    <p class="admin-page-subtitle">Manage your skincare product catalog</p>
+                </div>
+                
+                <div class="admin-products-actions">
+                    <button class="admin-btn secondary" id="import-products">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                            <path d="M14 6V3.33333C14 2.97971 13.8595 2.64057 13.6095 2.39052C13.3594 2.14048 13.0203 2 12.6667 2H3.33333C2.97971 2 2.64057 2.14048 2.39052 2.39052C2.14048 2.64057 2 2.97971 2 3.33333V6M4.66667 9.33333L8 6L11.3333 9.33333M8 6V14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        Import Products
+                    </button>
+                    <button class="admin-btn primary" id="add-new-product">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                            <path d="M8 2V14M2 8H14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                        </svg>
+                        Add New Product
+                    </button>
+                </div>
+            </div>
+
+            <!-- Products Filters -->
+            <div class="admin-products-filters">
+                <!-- Category Filter Tabs -->
+                <div class="admin-filter-tabs">
+                    <button class="admin-filter-tab active" data-category="all">All Products <span class="admin-tab-count">24</span></button>
+                    <button class="admin-filter-tab" data-category="cleanser">Cleansers <span class="admin-tab-count">6</span></button>
+                    <button class="admin-filter-tab" data-category="moisturiser">Moisturisers <span class="admin-tab-count">5</span></button>
+                    <button class="admin-filter-tab" data-category="serum">Serums <span class="admin-tab-count">8</span></button>
+                    <button class="admin-filter-tab" data-category="sets">Sets <span class="admin-tab-count">5</span></button>
+                </div>
+
+                <!-- Search and Stock Filter -->
+                <div class="admin-filters-row">
+                    <div class="admin-search-container">
+                        <svg class="admin-search-icon" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                            <circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.5"/>
+                            <path d="m13 13 3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                        </svg>
+                        <input type="text" class="admin-search-input" placeholder="Search products by name or SKU..." id="products-search">
+                    </div>
+
+                    <div class="admin-stock-filters">
+                        <select class="admin-select" id="stock-filter">
+                            <option value="all">All Stock Levels</option>
+                            <option value="in-stock">In Stock</option>
+                            <option value="low-stock">Low Stock</option>
+                            <option value="out-of-stock">Out of Stock</option>
+                        </select>
+                        
+                        <select class="admin-select" id="status-filter">
+                            <option value="all">All Status</option>
+                            <option value="active">Active</option>
+                            <option value="inactive">Inactive</option>
+                            <option value="draft">Draft</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Products Grid -->
+            <div class="admin-products-grid">
+                <!-- Product Card 1 -->
+                <div class="admin-product-card" data-category="cleanser" data-stock="low">
+                    <div class="admin-product-image-container">
+                        <img src="https://images.unsplash.com/photo-1571781926291-c477ebfd024b?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" 
+                             alt="Amino-Acid Cleanser" 
+                             class="admin-product-image">
+                        <div class="admin-product-badges">
+                            <span class="admin-product-badge bestseller">BESTSELLER</span>
+                            <span class="admin-stock-badge low-stock">LOW STOCK</span>
+                        </div>
+                        <div class="admin-product-overlay">
+                            <button class="admin-overlay-btn" onclick="editProduct('PRD001')" title="Edit Product">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M12 4L4 12L1 13L2 10L10 2L12 4Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                            <button class="admin-overlay-btn" onclick="duplicateProduct('PRD001')" title="Duplicate Product">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M4 4V2C4 1.44772 4.44772 1 5 1H13C13.5523 1 14 1.44772 14 2V10C14 10.5523 13.5523 11 13 11H11M2 5H10C10.5523 5 11 5.44772 11 6V14C11 14.5523 10.5523 15 10 15H2C1.44772 15 1 14.5523 1 14V6C1 5.44772 1.44772 5 2 5Z" stroke="currentColor" stroke-width="1.5"/>
+                                </svg>
+                            </button>
+                            <button class="admin-overlay-btn danger" onclick="deleteProduct('PRD001')" title="Delete Product">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M2 4H14M6 4V2C6 1.44772 6.44772 1 7 1H9C9.55228 1 10 1.44772 10 2V4M12.5 4L12 14C12 14.5523 11.5523 15 11 15H5C4.44772 15 4 14.5523 4 14L3.5 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="admin-product-info">
+                        <div class="admin-product-header">
+                            <h3 class="admin-product-name">Amino-Acid Cleanser</h3>
+                            <div class="admin-product-status active">Active</div>
+                        </div>
+                        <p class="admin-product-sku">SKU: PRD001</p>
+                        <p class="admin-product-category">Cleanser • 150ml</p>
+                        <div class="admin-product-pricing">
+                            <span class="admin-product-price">฿1,290</span>
+                            <span class="admin-product-cost">Cost: ฿645</span>
+                        </div>
+                        <div class="admin-product-stock">
+                            <span class="admin-stock-info warning">Stock: 3 units</span>
+                            <span class="admin-sales-info">89 sold this month</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product Card 2 -->
+                <div class="admin-product-card" data-category="moisturiser" data-stock="in-stock">
+                    <div class="admin-product-image-container">
+                        <img src="https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" 
+                             alt="Hydrating Moisturiser" 
+                             class="admin-product-image">
+                        <div class="admin-product-badges">
+                            <span class="admin-product-badge new">NEW</span>
+                        </div>
+                        <div class="admin-product-overlay">
+                            <button class="admin-overlay-btn" onclick="editProduct('PRD002')" title="Edit Product">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M12 4L4 12L1 13L2 10L10 2L12 4Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                            <button class="admin-overlay-btn" onclick="duplicateProduct('PRD002')" title="Duplicate Product">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M4 4V2C4 1.44772 4.44772 1 5 1H13C13.5523 1 14 1.44772 14 2V10C14 10.5523 13.5523 11 13 11H11M2 5H10C10.5523 5 11 5.44772 11 6V14C11 14.5523 10.5523 15 10 15H2C1.44772 15 1 14.5523 1 14V6C1 5.44772 1.44772 5 2 5Z" stroke="currentColor" stroke-width="1.5"/>
+                                </svg>
+                            </button>
+                            <button class="admin-overlay-btn danger" onclick="deleteProduct('PRD002')" title="Delete Product">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M2 4H14M6 4V2C6 1.44772 6.44772 1 7 1H9C9.55228 1 10 1.44772 10 2V4M12.5 4L12 14C12 14.5523 11.5523 15 11 15H5C4.44772 15 4 14.5523 4 14L3.5 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="admin-product-info">
+                        <div class="admin-product-header">
+                            <h3 class="admin-product-name">Hydrating Moisturiser</h3>
+                            <div class="admin-product-status active">Active</div>
+                        </div>
+                        <p class="admin-product-sku">SKU: PRD002</p>
+                        <p class="admin-product-category">Moisturiser • 50ml</p>
+                        <div class="admin-product-pricing">
+                            <span class="admin-product-price">฿1,590</span>
+                            <span class="admin-product-cost">Cost: ฿795</span>
+                        </div>
+                        <div class="admin-product-stock">
+                            <span class="admin-stock-info good">Stock: 45 units</span>
+                            <span class="admin-sales-info">67 sold this month</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product Card 3 -->
+                <div class="admin-product-card" data-category="serum" data-stock="low">
+                    <div class="admin-product-image-container">
+                        <img src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" 
+                             alt="Retinol Serum" 
+                             class="admin-product-image">
+                        <div class="admin-product-badges">
+                            <span class="admin-product-badge limited">LIMITED</span>
+                            <span class="admin-stock-badge low-stock">LOW STOCK</span>
+                        </div>
+                        <div class="admin-product-overlay">
+                            <button class="admin-overlay-btn" onclick="editProduct('PRD003')" title="Edit Product">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M12 4L4 12L1 13L2 10L10 2L12 4Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                            <button class="admin-overlay-btn" onclick="duplicateProduct('PRD003')" title="Duplicate Product">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M4 4V2C4 1.44772 4.44772 1 5 1H13C13.5523 1 14 1.44772 14 2V10C14 10.5523 13.5523 11 13 11H11M2 5H10C10.5523 5 11 5.44772 11 6V14C11 14.5523 10.5523 15 10 15H2C1.44772 15 1 14.5523 1 14V6C1 5.44772 1.44772 5 2 5Z" stroke="currentColor" stroke-width="1.5"/>
+                                </svg>
+                            </button>
+                            <button class="admin-overlay-btn danger" onclick="deleteProduct('PRD003')" title="Delete Product">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M2 4H14M6 4V2C6 1.44772 6.44772 1 7 1H9C9.55228 1 10 1.44772 10 2V4M12.5 4L12 14C12 14.5523 11.5523 15 11 15H5C4.44772 15 4 14.5523 4 14L3.5 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="admin-product-info">
+                        <div class="admin-product-header">
+                            <h3 class="admin-product-name">Retinol Renewal Serum</h3>
+                            <div class="admin-product-status active">Active</div>
+                        </div>
+                        <p class="admin-product-sku">SKU: PRD003</p>
+                        <p class="admin-product-category">Serum • 30ml</p>
+                        <div class="admin-product-pricing">
+                            <span class="admin-product-price">฿2,190</span>
+                            <span class="admin-product-cost">Cost: ฿1,095</span>
+                        </div>
+                        <div class="admin-product-stock">
+                            <span class="admin-stock-info warning">Stock: 8 units</span>
+                            <span class="admin-sales-info">31 sold this month</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product Card 4 -->
+                <div class="admin-product-card" data-category="serum" data-stock="in-stock">
+                    <div class="admin-product-image-container">
+                        <img src="https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" 
+                             alt="Vitamin C Serum" 
+                             class="admin-product-image">
+                        <div class="admin-product-badges">
+                            <span class="admin-product-badge promotion">SALE</span>
+                        </div>
+                        <div class="admin-product-overlay">
+                            <button class="admin-overlay-btn" onclick="editProduct('PRD004')" title="Edit Product">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M12 4L4 12L1 13L2 10L10 2L12 4Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                            <button class="admin-overlay-btn" onclick="duplicateProduct('PRD004')" title="Duplicate Product">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M4 4V2C4 1.44772 4.44772 1 5 1H13C13.5523 1 14 1.44772 14 2V10C14 10.5523 13.5523 11 13 11H11M2 5H10C10.5523 5 11 5.44772 11 6V14C11 14.5523 10.5523 15 10 15H2C1.44772 15 1 14.5523 1 14V6C1 5.44772 1.44772 5 2 5Z" stroke="currentColor" stroke-width="1.5"/>
+                                </svg>
+                            </button>
+                            <button class="admin-overlay-btn danger" onclick="deleteProduct('PRD004')" title="Delete Product">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M2 4H14M6 4V2C6 1.44772 6.44772 1 7 1H9C9.55228 1 10 1.44772 10 2V4M12.5 4L12 14C12 14.5523 11.5523 15 11 15H5C4.44772 15 4 14.5523 4 14L3.5 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="admin-product-info">
+                        <div class="admin-product-header">
+                            <h3 class="admin-product-name">Vitamin C Serum</h3>
+                            <div class="admin-product-status active">Active</div>
+                        </div>
+                        <p class="admin-product-sku">SKU: PRD004</p>
+                        <p class="admin-product-category">Serum • 30ml</p>
+                        <div class="admin-product-pricing">
+                            <span class="admin-product-price">฿1,890</span>
+                            <span class="admin-product-price-original">฿2,290</span>
+                            <span class="admin-product-cost">Cost: ฿945</span>
+                        </div>
+                        <div class="admin-product-stock">
+                            <span class="admin-stock-info good">Stock: 28 units</span>
+                            <span class="admin-sales-info">52 sold this month</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product Card 5 -->
+                <div class="admin-product-card" data-category="sets" data-stock="in-stock">
+                    <div class="admin-product-image-container">
+                        <img src="https://images.unsplash.com/photo-1616401784845-180882ba9ba8?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" 
+                             alt="Complete Skincare Set" 
+                             class="admin-product-image">
+                        <div class="admin-product-badges">
+                            <span class="admin-product-badge bundle">BUNDLE</span>
+                        </div>
+                        <div class="admin-product-overlay">
+                            <button class="admin-overlay-btn" onclick="editProduct('PRD005')" title="Edit Product">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M12 4L4 12L1 13L2 10L10 2L12 4Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                            <button class="admin-overlay-btn" onclick="duplicateProduct('PRD005')" title="Duplicate Product">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M4 4V2C4 1.44772 4.44772 1 5 1H13C13.5523 1 14 1.44772 14 2V10C14 10.5523 13.5523 11 13 11H11M2 5H10C10.5523 5 11 5.44772 11 6V14C11 14.5523 10.5523 15 10 15H2C1.44772 15 1 14.5523 1 14V6C1 5.44772 1.44772 5 2 5Z" stroke="currentColor" stroke-width="1.5"/>
+                                </svg>
+                            </button>
+                            <button class="admin-overlay-btn danger" onclick="deleteProduct('PRD005')" title="Delete Product">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M2 4H14M6 4V2C6 1.44772 6.44772 1 7 1H9C9.55228 1 10 1.44772 10 2V4M12.5 4L12 14C12 14.5523 11.5523 15 11 15H5C4.44772 15 4 14.5523 4 14L3.5 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="admin-product-info">
+                        <div class="admin-product-header">
+                            <h3 class="admin-product-name">Complete Skincare Set</h3>
+                            <div class="admin-product-status active">Active</div>
+                        </div>
+                        <p class="admin-product-sku">SKU: PRD005</p>
+                        <p class="admin-product-category">Set • 3 Products</p>
+                        <div class="admin-product-pricing">
+                            <span class="admin-product-price">฿3,590</span>
+                            <span class="admin-product-cost">Cost: ฿1,795</span>
+                        </div>
+                        <div class="admin-product-stock">
+                            <span class="admin-stock-info good">Stock: 15 units</span>
+                            <span class="admin-sales-info">24 sold this month</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product Card 6 -->
+                <div class="admin-product-card" data-category="cleanser" data-stock="out-of-stock">
+                    <div class="admin-product-image-container">
+                        <img src="https://images.unsplash.com/photo-1556228578-8c89e6adf883?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" 
+                             alt="Travel Cleanser" 
+                             class="admin-product-image">
+                        <div class="admin-product-badges">
+                            <span class="admin-product-badge travel">TRAVEL SIZE</span>
+                            <span class="admin-stock-badge out-of-stock">OUT OF STOCK</span>
+                        </div>
+                        <div class="admin-product-overlay">
+                            <button class="admin-overlay-btn" onclick="editProduct('PRD006')" title="Edit Product">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M12 4L4 12L1 13L2 10L10 2L12 4Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                            <button class="admin-overlay-btn" onclick="duplicateProduct('PRD006')" title="Duplicate Product">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M4 4V2C4 1.44772 4.44772 1 5 1H13C13.5523 1 14 1.44772 14 2V10C14 10.5523 13.5523 11 13 11H11M2 5H10C10.5523 5 11 5.44772 11 6V14C11 14.5523 10.5523 15 10 15H2C1.44772 15 1 14.5523 1 14V6C1 5.44772 1.44772 5 2 5Z" stroke="currentColor" stroke-width="1.5"/>
+                                </svg>
+                            </button>
+                            <button class="admin-overlay-btn danger" onclick="deleteProduct('PRD006')" title="Delete Product">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M2 4H14M6 4V2C6 1.44772 6.44772 1 7 1H9C9.55228 1 10 1.44772 10 2V4M12.5 4L12 14C12 14.5523 11.5523 15 11 15H5C4.44772 15 4 14.5523 4 14L3.5 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="admin-product-info">
+                        <div class="admin-product-header">
+                            <h3 class="admin-product-name">Travel Cleanser</h3>
+                            <div class="admin-product-status inactive">Inactive</div>
+                        </div>
+                        <p class="admin-product-sku">SKU: PRD006</p>
+                        <p class="admin-product-category">Cleanser • 50ml</p>
+                        <div class="admin-product-pricing">
+                            <span class="admin-product-price">฿590</span>
+                            <span class="admin-product-cost">Cost: ฿295</span>
+                        </div>
+                        <div class="admin-product-stock">
+                            <span class="admin-stock-info critical">Stock: 0 units</span>
+                            <span class="admin-sales-info">18 sold this month</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Load More / Pagination -->
+            <div class="admin-products-pagination">
+                <button class="admin-btn secondary" id="load-more-products">Load More Products</button>
+                <span class="admin-products-count">Showing 6 of 24 products</span>
+            </div>
+        </div>
+    </main>
+
+    <!-- Add/Edit Product Modal -->
+    <div class="admin-modal" id="product-modal" style="display: flex;">
+        <div class="admin-modal-content" style="max-width: 900px;">
+            <div class="admin-modal-header">
+                <h3 class="admin-modal-title" id="modal-title">Add New Product</h3>
+                <button class="admin-modal-close" onclick="closeProductModal()">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <path d="M15 5L5 15M5 5L15 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </div>
+            
+            <div class="admin-modal-body">
+                <form class="admin-product-form" id="product-form">
+                    <!-- Basic Product Info -->
+                    <div class="admin-form-section">
+                        <h4 class="admin-section-title">Basic Information</h4>
+                        
+                        <div class="admin-form-row">
+                            <div class="admin-form-group">
+                                <label class="admin-form-label">Product Name *</label>
+                                <input type="text" class="admin-form-input" id="product-name" placeholder="Enter product name" required>
+                            </div>
+                            
+                            <div class="admin-form-group">
+                                <label class="admin-form-label">SKU *</label>
+                                <input type="text" class="admin-form-input" id="product-sku" placeholder="PRD001" required>
+                            </div>
+                        </div>
+    
+                        <div class="admin-form-row">
+                            <div class="admin-form-group">
+                                <label class="admin-form-label">Category *</label>
+                                <select class="admin-form-select" id="product-category" required>
+                                    <option value="">Select Category</option>
+                                    <option value="cleanser">Cleanser</option>
+                                    <option value="moisturiser">Moisturiser</option>
+                                    <option value="serum">Serum</option>
+                                    <option value="treatment">Treatment</option>
+                                    <option value="lip-care">Lip Care</option>
+                                    <option value="sets">Sets</option>
+                                </select>
+                            </div>
+                            
+                            <div class="admin-form-group">
+                                <label class="admin-form-label">Size/Volume</label>
+                                <input type="text" class="admin-form-input" id="product-size" placeholder="e.g., 150ml, 30ml">
+                            </div>
+                        </div>
+                    </div>
+    
+                    <!-- Image Management Section -->
+                    <div class="admin-form-section">
+                        <h4 class="admin-section-title">Product Images & Media</h4>
+                        
+                        <!-- Image Upload Area -->
+                        <div class="admin-image-upload-section">
+                            <div class="admin-image-upload-header">
+                                <span class="admin-upload-instruction">Upload product images (drag & drop or click to browse)</span>
+                                <input type="file" class="admin-file-input" id="product-images" multiple accept="image/*">
+                                <button type="button" class="admin-btn secondary" onclick="document.getElementById('product-images').click()">
+                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                        <path d="M8 2V14M2 8H14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                    </svg>
+                                    Add Images
+                                </button>
+                            </div>
+    
+                            <!-- Image Preview & Management -->
+                            <div class="admin-image-manager" id="image-manager">
+                                <!-- This will be populated dynamically -->
+                            </div>
+                        </div>
+    
+                        <!-- Video Upload -->
+                        <div class="admin-video-upload-section">
+                            <h5 class="admin-subsection-title">Product Videos (Optional)</h5>
+                            <div class="admin-video-upload">
+                                <input type="file" class="admin-file-input" id="product-videos" multiple accept="video/*">
+                                <div class="admin-file-upload-area" onclick="document.getElementById('product-videos').click()">
+                                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" class="admin-upload-icon">
+                                        <path d="M22 10L28 6V18L22 14V20C22 21.1046 21.1046 22 20 22H4C2.89543 22 2 21.1046 2 20V8C2 6.89543 2.89543 6 4 6H20C21.1046 6 22 6.89543 22 8V10Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                    <p>Drop videos here or click to upload</p>
+                                    <span class="admin-file-note">MP4, WebM up to 50MB each</span>
+                                </div>
+                            </div>
+                            
+                            <div class="admin-video-manager" id="video-manager">
+                                <!-- Video previews will appear here -->
+                            </div>
+                        </div>
+                    </div>
+    
+                    <!-- Pricing & Inventory -->
+                    <div class="admin-form-section">
+                        <h4 class="admin-section-title">Pricing & Inventory</h4>
+                        
+                        <div class="admin-form-row">
+                            <div class="admin-form-group">
+                                <label class="admin-form-label">Selling Price (฿) *</label>
+                                <input type="number" class="admin-form-input" id="product-price" placeholder="0.00" step="0.01" required>
+                            </div>
+                            
+                            <div class="admin-form-group">
+                                <label class="admin-form-label">Cost Price (฿)</label>
+                                <input type="number" class="admin-form-input" id="product-cost" placeholder="0.00" step="0.01">
+                            </div>
+                        </div>
+    
+                        <div class="admin-form-row">
+                            <div class="admin-form-group">
+                                <label class="admin-form-label">Stock Quantity *</label>
+                                <input type="number" class="admin-form-input" id="product-stock" placeholder="0" min="0" required>
+                            </div>
+                            
+                            <div class="admin-form-group">
+                                <label class="admin-form-label">Low Stock Alert</label>
+                                <input type="number" class="admin-form-input" id="product-low-stock" placeholder="10" min="0">
+                            </div>
+                        </div>
+                    </div>
+    
+                    <!-- SEO & Meta -->
+                    <div class="admin-form-section">
+                        <h4 class="admin-section-title">SEO & Meta Information</h4>
+                        
+                        <div class="admin-form-group">
+                            <label class="admin-form-label">Product Description</label>
+                            <textarea class="admin-form-textarea" id="product-description" rows="4" placeholder="Describe your product for customers..."></textarea>
+                        </div>
+    
+                        <div class="admin-form-group">
+                            <label class="admin-form-label">SEO Meta Description</label>
+                            <textarea class="admin-form-textarea" id="product-meta-description" rows="2" placeholder="Brief description for search engines (160 characters max)"></textarea>
+                            <span class="admin-character-count">0/160</span>
+                        </div>
+    
+                        <div class="admin-form-group">
+                            <label class="admin-form-label">Product Tags</label>
+                            <input type="text" class="admin-form-input" id="product-tags" placeholder="skincare, cleanser, gentle (comma separated)">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="admin-modal-footer">
+                <button type="button" class="admin-btn secondary" onclick="closeProductModal()">Cancel</button>
+                <button type="button" class="admin-btn secondary" onclick="saveProductDraft()">Save Draft</button>
+                <button type="submit" class="admin-btn primary" onclick="saveProduct()">Save Product</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <!-- Footer Main Content -->
+            <div class="footer-main">
+                <!-- Brand Section -->
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <h3 class="footer-logo-text">GAOJIE</h3>
+                    </div>
+                    <p class="footer-description">
+                        Premium skincare crafted with clinically proven ingredients and scientific innovation for radiant, healthy skin.
+                    </p>
+                    <div class="footer-social">
+                        <a href="#" class="social-link" aria-label="Instagram">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-link" aria-label="TikTok">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Facebook">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Collections -->
+                <div class="footer-column">
+                    <h4 class="footer-column-title">Collections</h4>
+                    <ul class="footer-links">
+                        <li><a href="/cleanser" class="footer-link">Cleansers</a></li>
+                        <li><a href="/moisturiser" class="footer-link">Moisturisers</a></li>
+                        <li><a href="/treatments" class="footer-link">Treatments</a></li>
+                        <li><a href="/lip-care" class="footer-link">Lip Care</a></li>
+                        <li><a href="/sets" class="footer-link">Sets & Bundles</a></li>
+                        <li><a href="/travel" class="footer-link">Travel Size</a></li>
+                    </ul>
+                </div>
+
+                <!-- Company -->
+                <div class="footer-column">
+                    <h4 class="footer-column-title">Company</h4>
+                    <ul class="footer-links">
+                        <li><a href="/about" class="footer-link">About Us</a></li>
+                        <li><a href="/science" class="footer-link">Our Science</a></li>
+                        <li><a href="/ingredients" class="footer-link">Ingredients</a></li>
+                        <li><a href="/sustainability" class="footer-link">Sustainability</a></li>
+                        <li><a href="/reviews" class="footer-link">Reviews</a></li>
+                        <li><a href="/blog" class="footer-link">Skincare Blog</a></li>
+                    </ul>
+                </div>
+
+                <!-- Support -->
+                <div class="footer-column">
+                    <h4 class="footer-column-title">Support</h4>
+                    <ul class="footer-links">
+                        <li><a href="/contact" class="footer-link">Contact Us</a></li>
+                        <li><a href="/faq" class="footer-link">FAQ</a></li>
+                        <li><a href="/shipping" class="footer-link">Shipping Info</a></li>
+                        <li><a href="/returns" class="footer-link">Returns</a></li>
+                        <li><a href="/skincare-quiz" class="footer-link">Skincare Quiz</a></li>
+                        <li><a href="/track-order" class="footer-link">Track Order</a></li>
+                    </ul>
+                </div>
+
+                <!-- Newsletter -->
+                <div class="footer-newsletter">
+                    <span class="newsletter-incentive">Get 15% Off First Order</span>
+                    <h4 class="footer-column-title">Join Our Skincare Community</h4>
+                    <p class="newsletter-description">Be the first to know about new launches, exclusive offers, and expert skincare tips.</p>
+                    
+                    <ul class="newsletter-benefits">
+                        <li>Exclusive early access to new products</li>
+                        <li>Personalized skincare tips & routines</li>
+                        <li>Members-only discounts & promotions</li>
+                        <li>Free skincare consultation offers</li>
+                    </ul>
+                    
+                    <div class="newsletter-form">
+                        <input type="email" class="newsletter-input" placeholder="Enter your email for 15% off" aria-label="Email address">
+                        <button type="submit" class="newsletter-button">Get My 15% Discount</button>
+                    </div>
+                    <p class="newsletter-disclaimer">
+                        By subscribing, you agree to our <a href="/privacy" class="disclaimer-link">Privacy Policy</a>. Unsubscribe anytime.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Footer Bottom -->
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <p class="footer-copyright">© 2025 GAOJIE. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="../JS/admin-script.js"></script>
+</body>
+</html>

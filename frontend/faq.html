@@ -1,0 +1,1127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ - Frequently Asked Questions - GAOJIE</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Announcement Bar -->
+    <div class="announcement-bar">
+        <div class="announcement-content">
+            <span class="announcement-text">Free shipping in Thailand on orders over ฿999</span>
+        </div>
+    </div>
+
+    <!-- Main Header -->
+    <header class="header">
+        <div class="header-container">
+            <!-- Logo -->
+            <div class="logo">
+                <a href="/" class="logo-link">GAOJIE</a>
+            </div>
+
+            <!-- Mobile Menu Toggle -->
+            <button id="mobile-menu-toggle" class="mobile-menu-toggle" aria-label="Toggle menu">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
+
+            <!-- Navigation -->
+            <nav class="nav" id="main-nav">
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="/cleanser" class="nav-link">Cleanser</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/moisturiser" class="nav-link">Moisturiser</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a href="/treatments" class="nav-link dropdown-toggle">
+                            Treatments
+                            <svg class="dropdown-icon" width="12" height="8" viewBox="0 0 12 8" fill="none">
+                                <path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/lip-care" class="nav-link">Lip Care</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/sets" class="nav-link">Sets</a>
+                    </li>
+                </ul>
+            </nav>
+
+            <!-- Header Actions -->
+            <div class="header-actions">
+                <!-- Search -->
+                <div class="search-container">
+                    <form class="search-form" role="search">
+                        <input 
+                            type="search" 
+                            class="search-input" 
+                            placeholder="Search..." 
+                            aria-label="Search products"
+                        >
+                        <button type="submit" class="search-btn" aria-label="Submit search">
+                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                                <circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.5"/>
+                                <path d="M15 15L11.5 11.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                            </svg>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Shopping Bag -->
+                <a href="/cart" class="bag-btn" aria-label="Shopping bag">
+                    <svg class="bag-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <path d="M3.5 7H16.5L15.5 16H4.5L3.5 7Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                        <path d="M7 7V5C7 3.89543 7.89543 3 9 3H11C12.1046 3 13 3.89543 13 5V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span class="bag-count">1</span>
+                </a>
+                <a href="/influencers" class="nav-link influencer-link">
+                    <svg class="influencer-icon" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <circle cx="9" cy="7" r="4" stroke="currentColor" stroke-width="2"/>
+                        <path d="m22 21-3-3m0 0a2 2 0 1 0-2.83-2.83A2 2 0 0 0 19 18Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Influencers
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- FAQ Hero -->
+    <section class="faq-hero">
+        <div class="faq-hero-container">
+            <h1 class="faq-title">Frequently Asked Questions</h1>
+            <p class="faq-subtitle">Find quick answers to common questions about our skincare products, shipping, and more.</p>
+            
+            <!-- Language Toggle -->
+            <div class="faq-language-toggle">
+                <button class="faq-lang-btn active" data-lang="en">English</button>
+                <button class="faq-lang-btn" data-lang="th">ไทย</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="faq-main">
+        <div class="faq-container">
+            
+            <!-- Search Bar -->
+            <div class="faq-search-section">
+                <div class="faq-search-container">
+                    <svg class="faq-search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none">
+                        <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2"/>
+                        <path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                    <input 
+                        type="text" 
+                        class="faq-search-input" 
+                        placeholder="Search your question..." 
+                        id="faq-search"
+                    >
+                </div>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="faq-quick-links">
+                <h2 class="faq-quick-title">Quick Navigation</h2>
+                <div class="faq-category-pills">
+                    <a href="#orders-shipping" class="faq-pill">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                            <path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13v8a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2v-8" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                        Orders & Shipping
+                    </a>
+                    <a href="#returns" class="faq-pill">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                            <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" stroke="currentColor" stroke-width="2"/>
+                            <path d="M21 3v5h-5M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16" stroke="currentColor" stroke-width="2"/>
+                            <path d="M8 16H3v5" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                        Returns & Exchanges
+                    </a>
+                    <a href="#products" class="faq-pill">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2"/>
+                            <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                        Products & Ingredients
+                    </a>
+                    <a href="#skincare-advice" class="faq-pill">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                            <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/>
+                            <path d="M12 1v6M12 17v6M4.22 4.22l4.24 4.24M15.54 15.54l4.24 4.24M1 12h6M17 12h6M4.22 19.78l4.24-4.24M15.54 8.46l4.24-4.24" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                        Skincare Advice
+                    </a>
+                    <a href="#account" class="faq-pill">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2"/>
+                            <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                        Account & Billing
+                    </a>
+                    <a href="#general" class="faq-pill">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                            <path d="M12 6v6l4 2" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                        General
+                    </a>
+                </div>
+            </div>
+
+            <!-- FAQ Content - English -->
+            <div class="faq-content" id="faq-en" data-lang="en">
+                
+                <!-- Orders & Shipping -->
+                <section class="faq-section" id="orders-shipping">
+                    <h2 class="faq-section-title">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13v8a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2v-8" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                        Orders & Shipping
+                    </h2>
+                    
+                    <div class="faq-accordion">
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span>How long does shipping take within Thailand?</span>
+                                <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                    <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                            </button>
+                            <div class="faq-answer">
+                                <p>We offer free standard shipping (3-5 business days) on orders over ฿999. Express shipping (1-2 business days) is available for ฿199. Orders placed before 2 PM on weekdays are processed the same day.</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span>Do you ship internationally?</span>
+                                <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                    <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Currently, we only ship within Thailand. We're working on expanding internationally soon. Sign up for our newsletter to be notified when international shipping becomes available.</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span>Can I track my order?</span>
+                                <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                    <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Yes! Once your order ships, you'll receive a tracking number via email and SMS. You can track your package on our <a href="/track-order" style="color: var(--color-primary); text-decoration: underline;">Track Your Order</a> page or directly on Thailand Post's website.</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span>What payment methods do you accept?</span>
+                                <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                    <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                            </button>
+                            <div class="faq-answer">
+                                <p>We accept all major credit cards (Visa, Mastercard, AMEX), PromptPay, Bank Transfer, and True Money Wallet. All payments are securely processed through our encrypted payment gateway.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Returns & Exchanges -->
+                <section class="faq-section" id="returns">
+                    <h2 class="faq-section-title">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" stroke="currentColor" stroke-width="2"/>
+                            <path d="M21 3v5h-5M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16" stroke="currentColor" stroke-width="2"/>
+                            <path d="M8 16H3v5" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                        Returns & Exchanges
+                    </h2>
+                    
+                    <div class="faq-accordion">
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span>What is your return policy?</span>
+                                <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                    <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                            </button>
+                            <div class="faq-answer">
+                                <p>We offer a 30-day return policy for unopened products in original packaging. For skincare safety reasons, opened products can only be returned if defective. Please see our full <a href="/returns" style="color: var(--color-primary); text-decoration: underline;">Returns & Refunds Policy</a> for details.</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span>How do I start a return?</span>
+                                <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                    <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Contact our customer service team at hello@gaojie.com or through our contact form. Include your order number and reason for return. We'll provide you with return instructions and a prepaid shipping label.</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span>When will I receive my refund?</span>
+                                <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                    <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Refunds are processed within 3-5 business days after we receive your returned items. The refund will appear on your original payment method within 5-10 business days, depending on your bank.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Products & Ingredients -->
+                <section class="faq-section" id="products">
+                    <h2 class="faq-section-title">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/>
+                            <path d="M12 1v6M12 17v6M4.22 4.22l4.24 4.24M15.54 15.54l4.24 4.24M1 12h6M17 12h6M4.22 19.78l4.24-4.24M15.54 8.46l4.24-4.24" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                        Products & Ingredients
+                    </h2>
+                    
+                    <div class="faq-accordion">
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span>Are your products suitable for sensitive skin?</span>
+                                <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                    <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Yes! All GAOJIE products are dermatologically tested and formulated for sensitive skin. We use gentle, science-backed ingredients without harsh chemicals, fragrances, or irritants. Always patch test new products first.</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span>Do you test on animals?</span>
+                                <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                    <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Absolutely not. GAOJIE is proudly cruelty-free. We never test on animals and work only with suppliers who share our commitment to ethical beauty practices.</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span>What makes your amino-acid cleanser special?</span>
+                                <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                    <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Our amino-acid cleanser uses gentle surfactants that match your skin's natural pH. Unlike harsh sulfates, amino acids cleanse effectively while maintaining your skin barrier, leaving skin clean but never stripped or tight.</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span>Can I use multiple GAOJIE products together?</span>
+                                <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                    <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Yes! Our products are designed to work synergistically together. Start with one new product at a time to ensure compatibility with your skin. For a complete routine, try our curated Sets which include complementary products.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Skincare Advice -->
+                <section class="faq-section" id="skincare-advice">
+                    <h2 class="faq-section-title">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/>
+                            <path d="M12 1v6M12 17v6M4.22 4.22l4.24 4.24M15.54 15.54l4.24 4.24M1 12h6M17 12h6M4.22 19.78l4.24-4.24M15.54 8.46l4.24-4.24" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                        Skincare Advice
+                    </h2>
+                    
+                    <div class="faq-accordion">
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span>How do I build a basic skincare routine?</span>
+                                <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                    <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Start with the basics: gentle cleanser, moisturizer, and SPF during the day. Our Amino-Acid Cleanser and Hydrating Moisturiser are perfect starter products. Introduce new treatments gradually, one at a time.</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span>When should I start using anti-aging products?</span>
+                                <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                    <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Prevention is key! Start with antioxidants like Vitamin C in your 20s, and consider gentle retinol products in your late 20s or early 30s. Our Vitamin C Brightening Serum is an excellent first anti-aging product.</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span>How long before I see results?</span>
+                                <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                    <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Most customers see improved skin texture within 7-14 days. Significant changes in fine lines, hyperpigmentation, or acne typically take 6-12 weeks of consistent use. Patience and consistency are key to beautiful skin!</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Account & Billing -->
+                <section class="faq-section" id="account">
+                    <h2 class="faq-section-title">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2"/>
+                            <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                        Account & Billing
+                    </h2>
+                    
+                    <div class="faq-accordion">
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span>Do I need an account to place an order?</span>
+                                <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                    <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                            </button>
+                            <div class="faq-answer">
+                                <p>No, you can checkout as a guest. However, creating an account lets you track orders, save your skincare routine, earn rewards points, and receive personalized product recommendations.</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span>How do I change my shipping address?</span>
+                                <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                    <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                            </button>
+                            <div class="faq-answer">
+                                <p>You can update your shipping address in your account settings. For orders already placed but not yet shipped, contact us immediately at hello@gaojie.com to update the address.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- General -->
+                <section class="faq-section" id="general">
+                    <h2 class="faq-section-title">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                            <path d="M12 6v6l4 2" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                        General
+                    </h2>
+                    
+                    <div class="faq-accordion">
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span>How can I contact customer service?</span>
+                                <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                    <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Reach us at hello@gaojie.com, through our contact form, or chat with us on LINE @gaojie. Our team responds within 24 hours, Monday through Friday, 9 AM - 6 PM Thai time.</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span>Do you offer skincare consultations?</span>
+                                <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                    <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Yes! We offer free virtual skincare consultations. Book through our website or contact us directly. Our certified skincare specialists will create a personalized routine just for you.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- FAQ Content - Thai -->
+            <div class="faq-content" id="faq-th" data-lang="th" style="display: none;">
+                
+                <!-- Orders & Shipping - Thai -->
+                <section class="faq-section" id="orders-shipping-th">
+                    <h2 class="faq-section-title">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13v8a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2v-8" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                        การสั่งซื้อและการจัดส่ง
+                    </h2>
+                    
+                    <div class="faq-accordion">
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span>การจัดส่งภายในประเทศไทยใช้เวลานานแค่ไหน?</span>
+                                <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                    <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                            </button>
+                            <div class="faq-answer">
+                                <p>เราให้บริการจัดส่งฟรี (3-5 วันทำการ) สำหรับคำสั่งซื้อตั้งแต่ ฿999 ขึ้นไป จัดส่งด่วน (1-2 วันทำการ) ราคา ฿199 คำสั่งซื้อที่สั่งก่อน 14:00 น. ในวันจันทร์-ศุกร์จะได้รับการจัดการในวันเดียวกัน</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span>มีการจัดส่งต่างประเทศไหม?</span>
+                                <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                    <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                            </button>
+                            <div class="faq-answer">
+                                <p>ขณะนี้เราจัดส่งเฉพาะภายในประเทศไทยเท่านั้น เรากำลังขยายไปยังต่างประเทศเร็วๆ นี้ สมัครรับข่าวสารเพื่อรับแจ้งเตือนเมื่อมีการจัดส่งระหว่างประเทศ</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span>สามารถติดตามพัสดุได้ไหม?</span>
+                                <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                    <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                            </button>
+                            <div class="faq-answer">
+                                <p>ได้เลย! เมื่อพัสดุถูกจัดส่ง คุณจะได้รับหมายเลขติดตามผ่านอีเมลและ SMS สามารถติดตามได้ที่หน้า <a href="/track-order" style="color: var(--color-primary); text-decoration: underline;">ติดตามพัสดุ</a> ของเรา หรือที่เว็บไซต์ไปรษณีย์ไทยโดยตรง</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span>รับชำระเงินด้วยวิธีใดบ้าง?</span>
+                                <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                    <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                            </button>
+                            <div class="faq-answer">
+                                <p>เรารับบัตรเครดิตทุกประเภท (Visa, Mastercard, AMEX), พร้อมเพย์, โอนเงินผ่านธนาคาร และ True Money Wallet การชำระเงินทั้งหมดปลอดภัยผ่านระบบเข้ารหัส</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Returns & Exchanges - Thai -->
+                <section class="faq-section" id="returns-th">
+                    <h2 class="faq-section-title">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" stroke="currentColor" stroke-width="2"/>
+                            <path d="M21 3v5h-5M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16" stroke="currentColor" stroke-width="2"/>
+                            <path d="M8 16H3v5" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                        การคืนสินค้าและการแลกเปลี่ยน
+                    </h2>
+                    
+                    <div class="faq-accordion">
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span>นโยบายการคืนสินค้าเป็นอย่างไร?</span>
+                                <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                    <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                            </button>
+                            <div class="faq-answer">
+                                <p>เรามีนโยบายคืนสินค้า 30 วัน สำหรับผลิตภัณฑ์ที่ยังไม่เปิดซีลในบรรจุภัณฑ์เดิม สำหรับเหตุผลด้านความปลอดภัยของผิวหนัง ผลิตภัณฑ์ที่เปิดแล้วจะคืนได้เฉพาะกรณีชำรุดเท่านั้น ดู <a href="/returns" style="color: var(--color-primary); text-decoration: underline;">นโยบายการคืนเงิน</a> ฉบับเต็ม</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span>เริ่มต้นการคืนสินค้าอย่างไร?</span>
+                                <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                    <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                            </button>
+                            <div class="faq-answer">
+                                <p>ติดต่อทีมดูแลลูกค้าที่ hello@gaojie.com หรือผ่านฟอร์มติดต่อ ใส่หมายเลขคำสั่งซื้อและเหตุผลในการคืนสินค้า เราจะส่งขั้นตอนการคืนสินค้าและใบจัดส่งฟรีให้</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span>จะได้รับเงินคืนเมื่อไหร่?</span>
+                                <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                    <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                            </button>
+                            <div class="faq-answer">
+                                <p>การคืนเงินจะดำเนินการภายใน 3-5 วันทำการหลังจากเราได้รับสินค้าคืน เงินจะปรากฏในบัญชีเดิมภายใน 5-10 วันทำการ ขึ้นอยู่กับธนาคารของคุณ</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Products & Ingredients - Thai -->
+                <section class="faq-section" id="products-th">
+                    <h2 class="faq-section-title">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/>
+                            <path d="M12 1v6M12 17v6M4.22 4.22l4.24 4.24M15.54 15.54l4.24 4.24M1 12h6M17 12h6M4.22 19.78l4.24-4.24M15.54 8.46l4.24-4.24" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                        ผลิตภัณฑ์และส่วนผสม
+                    </h2>
+                    
+                    <div class="faq-accordion">
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span>ผลิตภัณฑ์เหมาะสำหรับผิวแพ้ง่ายไหม?</span>
+                                <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                    <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                            </button>
+                            <div class="faq-answer">
+                                <p>ใช่เลย! ผลิตภัณฑ์ GAOJIE ทั้งหมดผ่านการทดสอบทางผิวหนังและสูตรสำหรับผิวแพ้ง่าย เราใช้ส่วนผสมที่อ่อนโยนและมีหลักฐานทางวิทยาศาสตร์ ไม่มีสารเคมีที่รุนแรง น้ำหอม หรือสารระคายเคือง ควรทดสอบผลิตภัณฑ์ใหม่ก่อนใช้เสมอ</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span>มีการทดสอบกับสัตว์ไหม?</span>
+                                <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                    <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                            </button>
+                            <div class="faq-answer">
+                                <p>ไม่เด็ดขาด GAOJIE ภูมิใจที่ไม่ทารุณกรรมสัตว์ เราไม่เคยทดสอบกับสัตว์และทำงานกับซัพพลายเออร์ที่มีความมุ่งมั่นด้านจริยธรรมความงามเช่นเดียวกับเรา</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span>ครีมล้างหน้าอะมิโนแอซิดมีอะไรพิเศษ?</span>
+                                <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                    <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                            </button>
+                            <div class="faq-answer">
+                                <p>ครีมล้างหน้าอะมิโนแอซิดของเราใช้สารทำความสะอาดอ่อนโยนที่เข้ากับ pH ธรรมชาติของผิว แตกต่างจากซัลเฟตที่รุนแรง อะมิโนแอซิดทำความสะอาดได้อย่างมีประสิทธิภาพพร้อมรักษาเกราะป้องกันผิว ทำให้ผิวสะอาดแต่ไม่แห้งตึง</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span>สามารถใช้ผลิตภัณฑ์ GAOJIE หลายตัวร่วมกันได้ไหม?</span>
+                                <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                    <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                            </button>
+                            <div class="faq-answer">
+                                <p>ได้เลย! ผลิตภัณฑ์ของเราออกแบบมาให้ทำงานร่วมกันได้ดี เริ่มต้นด้วยผลิตภัณฑ์ใหม่ทีละตัวเพื่อให้แน่ใจว่าเข้ากับผิวของคุณ สำหรับรูทีนครบชุด ลองเซ็ตที่คัดสรรซึ่งมีผลิตภัณฑ์ที่เสริมกัน</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Skincare Advice - Thai -->
+                <section class="faq-section" id="skincare-advice-th">
+                    <h2 class="faq-section-title">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/>
+                            <path d="M12 1v6M12 17v6M4.22 4.22l4.24 4.24M15.54 15.54l4.24 4.24M1 12h6M17 12h6M4.22 19.78l4.24-4.24M15.54 8.46l4.24-4.24" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                        คำแนะนำการดูแลผิว
+                    </h2>
+                    
+                    <div class="faq-accordion">
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span>สร้างรูทีนดูแลผิวพื้นฐานอย่างไร?</span>
+                                <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                    <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                            </button>
+                            <div class="faq-answer">
+                                <p>เริ่มด้วยพื้นฐาน: ครีมล้างหน้าอ่อนโยน ครีมบำรุง และ SPF ในตอนกลางวัน ครีมล้างหน้าอะมิโนแอซิดและครีมบำรุงผิวของเราเหมาะสำหรับเริ่มต้น แนะนำผลิตภัณฑ์ใหม่อย่างค่อยเป็นค่อยไป ทีละตัว</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span>ควรเริ่มใช้ผลิตภัณฑ์ต้านริ้วรอยเมื่อไหร่?</span>
+                                <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                    <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                            </button>
+                            <div class="faq-answer">
+                                <p>การป้องกันคือสิ่งสำคัญ! เริ่มด้วยสารต้านอนุมูลอิสระอย่างวิตามิน C ในวัย 20 และพิจารณาผลิตภัณฑ์เรตินอลอ่อนโยนในปลายวัย 20 หรือต้นวัย 30 เซรั่มวิตามิน C ของเราเป็นผลิตภัณฑ์ต้านริ้วรอยตัวแรกที่ยอดเยี่ยม</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span>จะเห็นผลใช้เวลานานแค่ไหน?</span>
+                                <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                    <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                            </button>
+                            <div class="faq-answer">
+                                <p>ลูกค้าส่วนใหญ่เห็นผิวดีขึ้นภายใน 7-14 วัน การเปลี่ยนแปลงอย่างชัดเจนในเรื่องริ้วรอย ฝ้า หรือสิว โดยทั่วไปใช้เวลา 6-12 สัปดาห์ของการใช้อย่างสม่ำเสมอ ความอดทนและความสม่ำเสมอคือกุญแจสู่ผิวสวย!</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Account & Billing - Thai -->
+                <section class="faq-section" id="account-th">
+                    <h2 class="faq-section-title">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2"/>
+                            <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                        บัญชีและการเรียกเก็บเงิน
+                    </h2>
+                    
+                    <div class="faq-accordion">
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span>จำเป็นต้องมีบัญชีเพื่อสั่งซื้อไหม?</span>
+                                <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                    <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                            </button>
+                            <div class="faq-answer">
+                                <p>ไม่จำเป็น คุณสามารถชำระเป็นแขกได้ อย่างไรก็ตาม การสร้างบัญชีจะให้คุณติดตามคำสั่งซื้อ บันทึกรูทีนดูแลผิว สะสมแต้มรางวัล และรับคำแนะนำผลิตภัณฑ์เฉพาะบุคคล</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span>เปลี่ยนที่อยู่จัดส่งอย่างไร?</span>
+                                <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                    <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                            </button>
+                            <div class="faq-answer">
+                                <p>คุณสามารถอัปเดตที่อยู่จัดส่งในการตั้งค่าบัญชี สำหรับคำสั่งซื้อที่สั่งแล้วแต่ยังไม่ได้จัดส่ง กรุณาติดต่อเราทันทีที่ hello@gaojie.com เพื่ออัปเดตที่อยู่</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- General - Thai -->
+                <section class="faq-section" id="general-th">
+                    <h2 class="faq-section-title">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                            <path d="M12 6v6l4 2" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                        ทั่วไป
+                    </h2>
+                    
+                    <div class="faq-accordion">
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span>ติดต่อฝ่ายบริการลูกค้าได้อย่างไร?</span>
+                                <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                    <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                            </button>
+                            <div class="faq-answer">
+                                <p>ติดต่อเราที่ hello@gaojie.com ผ่านฟอร์มติดต่อ หรือแชทกับเราใน LINE @gaojie ทีมของเราตอบกลับภายใน 24 ชั่วโมง วันจันทร์-ศุกร์ 09:00-18:00 น.</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span>มีบริการปรึกษาดูแลผิวไหม?</span>
+                                <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                    <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                            </button>
+                            <div class="faq-answer">
+                                <p>มีเลย! เรามีบริการปรึกษาดูแลผิวออนไลน์ฟรี จองผ่านเว็บไซต์หรือติดต่อเราโดยตรง ผู้เชี่ยวชาญดูแลผิวที่ผ่านการรับรองจะสร้างรูทีนเฉพาะบุคคลสำหรับคุณ</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Still Have Questions -->
+            <div class="faq-contact-section">
+                <div class="faq-contact-card">
+                    <h2 class="faq-contact-title">Still have questions?</h2>
+                    <p class="faq-contact-subtitle">Our skincare experts are here to help you find the perfect products for your skin.</p>
+                    
+                    <div class="faq-contact-buttons">
+                        <a href="/contact" class="faq-contact-btn primary">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" stroke="currentColor" stroke-width="2"/>
+                                <polyline points="22,6 12,13 2,6" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                            Contact Support
+                        </a>
+                        
+                        <a href="https://line.me/ti/p/~@gaojie" class="faq-contact-btn secondary" target="_blank">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63h2.386c.349 0 .63.285.63.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63.349 0 .631.285.631.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.282.629-.629.629M24 10.314C24 4.943 18.615.572 12.017.572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/>
+                            </svg>
+                            Chat on LINE
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <!-- Footer Main Content -->
+            <div class="footer-main">
+                <!-- Brand Section -->
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <h3 class="footer-logo-text">GAOJIE</h3>
+                    </div>
+                    <p class="footer-description">
+                        Premium skincare crafted with clinically proven ingredients and scientific innovation for radiant, healthy skin.
+                    </p>
+                    <div class="footer-social">
+                        <a href="#" class="social-link" aria-label="Instagram">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-link" aria-label="TikTok">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Facebook">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Collections -->
+                <div class="footer-column">
+                    <h4 class="footer-column-title">Collections</h4>
+                    <ul class="footer-links">
+                        <li><a href="/cleanser" class="footer-link">Cleansers</a></li>
+                        <li><a href="/moisturiser" class="footer-link">Moisturisers</a></li>
+                        <li><a href="/treatments" class="footer-link">Treatments</a></li>
+                        <li><a href="/lip-care" class="footer-link">Lip Care</a></li>
+                        <li><a href="/sets" class="footer-link">Sets & Bundles</a></li>
+                        <li><a href="/travel" class="footer-link">Travel Size</a></li>
+                    </ul>
+                </div>
+
+                <!-- Company -->
+                <div class="footer-column">
+                    <h4 class="footer-column-title">Company</h4>
+                    <ul class="footer-links">
+                        <li><a href="/about" class="footer-link">About Us</a></li>
+                        <li><a href="/science" class="footer-link">Our Science</a></li>
+                        <li><a href="/ingredients" class="footer-link">Ingredients</a></li>
+                        <li><a href="/sustainability" class="footer-link">Sustainability</a></li>
+                        <li><a href="/reviews" class="footer-link">Reviews</a></li>
+                        <li><a href="/blog" class="footer-link">Skincare Blog</a></li>
+                    </ul>
+                </div>
+
+                <!-- Support -->
+                <div class="footer-column">
+                    <h4 class="footer-column-title">Support</h4>
+                    <ul class="footer-links">
+                        <li><a href="/contact" class="footer-link">Contact Us</a></li>
+                        <li><a href="/faq" class="footer-link">FAQ</a></li>
+                        <li><a href="/shipping" class="footer-link">Shipping Info</a></li>
+                        <li><a href="/returns" class="footer-link">Returns</a></li>
+                        <li><a href="/skincare-quiz" class="footer-link">Skincare Quiz</a></li>
+                        <li><a href="/track-order" class="footer-link">Track Order</a></li>
+                    </ul>
+                </div>
+
+                <!-- Newsletter -->
+                <div class="footer-newsletter">
+                    <span class="newsletter-incentive">Get 15% Off First Order</span>
+                    <h4 class="footer-column-title">Join Our Skincare Community</h4>
+                    <p class="newsletter-description">Be the first to know about new launches, exclusive offers, and expert skincare tips.</p>
+                    
+                    <ul class="newsletter-benefits">
+                        <li>Exclusive early access to new products</li>
+                        <li>Personalized skincare tips & routines</li>
+                        <li>Members-only discounts & promotions</li>
+                        <li>Free skincare consultation offers</li>
+                    </ul>
+                    
+                    <div class="newsletter-form">
+                        <input type="email" class="newsletter-input" placeholder="Enter your email for 15% off" aria-label="Email address">
+                        <button type="submit" class="newsletter-button">Get My 15% Discount</button>
+                    </div>
+                    <p class="newsletter-disclaimer">
+                        By subscribing, you agree to our <a href="/privacy" class="disclaimer-link">Privacy Policy</a>. Unsubscribe anytime.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Footer Bottom -->
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <p class="footer-copyright">© 2025 GAOJIE. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // FAQ Functionality - Fixed Version
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize FAQ functionality
+            initFAQ();
+        });
+
+        function initFAQ() {
+            // Get elements
+            const langButtons = document.querySelectorAll('.faq-lang-btn');
+            const faqContents = document.querySelectorAll('.faq-content');
+            const searchInput = document.getElementById('faq-search');
+            const faqQuestions = document.querySelectorAll('.faq-question');
+            const quickLinks = document.querySelectorAll('.faq-pill');
+
+            // Language Toggle Functionality
+            langButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const targetLang = this.dataset.lang;
+                    
+                    // Remove active from all buttons
+                    langButtons.forEach(btn => btn.classList.remove('active'));
+                    // Add active to clicked button
+                    this.classList.add('active');
+                    
+                    // Show/hide FAQ content
+                    faqContents.forEach(content => {
+                        if (content.dataset.lang === targetLang) {
+                            content.style.display = 'block';
+                        } else {
+                            content.style.display = 'none';
+                        }
+                    });
+
+                    // Update search placeholder
+                    if (targetLang === 'th') {
+                        searchInput.placeholder = 'ค้นหาคำถามของคุณ...';
+                    } else {
+                        searchInput.placeholder = 'Search your question...';
+                    }
+
+                    // Clear search when switching languages
+                    searchInput.value = '';
+                    resetSearch();
+                });
+            });
+
+            // FAQ Accordion Functionality
+            faqQuestions.forEach(question => {
+                question.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const faqItem = this.closest('.faq-item');
+                    const answer = faqItem.querySelector('.faq-answer');
+                    const isExpanded = this.getAttribute('aria-expanded') === 'true';
+
+                    // Close all other FAQ items in the current language
+                    const currentLang = document.querySelector('.faq-lang-btn.active').dataset.lang;
+                    const activeContent = document.querySelector(`[data-lang="${currentLang}"]`);
+                    const allQuestions = activeContent.querySelectorAll('.faq-question');
+                    
+                    allQuestions.forEach(q => {
+                        if (q !== this) {
+                            q.setAttribute('aria-expanded', 'false');
+                            const otherAnswer = q.closest('.faq-item').querySelector('.faq-answer');
+                            otherAnswer.style.maxHeight = '0px';
+                        }
+                    });
+
+                    // Toggle current item
+                    if (!isExpanded) {
+                        this.setAttribute('aria-expanded', 'true');
+                        answer.style.maxHeight = answer.scrollHeight + 'px';
+                    } else {
+                        this.setAttribute('aria-expanded', 'false');
+                        answer.style.maxHeight = '0px';
+                    }
+                });
+            });
+
+            // Search Functionality
+            let searchTimeout;
+            searchInput.addEventListener('input', function() {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(() => {
+                    performSearch(this.value);
+                }, 300); // Debounce search
+            });
+
+            function performSearch(searchTerm) {
+                const currentLang = document.querySelector('.faq-lang-btn.active').dataset.lang;
+                const activeContent = document.querySelector(`[data-lang="${currentLang}"]`);
+                const faqItems = activeContent.querySelectorAll('.faq-item');
+                const faqSections = activeContent.querySelectorAll('.faq-section');
+
+                if (!searchTerm.trim()) {
+                    resetSearch();
+                    return;
+                }
+
+                const term = searchTerm.toLowerCase().trim();
+                let hasResults = false;
+
+                // Search through FAQ items
+                faqItems.forEach(item => {
+                    const question = item.querySelector('.faq-question span').textContent.toLowerCase();
+                    const answer = item.querySelector('.faq-answer p').textContent.toLowerCase();
+                    
+                    if (question.includes(term) || answer.includes(term)) {
+                        item.style.display = 'block';
+                        hasResults = true;
+                        
+                        // Highlight search terms (optional)
+                        if (question.includes(term)) {
+                            item.classList.add('search-match');
+                        }
+                    } else {
+                        item.style.display = 'none';
+                        item.classList.remove('search-match');
+                    }
+                });
+
+                // Show/hide sections based on visible items
+                faqSections.forEach(section => {
+                    const visibleItems = section.querySelectorAll('.faq-item[style*="block"]');
+                    if (visibleItems.length > 0) {
+                        section.style.display = 'block';
+                    } else {
+                        section.style.display = 'none';
+                    }
+                });
+
+                // Show no results message if needed
+                showNoResultsMessage(activeContent, !hasResults && term.length > 0);
+            }
+
+            function resetSearch() {
+                const currentLang = document.querySelector('.faq-lang-btn.active').dataset.lang;
+                const activeContent = document.querySelector(`[data-lang="${currentLang}"]`);
+                const faqItems = activeContent.querySelectorAll('.faq-item');
+                const faqSections = activeContent.querySelectorAll('.faq-section');
+
+                // Show all items and sections
+                faqItems.forEach(item => {
+                    item.style.display = 'block';
+                    item.classList.remove('search-match');
+                });
+
+                faqSections.forEach(section => {
+                    section.style.display = 'block';
+                });
+
+                // Hide no results message
+                showNoResultsMessage(activeContent, false);
+            }
+
+            function showNoResultsMessage(container, show) {
+                let noResultsMsg = container.querySelector('.no-results-message');
+                
+                if (show && !noResultsMsg) {
+                    noResultsMsg = document.createElement('div');
+                    noResultsMsg.className = 'no-results-message';
+                    noResultsMsg.style.cssText = `
+                        text-align: center;
+                        padding: 2rem;
+                        color: var(--color-secondary);
+                        font-size: var(--font-size-lg);
+                        background: var(--color-background);
+                        border-radius: var(--border-radius);
+                        margin: 1rem 0;
+                    `;
+                    const currentLang = document.querySelector('.faq-lang-btn.active').dataset.lang;
+                    noResultsMsg.textContent = currentLang === 'th' 
+                        ? 'ไม่พบคำถามที่ตรงกับการค้นหา กรุณาลองค้นหาด้วยคำอื่น' 
+                        : 'No questions found matching your search. Try different keywords.';
+                    container.appendChild(noResultsMsg);
+                } else if (!show && noResultsMsg) {
+                    noResultsMsg.remove();
+                }
+            }
+
+            // Quick Links Smooth Scroll
+            quickLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    const currentLang = document.querySelector('.faq-lang-btn.active').dataset.lang;
+                    let targetElement = document.getElementById(targetId);
+                    
+                    // If Thai is active, look for Thai version of the section
+                    if (currentLang === 'th') {
+                        const thaiTarget = document.getElementById(targetId + '-th');
+                        if (thaiTarget) {
+                            targetElement = thaiTarget;
+                        }
+                    }
+                    
+                    if (targetElement) {
+                        const headerOffset = 100; // Account for fixed header
+                        const elementPosition = targetElement.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+
+            // Initialize with English content
+            const defaultContent = document.querySelector('[data-lang="en"]');
+            if (defaultContent) {
+                defaultContent.style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>

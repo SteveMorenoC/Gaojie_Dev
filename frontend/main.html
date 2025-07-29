@@ -1,0 +1,580 @@
+</section<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GAOJIE - Premium Skincare</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Announcement Bar -->
+    <div class="announcement-bar">
+        <div class="announcement-content">
+            <span class="announcement-text">✨ Free shipping in Thailand on orders over ฿999</span>
+        </div>
+    </div>
+
+    <!-- Main Header -->
+    <header class="header">
+        <div class="header-container">
+            <!-- Logo -->
+            <div class="logo">
+                <a href="/" class="logo-link">GAOJIE</a>
+            </div>
+
+            <!-- Mobile Menu Toggle -->
+            <button id="mobile-menu-toggle" class="mobile-menu-toggle" aria-label="Toggle menu">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
+
+            <!-- Navigation -->
+            <nav class="nav" id="main-nav">
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="/cleanser" class="nav-link">Cleanser</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/moisturiser" class="nav-link">Moisturiser</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a href="/treatments" class="nav-link dropdown-toggle">
+                            Treatments
+                            <svg class="dropdown-icon" width="12" height="8" viewBox="0 0 12 8" fill="none">
+                                <path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/lip-care" class="nav-link">Lip Care</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/sets" class="nav-link">Sets</a>
+                    </li>
+                    
+                </ul>
+            </nav>
+
+            <!-- Header Actions -->
+            <div class="header-actions">
+                <!-- Search -->
+                <div class="search-container">
+                    <form class="search-form" role="search">
+                        <input 
+                            type="search" 
+                            class="search-input" 
+                            placeholder="Search..." 
+                            aria-label="Search products"
+                        >
+                        <button type="submit" class="search-btn" aria-label="Submit search">
+                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                                <circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.5"/>
+                                <path d="M15 15L11.5 11.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                            </svg>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Shopping Bag -->
+                <a href="/cart" class="bag-btn" aria-label="Shopping bag">
+                    <svg class="bag-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <path d="M3.5 7H16.5L15.5 16H4.5L3.5 7Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                        <path d="M7 7V5C7 3.89543 7.89543 3 9 3H11C12.1046 3 13 3.89543 13 5V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span class="bag-count">1</span>
+                </a>
+                <a href="/influencers" class="nav-link influencer-link">
+                    <svg class="influencer-icon" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <circle cx="9" cy="7" r="4" stroke="currentColor" stroke-width="2"/>
+                        <path d="m22 21-3-3m0 0a2 2 0 1 0-2.83-2.83A2 2 0 0 0 19 18Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Influencers
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <main class="hero-section">
+        <div class="hero-container">
+            <div class="hero-background">
+                <img src="img/image 72.png" alt="Skincare hands" class="hero-image">
+                <div class="hero-overlay"></div>
+            </div>
+            
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1 class="hero-title">Amino-Acid Cleanser</h1>
+                    <p class="hero-subtitle">Clinically proven glow in 7 days</p>
+                    <a href="/cleanser" class="hero-btn">Shop Cleanser</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Rating Section -->
+    <section class="rating-section">
+        <div class="rating-container">
+            <span class="rating-stars">4.8★</span>
+            <span class="rating-text">from 2,041 Thai customers · Derm‑tested</span>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products-section">
+        <div class="products-container">
+            <div class="section-header">
+                <h2 class="section-title">Featured Products</h2>
+            </div>
+            
+            <div class="products-grid">
+                <!-- Product 1 -->
+                <div class="product-card">
+                    <div class="product-image-container">
+                        <div class="product-badges-promo">
+                            <span class="badge badge-bestseller">BESTSELLER</span>
+                        </div>
+                        <div class="product-badges-category">
+                            <span class="badge badge-category">Cleanser</span>
+                        </div>
+                        <div class="product-images">
+                            <img src="img/image 75 (2).png" alt="Amino-Acid Cleanser" class="product-image primary">
+                            <img src="https://images.unsplash.com/photo-1556228578-8c89e6adf883?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Amino-Acid Cleanser in use" class="product-image secondary">
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title main-title">Amino-Acid Cleanser</h3>
+                        <p class="product-description">Gentle daily cleanser for glowing skin</p>
+                        <div class="product-price">
+                            <span class="price">฿1,290</span>
+                        </div>
+                      
+                    </div>
+                </div>
+
+                <!-- Product 2 -->
+                <div class="product-card">
+                    <div class="product-image-container">
+                        <div class="product-badges-promo">
+                            <span class="badge badge-new">NEW</span>
+                        </div>
+                        <div class="product-badges-category">
+                            <span class="badge badge-moisturiser">Moisturiser</span>
+                        </div>
+                        <div class="product-images">
+                            <img src="https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Hydrating Moisturiser" class="product-image primary">
+                            <img src="https://images.unsplash.com/photo-1570194065650-d99fb4bedf0a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Hydrating Moisturiser texture" class="product-image secondary">
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title main-title">Hydrating Moisturiser</h3>
+                        <p class="product-description">24-hour moisture with hyaluronic acid</p>
+                        <div class="product-price">
+                            <span class="price">฿1,590</span>
+                        </div>
+                       
+                    </div>
+                </div>
+
+                <!-- Product 3 -->
+                <div class="product-card">
+                    <div class="product-image-container">
+                        <div class="product-badges-promo">
+                            <span class="badge badge-limited">LIMITED TIME</span>
+                        </div>
+                        <div class="product-badges-category">
+                            <span class="badge badge-anti-aging">Anti-Aging</span>
+                        </div>
+                        <div class="product-images">
+                            <img src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Retinol Serum" class="product-image primary">
+                            <img src="https://images.unsplash.com/photo-1559181567-c3190ca9959b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Retinol Serum dropper" class="product-image secondary">
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title main-title">Retinol Renewal Serum</h3>
+                        <p class="product-description">Advanced anti-aging treatment</p>
+                        <div class="product-price">
+                            <span class="price">฿2,190</span>
+                        </div>
+                       
+                    </div>
+                </div>
+
+                <!-- Product 4 -->
+                <div class="product-card">
+                    <div class="product-image-container">
+                        <div class="product-badges-promo">
+                            <span class="badge badge-promotion">PROMOTION</span>
+                        </div>
+                        <div class="product-badges-category">
+                            <span class="badge badge-serum">Serum</span>
+                        </div>
+                        <div class="product-images">
+                            <img src="https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Vitamin C Serum" class="product-image primary">
+                            <img src="https://images.unsplash.com/photo-1616401784845-180882ba9ba8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Vitamin C Serum application" class="product-image secondary">
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title main-title">Vitamin C Brightening Serum</h3>
+                        <p class="product-description">Radiant glow with vitamin C</p>
+                        <div class="product-price">
+                            <span class="price">฿1,890</span>
+                            <span class="original-price">฿2,290</span>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lifestyle Section -->
+    <section class="lifestyle-section">
+        <div class="lifestyle-container">
+            <div class="lifestyle-image">
+                <img src="img/" alt="Natural skincare lifestyle" class="lifestyle-img">
+                <div class="lifestyle-overlay">
+                    <div class="lifestyle-content">
+                        <h2 class="lifestyle-title">Clinically Proven Results</h2>
+                        <p class="lifestyle-subtitle">Experience the difference with our science-backed formulations</p>
+                        <a href="/science" class="lifestyle-btn">Discover Our Research</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Category Sections -->
+    
+    <!-- Cleansers Section -->
+    <section class="category-section">
+        <div class="category-container">
+            <div class="category-header">
+                <h2 class="category-title">Cleansers</h2>
+                <a href="/cleansers" class="category-link">Show more</a>
+            </div>
+            
+            <div class="category-grid">
+                <!-- Cleanser 1 -->
+                <div class="category-card">
+                    <div class="category-image-container">
+                        <div class="category-badges-promo">
+                            <span class="badge badge-bestseller">BESTSELLER</span>
+                        </div>
+                        <div class="category-images">
+                            <img src="https://images.unsplash.com/photo-1571781926291-c477ebfd024b?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Amino-Acid Cleanser" class="category-image">
+                        </div>
+                    </div>
+                    <div class="category-info">
+                        <h3 class="category-product-title main-title">Amino-Acid Cleanser</h3>
+                        <p class="category-price">฿1,290</p>
+                    </div>
+                </div>
+
+                <!-- Cleanser 2 - Travel Size -->
+                <div class="category-card">
+                    <div class="category-image-container">
+                        <div class="category-badges-promo">
+                            <span class="badge badge-new">TRAVEL SIZE</span>
+                        </div>
+                        <div class="category-images">
+                            <img src="https://images.unsplash.com/photo-1556228578-8c89e6adf883?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Amino-Acid Cleanser Travel" class="category-image">
+                        </div>
+                    </div>
+                    <div class="category-info">
+                        <h3 class="category-product-title main-title">Amino-Acid Cleanser Travel</h3>
+                        <p class="category-price">฿590</p>
+                    </div>
+                </div>
+
+                <!-- Cleanser 3 - Gentle Formula -->
+                <div class="category-card">
+                    <div class="category-image-container">
+                        <div class="category-images">
+                            <img src="https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Gentle Daily Cleanser" class="category-image">
+                        </div>
+                    </div>
+                    <div class="category-info">
+                        <h3 class="category-product-title main-title">Gentle Daily Cleanser</h3>
+                        <p class="category-price">฿1,190</p>
+                    </div>
+                </div>
+
+                <!-- Cleanser 4 - Bundle -->
+                <div class="category-card">
+                    <div class="category-image-container">
+                        <div class="category-badges-promo">
+                            <span class="badge badge-promotion">SAVE 20%</span>
+                        </div>
+                        <div class="category-images">
+                            <img src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Cleanser Duo Set" class="category-image">
+                        </div>
+                    </div>
+                    <div class="category-info">
+                        <h3 class="category-product-title main-title">Cleanser Duo Set</h3>
+                        <p class="category-price">฿2,290 <span class="category-original-price">฿2,580</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Moisturizers Section -->
+    <section class="category-section">
+        <div class="category-container">
+            <div class="category-header">
+                <h2 class="category-title">Moisturizers</h2>
+                <a href="/moisturizers" class="category-link">Show more</a>
+            </div>
+            
+            <div class="category-grid">
+                <!-- Moisturizer 1 -->
+                <div class="category-card">
+                    <div class="category-image-container">
+                        <div class="category-badges-promo">
+                            <span class="badge badge-bestseller">BESTSELLER</span>
+                        </div>
+                        <div class="category-images">
+                            <img src="https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Hydrating Moisturiser" class="category-image">
+                        </div>
+                    </div>
+                    <div class="category-info">
+                        <h3 class="category-product-title main-title">Hydrating Moisturiser</h3>
+                        <p class="category-price">฿1,590</p>
+                    </div>
+                </div>
+
+                <!-- Moisturizer 2 - Night Formula -->
+                <div class="category-card">
+                    <div class="category-image-container">
+                        <div class="category-badges-promo">
+                            <span class="badge badge-new">NEW</span>
+                        </div>
+                        <div class="category-images">
+                            <img src="https://images.unsplash.com/photo-1570194065650-d99fb4bedf0a?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Night Recovery Cream" class="category-image">
+                        </div>
+                    </div>
+                    <div class="category-info">
+                        <h3 class="category-product-title main-title">Night Recovery Cream</h3>
+                        <p class="category-price">฿1,790</p>
+                    </div>
+                </div>
+
+                <!-- Moisturizer 3 - Light Formula -->
+                <div class="category-card">
+                    <div class="category-image-container">
+                        <div class="category-images">
+                            <img src="https://images.unsplash.com/photo-1556228578-8c89e6adf883?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Light Daily Moisturizer" class="category-image">
+                        </div>
+                    </div>
+                    <div class="category-info">
+                        <h3 class="category-product-title main-title">Light Daily Moisturizer</h3>
+                        <p class="category-price">฿1,390</p>
+                    </div>
+                </div>
+
+                <!-- Moisturizer 4 - Travel Set -->
+                <div class="category-card">
+                    <div class="category-image-container">
+                        <div class="category-badges-promo">
+                            <span class="badge badge-limited">LIMITED</span>
+                        </div>
+                        <div class="category-images">
+                            <img src="https://images.unsplash.com/photo-1559181567-c3190ca9959b?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Moisturizer Travel Kit" class="category-image">
+                        </div>
+                    </div>
+                    <div class="category-info">
+                        <h3 class="category-product-title main-title">Moisturizer Travel Kit</h3>
+                        <p class="category-price">฿890</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Serums & Sunscreen Section -->
+    <section class="category-section">
+        <div class="category-container">
+            <div class="category-header">
+                <h2 class="category-title">Serums & Protection</h2>
+                <a href="/serums" class="category-link">Show more</a>
+            </div>
+            
+            <div class="category-grid">
+                <!-- Serum 1 -->
+                <div class="category-card">
+                    <div class="category-image-container">
+                        <div class="category-badges-promo">
+                            <span class="badge badge-bestseller">BESTSELLER</span>
+                        </div>
+                        <div class="category-images">
+                            <img src="https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Vitamin C Serum" class="category-image">
+                        </div>
+                    </div>
+                    <div class="category-info">
+                        <h3 class="category-product-title main-title">Vitamin C Brightening Serum</h3>
+                        <p class="category-price">฿1,890</p>
+                    </div>
+                </div>
+
+                <!-- Serum 2 - Retinol -->
+                <div class="category-card">
+                    <div class="category-image-container">
+                        <div class="category-badges-promo">
+                            <span class="badge badge-limited">LIMITED TIME</span>
+                        </div>
+                        <div class="category-images">
+                            <img src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Retinol Serum" class="category-image">
+                        </div>
+                    </div>
+                    <div class="category-info">
+                        <h3 class="category-product-title main-title">Retinol Renewal Serum</h3>
+                        <p class="category-price">฿2,190</p>
+                    </div>
+                </div>
+
+                <!-- Sunscreen 1 -->
+                <div class="category-card">
+                    <div class="category-image-container">
+                        <div class="category-badges-promo">
+                            <span class="badge badge-new">NEW</span>
+                        </div>
+                        <div class="category-images">
+                            <img src="https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Daily Sunscreen SPF 50" class="category-image">
+                        </div>
+                    </div>
+                    <div class="category-info">
+                        <h3 class="category-product-title main-title">Daily Sunscreen SPF 50</h3>
+                        <p class="category-price">฿1,490</p>
+                    </div>
+                </div>
+
+                <!-- Serum Bundle -->
+                <div class="category-card">
+                    <div class="category-image-container">
+                        <div class="category-badges-promo">
+                            <span class="badge badge-promotion">SAVE 25%</span>
+                        </div>
+                        <div class="category-images">
+                            <img src="https://images.unsplash.com/photo-1616401784845-180882ba9ba8?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Complete Serum Set" class="category-image">
+                        </div>
+                    </div>
+                    <div class="category-info">
+                        <h3 class="category-product-title main-title">Complete Serum Set</h3>
+                        <p class="category-price">฿3,590 <span class="category-original-price">฿4,080</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <!-- Footer Main Content -->
+            <div class="footer-main">
+                <!-- Brand Section -->
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <h3 class="footer-logo-text">GAOJIE</h3>
+                    </div>
+                    <p class="footer-description">
+                        Premium skincare crafted with clinically proven ingredients and scientific innovation for radiant, healthy skin.
+                    </p>
+                    <div class="footer-social">
+                        <a href="#" class="social-link" aria-label="Instagram">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-link" aria-label="TikTok">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Facebook">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Collections -->
+                <div class="footer-column">
+                    <h4 class="footer-column-title">Collections</h4>
+                    <ul class="footer-links">
+                        <li><a href="/cleanser" class="footer-link">Cleansers</a></li>
+                        <li><a href="/moisturiser" class="footer-link">Moisturisers</a></li>
+                        <li><a href="/treatments" class="footer-link">Treatments</a></li>
+                        <li><a href="/lip-care" class="footer-link">Lip Care</a></li>
+                        <li><a href="/sets" class="footer-link">Sets & Bundles</a></li>
+                        <li><a href="/travel" class="footer-link">Travel Size</a></li>
+                    </ul>
+                </div>
+
+                <!-- Company -->
+                <div class="footer-column">
+                    <h4 class="footer-column-title">Company</h4>
+                    <ul class="footer-links">
+                        <li><a href="/about" class="footer-link">About Us</a></li>
+                        <li><a href="/science" class="footer-link">Our Science</a></li>
+                        <li><a href="/ingredients" class="footer-link">Ingredients</a></li>
+                        <li><a href="/sustainability" class="footer-link">Sustainability</a></li>
+                        <li><a href="/reviews" class="footer-link">Reviews</a></li>
+                        <li><a href="/blog" class="footer-link">Skincare Blog</a></li>
+                    </ul>
+                </div>
+
+                <!-- Support -->
+                <div class="footer-column">
+                    <h4 class="footer-column-title">Support</h4>
+                    <ul class="footer-links">
+                        <li><a href="/contact" class="footer-link">Contact Us</a></li>
+                        <li><a href="/faq" class="footer-link">FAQ</a></li>
+                        <li><a href="/shipping" class="footer-link">Shipping Info</a></li>
+                        <li><a href="/returns" class="footer-link">Returns</a></li>
+                        <li><a href="/skincare-quiz" class="footer-link">Skincare Quiz</a></li>
+                        <li><a href="/track-order" class="footer-link">Track Order</a></li>
+                    </ul>
+                </div>
+
+                <!-- Newsletter -->
+                <div class="footer-newsletter">
+                    <span class="newsletter-incentive">Get 15% Off First Order</span>
+                    <h4 class="footer-column-title">Join Our Skincare Community</h4>
+                    <p class="newsletter-description">Be the first to know about new launches, exclusive offers, and expert skincare tips.</p>
+                    
+                    <ul class="newsletter-benefits">
+                        <li>Exclusive early access to new products</li>
+                        <li>Personalized skincare tips & routines</li>
+                        <li>Members-only discounts & promotions</li>
+                        <li>Free skincare consultation offers</li>
+                    </ul>
+                    
+                    <div class="newsletter-form">
+                        <input type="email" class="newsletter-input" placeholder="Enter your email for 15% off" aria-label="Email address">
+                        <button type="submit" class="newsletter-button">Get My 15% Discount</button>
+                    </div>
+                    <p class="newsletter-disclaimer">
+                        By subscribing, you agree to our <a href="/privacy" class="disclaimer-link">Privacy Policy</a>. Unsubscribe anytime.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Footer Bottom -->
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <p class="footer-copyright">© 2025 GAOJIE. All rights reserved.</p>
+                    
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script src="api.js"></script>
+    <script src="auth.js"></script>
+    <script src="index.js"></script>
+</body>
+</html>
