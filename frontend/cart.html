@@ -123,7 +123,7 @@
                     <!-- Cart Header -->
                     <div class="cart-header">
                         <h1 class="cart-title">Your Cart</h1>
-                        <div class="cart-count">2 items</div>
+                        <div class="cart-count">0 items</div>
                     </div>
 
                     <!-- Free Shipping Banner -->
@@ -133,86 +133,13 @@
                         </div>
                         <p class="shipping-message">
                             <span class="shipping-icon">🚚</span>
-                            Add <strong>฿250</strong> more for FREE shipping!
+                            Add <strong id="cart-shipping-price">฿0</strong> more for FREE shipping!
                         </p>
                     </div>
 
                     <!-- Cart Items -->
                     <div class="cart-items">
-                        <!-- Item 1 -->
-                        <div class="cart-item" data-item-id="1">
-                            <div class="item-image">
-                                <img src="https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=150&h=150&fit=crop&crop=center" alt="Amino-Acid Cleanser" loading="lazy">
-                                <div class="item-badge bestseller">Best Seller</div>
-                            </div>
-                            <div class="item-details">
-                                <h3 class="item-title">Amino-Acid Cleanser</h3>
-                                <p class="item-description">Gentle daily cleanser for all skin types</p>
-                                <div class="item-features">
-                                    <span class="feature-item">✓ Free Returns</span>
-                                    <span class="feature-item">✓ Dermatologist Tested</span>
-                                </div>
-                                <div class="item-reviews">
-                                    <div class="stars">★★★★★</div>
-                                    <span class="review-count">(2,847 reviews)</span>
-                                </div>
-                            </div>
-                            <div class="item-actions">
-                                <div class="quantity-controls">
-                                    <button class="qty-btn minus" data-action="decrease">−</button>
-                                    <input type="number" value="1" min="1" class="qty-input" data-item="1">
-                                    <button class="qty-btn plus" data-action="increase">+</button>
-                                </div>
-                                <div class="item-pricing">
-                                    <div class="price-info">
-                                        <span class="current-price">฿1,290</span>
-                                        <span class="original-price">฿1,590</span>
-                                    </div>
-                                    <span class="savings">You save ฿300</span>
-                                </div>
-                                <button class="remove-btn" data-item="1" aria-label="Remove item">
-                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                        <path d="M12 4L4 12M4 4L12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Item 2 -->
-                        <div class="cart-item" data-item-id="2">
-                            <div class="item-image">
-                                <img src="https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?w=150&h=150&fit=crop&crop=center" alt="Hydrating Moisturiser" loading="lazy">
-                            </div>
-                            <div class="item-details">
-                                <h3 class="item-title">Hydrating Moisturiser</h3>
-                                <p class="item-description">24-hour moisture with hyaluronic acid</p>
-                                <div class="item-features">
-                                    <span class="feature-item">✓ 24hr Hydration</span>
-                                    <span class="feature-item">✓ All Skin Types</span>
-                                </div>
-                                <div class="item-reviews">
-                                    <div class="stars">★★★★★</div>
-                                    <span class="review-count">(1,203 reviews)</span>
-                                </div>
-                            </div>
-                            <div class="item-actions">
-                                <div class="quantity-controls">
-                                    <button class="qty-btn minus" data-action="decrease">−</button>
-                                    <input type="number" value="1" min="1" class="qty-input" data-item="2">
-                                    <button class="qty-btn plus" data-action="increase">+</button>
-                                </div>
-                                <div class="item-pricing">
-                                    <div class="price-info">
-                                        <span class="current-price">฿1,590</span>
-                                    </div>
-                                </div>
-                                <button class="remove-btn" data-item="2" aria-label="Remove item">
-                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                        <path d="M12 4L4 12M4 4L12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
+                      
                     </div>
 
                     <!-- Recommendations Section -->
@@ -266,24 +193,24 @@
                         <div class="order-details">
                             <div class="detail-row">
                                 <span>Subtotal (2 items)</span>
-                                <span>฿2,880</span>
+                                <span>฿0</span>
                             </div>
                             <div class="detail-row discount">
                                 <span>Discount</span>
-                                <span>-฿300</span>
+                                <span>-฿30</span>
                             </div>
                             <div class="detail-row">
                                 <span>Shipping</span>
-                                <span class="shipping-cost">฿80</span>
+                                <span class="shipping-cost">฿0</span>
                             </div>
                             <div class="detail-row tax">
                                 <span>Tax</span>
-                                <span>฿185</span>
+                                <span>฿0</span>
                             </div>
                             <hr class="divider">
                             <div class="detail-row total">
                                 <span>Total</span>
-                                <span>฿2,745</span>
+                                <span>฿0</span>
                             </div>
                         </div>
 
@@ -459,5 +386,6 @@
 
     <script src="script.js"></script>
     <script src="JS/cart.js"></script>
+    
 </body>
 </html>

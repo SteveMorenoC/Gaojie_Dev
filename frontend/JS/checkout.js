@@ -1,18 +1,46 @@
-// Refined Checkout JavaScript - Conversion Optimized
+// Fixed checkout.js - loads real cart data from localStorage
+
 document.addEventListener('DOMContentLoaded', function() {
     let currentStep = 1;
-    let checkoutData = {
-        subtotal: 2880,
-        shipping: 0,
-        tax: 202,
-        discount: 0,
-        discountCode: null
-    };
+    let checkoutData = loadCartData(); // Load from localStorage instead of hardcoded
 
-    // Initialize checkout
     initCheckout();
 
+    function loadCartData() {
+        const cart = JSON.parse(localStorage.getItem('gaojie_cart')) || [];
+        let subtotal = 0;
+        
+        // Calculate subtotal from real cart
+        cart.forEach(item => {
+            subtotal += item.price * item.quantity;
+        });
+        
+        // Apply promo code if exists
+        const promo = JSON.parse(localStorage.getItem('gaojie_promo') || '{}');
+        const discount = promo.discount ? subtotal * promo.discount : 0;
+        
+        const freeShippingThreshold = 999;
+        const shipping = subtotal >= freeShippingThreshold ? 0 : 100;
+        const tax = subtotal * 0.07; // 7% VAT
+        
+        return {
+            cart: cart,
+            subtotal: subtotal,
+            shipping: shipping,
+            tax: tax,
+            discount: discount,
+            discountCode: promo.code || null
+        };
+    }
+
     function initCheckout() {
+        // Check if cart is empty
+        if (checkoutData.cart.length === 0) {
+            showEmptyCartMessage();
+            return;
+        }
+        
+        loadOrderSummary();
         setupFormValidation();
         setupShippingOptions();
         setupPaymentOptions();
@@ -20,6 +48,108 @@ document.addEventListener('DOMContentLoaded', function() {
         setupFormSubmission();
         calculateTotals();
         prefillTestData(); // For demo purposes
+    }
+
+    function loadOrderSummary() {
+        const orderItems = document.querySelector('.order-items');
+        const itemCount = document.querySelector('.item-count');
+        
+        if (orderItems) {
+            orderItems.innerHTML = '';
+            
+            checkoutData.cart.forEach(item => {
+                const itemElement = createOrderItem(item);
+                orderItems.appendChild(itemElement);
+            });
+        }
+        
+        if (itemCount) {
+            const totalItems = checkoutData.cart.reduce((sum, item) => sum + item.quantity, 0);
+            itemCount.textContent = `${totalItems} items`;
+        }
+    }
+
+    function createOrderItem(item) {
+        const div = document.createElement('div');
+        div.className = 'order-item';
+        
+        div.innerHTML = `
+            <div class="item-image">
+                <img src="${item.image || 'https://via.placeholder.com/60'}" alt="${item.name}">
+                <span class="item-quantity">${item.quantity}</span>
+            </div>
+            <div class="item-details">
+                <h4>${item.name}</h4>
+                <p>Premium skincare</p>
+            </div>
+            <div class="item-price">฿${(item.price * item.quantity).toLocaleString()}</div>
+        `;
+        
+        return div;
+    }
+
+    function showEmptyCartMessage() {
+        const checkoutContainer = document.querySelector('.checkout-container');
+        if (checkoutContainer) {
+            checkoutContainer.innerHTML = `
+                <div style="text-align: center; padding: 60px 20px;">
+                    <h2>Your cart is empty</h2>
+                    <p>Add some products to your cart before checkout.</p>
+                    <a href="main.html" style="display: inline-block; margin-top: 20px; padding: 12px 24px; background: #31e230; color: white; text-decoration: none; border-radius: 6px;">Continue Shopping</a>
+                </div>
+            `;
+        }
+    }
+
+    // Calculate and Update Totals
+    function calculateTotals() {
+        const subtotal = checkoutData.subtotal;
+        const discount = checkoutData.discount;
+        const shipping = checkoutData.shipping;
+        const discountedSubtotal = subtotal - discount;
+        const tax = Math.round(discountedSubtotal * 0.07);
+        const total = discountedSubtotal + shipping + tax;
+    
+        console.log('Calculating totals:', { subtotal, discount, shipping, tax, total }); // Debug
+    
+        // Update ALL possible selectors for each value
+        updateElement(['#subtotal', '.subtotal-amount', '#subtotal-amount'], `฿${subtotal.toLocaleString()}`);
+        updateElement(['#shipping-cost', '.shipping-amount', '#shipping-amount'], shipping === 0 ? 'FREE' : `฿${shipping}`);
+        updateElement(['#tax-amount', '.tax-amount', '#tax'], `฿${tax.toLocaleString()}`);
+        
+        // Add #final-total to the total selectors
+        updateElement(['#order-total', '.total-amount', '#final-total', '#total'], `฿${total.toLocaleString()}`);
+        
+        // Show/hide discount row
+        const discountRow = document.getElementById('discount-row');
+        const discountAmount = document.getElementById('discount-amount');
+        
+        if (discount > 0 && discountRow) {
+            discountRow.style.display = 'flex';
+            if (discountAmount) {
+                discountAmount.textContent = `-฿${Math.round(discount).toLocaleString()}`;
+            }
+        } else if (discountRow) {
+            discountRow.style.display = 'none';
+        }
+    
+        console.log('Updated final-total element:', document.getElementById('final-total')); // Debug
+    }
+
+    function updateElement(selectors, value) {
+        let found = false;
+        for (const selector of selectors) {
+            const element = document.querySelector(selector);
+            if (element) {
+                console.log(`Updating ${selector} with value:`, value); // Debug
+                element.textContent = value;
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            console.log('No element found for selectors:', selectors); // Debug
+        }
     }
 
     // Step Navigation
@@ -90,162 +220,93 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Email validation
             if (field.type === 'email' && field.value) {
-                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/;
                 if (!emailRegex.test(field.value)) {
-                    showFieldError(field, 'Please enter a valid email');
-                    isValid = false;
-                }
-            }
-
-            // Phone validation
-            if (field.type === 'tel' && field.value) {
-                const phoneRegex = /^[\+]?[0-9\s\-\(\)]{10,}$/;
-                if (!phoneRegex.test(field.value)) {
-                    showFieldError(field, 'Please enter a valid phone number');
+                    showFieldError(field, 'Please enter a valid email address');
                     isValid = false;
                 }
             }
         });
-
-        if (!isValid) {
-            showNotification('Please fill in all required fields correctly', 'error');
-        }
 
         return isValid;
     }
 
     function showFieldError(field, message) {
-        field.style.borderColor = '#ef4444';
+        clearFieldError(field);
         
-        let errorEl = field.parentNode.querySelector('.error-message');
-        if (!errorEl) {
-            errorEl = document.createElement('div');
-            errorEl.className = 'error-message';
-            errorEl.style.cssText = `
-                color: #ef4444;
-                font-size: 0.75rem;
-                margin-top: 4px;
-            `;
-            field.parentNode.appendChild(errorEl);
-        }
-        errorEl.textContent = message;
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'field-error';
+        errorDiv.textContent = message;
+        errorDiv.style.cssText = 'color: #dc2626; font-size: 0.875rem; margin-top: 4px;';
+        
+        field.style.borderColor = '#dc2626';
+        field.parentNode.appendChild(errorDiv);
     }
 
     function clearFieldError(field) {
         field.style.borderColor = '';
-        const errorEl = field.parentNode.querySelector('.error-message');
-        if (errorEl) {
-            errorEl.remove();
+        const existingError = field.parentNode.querySelector('.field-error');
+        if (existingError) {
+            existingError.remove();
         }
     }
 
-    // Form Validation with Real-time Feedback
     function setupFormValidation() {
-        const inputs = document.querySelectorAll('input, select');
-        
-        inputs.forEach(input => {
-            input.addEventListener('input', function() {
-                clearFieldError(this);
-                
-                // Real-time formatting
-                if (this.id === 'card-number') {
-                    formatCardNumber(this);
-                } else if (this.id === 'expiry') {
-                    formatExpiry(this);
-                } else if (this.id === 'cvv') {
-                    this.value = this.value.replace(/\D/g, '').substring(0, 4);
-                } else if (this.id === 'phone') {
-                    formatPhoneNumber(this);
+        // Add real-time validation
+        document.querySelectorAll('input[required], select[required]').forEach(field => {
+            field.addEventListener('blur', function() {
+                if (!this.value.trim()) {
+                    showFieldError(this, 'This field is required');
+                } else {
+                    clearFieldError(this);
                 }
             });
 
-            input.addEventListener('blur', function() {
-                if (this.hasAttribute('required') && !this.value.trim()) {
-                    showFieldError(this, 'This field is required');
+            field.addEventListener('input', function() {
+                if (this.value.trim()) {
+                    clearFieldError(this);
                 }
             });
         });
     }
 
-    function formatCardNumber(input) {
-        let value = input.value.replace(/\s/g, '').replace(/[^0-9]/gi, '');
-        let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
-        if (formattedValue.length > 19) {
-            formattedValue = formattedValue.substr(0, 19);
-        }
-        input.value = formattedValue;
-    }
-
-    function formatExpiry(input) {
-        let value = input.value.replace(/\D/g, '');
-        if (value.length >= 2) {
-            value = value.substring(0, 2) + '/' + value.substring(2, 4);
-        }
-        input.value = value;
-    }
-
-    function formatPhoneNumber(input) {
-        let value = input.value.replace(/\D/g, '');
-        if (value.startsWith('66')) {
-            value = '+' + value;
-        } else if (value.startsWith('0')) {
-            value = '+66' + value.substring(1);
-        }
-        input.value = value;
-    }
-
-    // Shipping Options
     function setupShippingOptions() {
         const shippingOptions = document.querySelectorAll('input[name="shipping"]');
-        
         shippingOptions.forEach(option => {
             option.addEventListener('change', function() {
-                const cost = parseInt(this.closest('.shipping-option').dataset.cost) || 0;
+                const cost = parseInt(this.dataset.cost) || 0;
                 checkoutData.shipping = cost;
                 calculateTotals();
-                
-                const methodName = this.closest('.shipping-option').querySelector('.option-name').textContent;
-                showNotification(`Shipping updated to ${methodName}`, 'success');
             });
         });
     }
 
-    // Payment Options
     function setupPaymentOptions() {
-        const paymentOptions = document.querySelectorAll('input[name="payment"]');
-        const cardForm = document.getElementById('card-form');
-        
+        const paymentOptions = document.querySelectorAll('input[name="payment-method"]');
         paymentOptions.forEach(option => {
             option.addEventListener('change', function() {
-                // Show/hide card form
-                if (this.value === 'card') {
-                    cardForm.classList.add('active');
-                } else {
-                    cardForm.classList.remove('active');
-                }
-                
-                const methodName = this.closest('.payment-option').querySelector('.option-name').textContent;
-                showNotification(`Payment method set to ${methodName}`, 'success');
+                // Handle payment method specific logic
+                console.log('Payment method selected:', this.value);
             });
         });
     }
 
-    // Promo Code
     function setupPromoCode() {
         const promoInput = document.getElementById('promo-input');
         const applyBtn = document.getElementById('apply-promo');
 
         if (applyBtn) {
-            applyBtn.addEventListener('click', () => {
-                applyPromoCode(promoInput.value.trim().toLowerCase());
+            applyBtn.addEventListener('click', function() {
+                const code = promoInput.value.trim().toLowerCase();
+                applyPromoCode(code);
             });
         }
 
         if (promoInput) {
-            promoInput.addEventListener('keypress', (e) => {
+            promoInput.addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') {
-                    e.preventDefault();
-                    applyPromoCode(promoInput.value.trim().toLowerCase());
+                    const code = this.value.trim().toLowerCase();
+                    applyPromoCode(code);
                 }
             });
         }
@@ -253,27 +314,27 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function applyPromoCode(code) {
         const validCodes = {
-            'welcome15': { type: 'percentage', value: 0.15, description: '15% off' },
-            'save200': { type: 'fixed', value: 200, description: '฿200 off' },
-            'newcustomer': { type: 'percentage', value: 0.20, description: '20% off' },
+            'welcome15': { type: 'percentage', value: 0.15, description: '15% off your order' },
+            'save10': { type: 'percentage', value: 0.10, description: '10% off your order' },
+            'newcustomer': { type: 'percentage', value: 0.20, description: '20% off your order' },
             'freeship': { type: 'shipping', value: 0, description: 'Free shipping' }
         };
 
-        if (validCodes[code]) {
-            const discount = validCodes[code];
-            checkoutData.discountCode = code;
-            
+        const discount = validCodes[code];
+        if (discount) {
             if (discount.type === 'percentage') {
                 checkoutData.discount = checkoutData.subtotal * discount.value;
-            } else if (discount.type === 'fixed') {
-                checkoutData.discount = discount.value;
             } else if (discount.type === 'shipping') {
                 checkoutData.shipping = 0;
-                document.querySelector('input[name="shipping"]:checked').closest('.shipping-option').dataset.cost = '0';
             }
             
+            // Save to localStorage
+            localStorage.setItem('gaojie_promo', JSON.stringify({
+                code: code,
+                discount: discount.type === 'percentage' ? discount.value : 0
+            }));
+            
             calculateTotals();
-            showDiscountApplied(discount.description);
             showNotification(`Promo code applied: ${discount.description}`, 'success');
             
             // Clear input
@@ -283,132 +344,147 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    function showDiscountApplied(description) {
-        const discountRow = document.getElementById('discount-row');
-        const discountAmount = document.getElementById('discount-amount');
-        
-        if (checkoutData.discount > 0) {
-            discountRow.style.display = 'flex';
-            discountAmount.textContent = `-฿${Math.round(checkoutData.discount).toLocaleString()}`;
-        }
-    }
-
-    // Calculate and Update Totals
-    function calculateTotals() {
-        const subtotal = checkoutData.subtotal;
-        const discount = checkoutData.discount;
-        const shipping = checkoutData.shipping;
-        const discountedSubtotal = subtotal - discount;
-        const tax = Math.round(discountedSubtotal * 0.07); // 7% VAT in Thailand
-        const total = discountedSubtotal + shipping + tax;
-
-        // Update DOM
-        document.getElementById('subtotal').textContent = `฿${subtotal.toLocaleString()}`;
-        document.getElementById('shipping-cost').textContent = shipping === 0 ? 'Free' : `฿${shipping.toLocaleString()}`;
-        document.getElementById('tax-amount').textContent = `฿${tax.toLocaleString()}`;
-        document.getElementById('final-total').textContent = `฿${total.toLocaleString()}`;
-
-        // Update discount row
-        if (discount > 0) {
-            document.getElementById('discount-row').style.display = 'flex';
-            document.getElementById('discount-amount').textContent = `-฿${Math.round(discount).toLocaleString()}`;
-        }
-
-        // Update checkout data
-        checkoutData.tax = tax;
-    }
-
-    // Form Submission
     function setupFormSubmission() {
-        const completeBtn = document.getElementById('complete-order');
-        
-        if (completeBtn) {
-            completeBtn.addEventListener('click', function(e) {
+        const form = document.getElementById('checkout-form');
+        if (form) {
+            form.addEventListener('submit', async function(e) {
                 e.preventDefault();
                 
-                if (!validateCurrentStep()) {
-                    return;
+                if (validateAllSteps()) {
+                    // Show loading state
+                    const submitBtn = document.querySelector('.final-submit-btn');
+                    if (submitBtn) {
+                        const originalText = submitBtn.innerHTML;
+                        submitBtn.innerHTML = `
+                            <svg class="animate-spin" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" stroke-opacity="0.3"/>
+                                <path fill="currentColor" d="M4 12a8 8 0 0 1 8-8v8H4z" stroke="currentColor" stroke-width="4"/>
+                            </svg>
+                            Processing Order...
+                        `;
+                        submitBtn.disabled = true;
+                    }
+
+                    // Submit order to Python backend
+                    try {
+                        const response = await fetch('/api/orders/create', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                items: getCartItems(),
+                                shipping_info: getShippingInfo(),
+                                payment_method: getSelectedPaymentMethod(),
+                                notes: document.getElementById('order-notes')?.value || ''
+                            })
+                        });
+
+                        const result = await response.json();
+                        
+                        if (result.status === 'success') {
+                            // Clear cart and redirect to success page
+                            clearCart();
+                            window.location.href = `/order-confirmation?order=${result.order.order_number}`;
+                        } else {
+                            showError(result.message);
+                            // Reset button
+                            if (submitBtn) {
+                                submitBtn.innerHTML = originalText;
+                                submitBtn.disabled = false;
+                            }
+                        }
+                    } catch (error) {
+                        showError('Order submission failed. Please try again.');
+                        // Reset button
+                        if (submitBtn) {
+                            submitBtn.innerHTML = originalText;
+                            submitBtn.disabled = false;
+                        }
+                    }
                 }
-
-                // Add loading state
-                this.classList.add('loading');
-                this.innerHTML = `
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" stroke-opacity="0.3"/>
-                        <path fill="currentColor" d="M4 12a8 8 0 0 1 8-8v8H4z"/>
-                    </svg>
-                    Processing Order...
-                `;
-                this.disabled = true;
-
-                // Simulate processing
-                setTimeout(() => {
-                    showNotification('Order placed successfully! Redirecting...', 'success');
-                    
-                    // Would redirect to success page in real implementation
-                    setTimeout(() => {
-                        alert('Order completed! (This would redirect to a success page)');
-                        // Reset for demo
-                        location.reload();
-                    }, 2000);
-                }, 3000);
             });
         }
     }
 
-    // Notifications
-    function showNotification(message, type = 'success') {
+    function validateAllSteps() {
+        let allValid = true;
+        
+        document.querySelectorAll('.checkout-step').forEach(step => {
+            const requiredFields = step.querySelectorAll('input[required], select[required]');
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    showFieldError(field, 'This field is required');
+                    allValid = false;
+                }
+            });
+        });
+        
+        return allValid;
+    }
+
+    // Helper functions (same as in cart.js)
+    function getCartItems() {
+        return checkoutData.cart.map(item => ({
+            product_id: item.id,
+            quantity: item.quantity,
+            variant_id: item.variant_id || null
+        }));
+    }
+
+    function getShippingInfo() {
+        return {
+            first_name: document.getElementById('first-name').value,
+            last_name: document.getElementById('last-name').value,
+            company: document.getElementById('company')?.value || '',
+            address_line1: document.getElementById('address').value,
+            address_line2: document.getElementById('address2')?.value || '',
+            city: document.getElementById('city').value,
+            state: document.getElementById('province').value,
+            postal_code: document.getElementById('postal-code').value,
+            country: 'Thailand',
+            phone: document.getElementById('phone').value
+        };
+    }
+
+    function getSelectedPaymentMethod() {
+        const paymentRadio = document.querySelector('input[name="payment-method"]:checked');
+        return paymentRadio ? paymentRadio.value : 'credit_card';
+    }
+
+    function clearCart() {
+        localStorage.removeItem('gaojie_cart');
+        localStorage.removeItem('gaojie_promo');
+    }
+
+    function showError(message) {
+        showNotification(message, 'error');
+    }
+
+    function showNotification(message, type) {
         const notification = document.createElement('div');
-        notification.className = `notification notification-${type}`;
-        
-        const bgColor = type === 'success' ? '#10b981' : 
-                       type === 'error' ? '#ef4444' : '#3b82f6';
-        
+        notification.textContent = message;
         notification.style.cssText = `
             position: fixed;
             top: 20px;
             right: 20px;
-            background: ${bgColor};
+            background: ${type === 'success' ? '#10b981' : '#ef4444'};
             color: white;
-            padding: 16px 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            padding: 12px 24px;
+            border-radius: 6px;
             z-index: 1000;
-            transform: translateX(100%);
-            transition: transform 0.3s ease;
-            max-width: 300px;
-            font-size: 14px;
             font-weight: 500;
-        `;
-        
-        notification.innerHTML = `
-            <div style="display: flex; align-items: center; gap: 8px;">
-                <span>${type === 'success' ? '✓' : type === 'error' ? '⚠' : 'ℹ'}</span>
-                <span>${message}</span>
-            </div>
         `;
         
         document.body.appendChild(notification);
         
-        // Animate in
         setTimeout(() => {
-            notification.style.transform = 'translateX(0)';
-        }, 100);
-        
-        // Auto remove
-        setTimeout(() => {
-            notification.style.transform = 'translateX(100%)';
-            setTimeout(() => {
-                if (notification.parentNode) {
-                    notification.parentNode.removeChild(notification);
-                }
-            }, 300);
-        }, type === 'error' ? 5000 : 3000);
+            notification.remove();
+        }, 3000);
     }
 
     // Auto-fill for demo/testing
     function prefillTestData() {
-        // Only enable in development or when query param is present
         if (window.location.search.includes('demo=true')) {
             setTimeout(() => {
                 document.getElementById('email').value = 'demo@example.com';
@@ -422,81 +498,4 @@ document.addEventListener('DOMContentLoaded', function() {
             }, 500);
         }
     }
-
-    // Auto-save form progress (in memory only)
-    let formProgress = {};
-    
-    function saveFormProgress() {
-        const inputs = document.querySelectorAll('input, select');
-        inputs.forEach(input => {
-            if (input.id && input.value) {
-                formProgress[input.id] = input.value;
-            }
-        });
-    }
-
-    // Save progress on input changes
-    document.addEventListener('input', saveFormProgress);
-    document.addEventListener('change', saveFormProgress);
-
-    // Accessibility improvements
-    function setupAccessibility() {
-        // Add ARIA labels
-        document.querySelectorAll('.checkout-step').forEach((step, index) => {
-            step.setAttribute('aria-labelledby', `step-${index + 1}-header`);
-            const header = step.querySelector('h2');
-            if (header) {
-                header.id = `step-${index + 1}-header`;
-            }
-        });
-
-        // Keyboard navigation for custom radio buttons
-        document.querySelectorAll('.shipping-option, .payment-option').forEach(option => {
-            option.addEventListener('keydown', function(e) {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    const radio = this.querySelector('input[type="radio"]');
-                    if (radio) {
-                        radio.checked = true;
-                        radio.dispatchEvent(new Event('change'));
-                    }
-                }
-            });
-        });
-    }
-
-    setupAccessibility();
-
-    // Page visibility API for form data persistence
-    document.addEventListener('visibilitychange', function() {
-        if (document.visibilityState === 'hidden') {
-            saveFormProgress();
-        }
-    });
-
-    // Track conversion funnel (analytics placeholder)
-    function trackStep(step) {
-        // In real implementation, send to analytics
-        console.log(`Checkout step ${step} reached`);
-        
-        // Google Analytics 4 example:
-        // gtag('event', 'begin_checkout', {
-        //     currency: 'THB',
-        //     value: checkoutData.subtotal,
-        //     items: [...] // product items
-        // });
-    }
-
-    // Track initial page load
-    trackStep(1);
-
-    // Support link functionality
-    const supportLinks = document.querySelectorAll('.support-link');
-    supportLinks.forEach(link => {
-        if (link.getAttribute('href').startsWith('tel:')) {
-            link.addEventListener('click', function() {
-                showNotification('Calling customer support...', 'info');
-            });
-        }
-    });
 });
