@@ -6,6 +6,7 @@
     <title>Checkout - GAOJIE</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="checkout.css">
+    
 </head>
 <body>
     <!-- Announcement Bar -->
@@ -129,7 +130,7 @@
                         <div class="checkbox-group">
                             <label class="checkbox-label">
                                 <input type="checkbox" id="save-info">
-                                
+                                <span class="checkbox-custom"></span>
                                 <span>Save this information for next time</span>
                             </label>
                         </div>
@@ -214,7 +215,7 @@
                                     <span class="option-name">Credit / Debit Card</span>
                                     <div class="card-icons">
                                         <span class="card-icon">💳</span>
-                                        
+                                        <span class="card-icon">🏦</span>
                                     </div>
                                 </div>
                             </label>
@@ -291,29 +292,7 @@
                         <h3>Order Summary</h3>
                         
                         <div class="order-items">
-                            <div class="order-item">
-                                <div class="item-image">
-                                    <img src="https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=60&h=60&fit=crop&crop=center" alt="Product">
-                                    <span class="item-quantity">1</span>
-                                </div>
-                                <div class="item-details">
-                                    <h4>Amino-Acid Cleanser</h4>
-                                    <p>150ml</p>
-                                </div>
-                                <div class="item-price">฿1,290</div>
-                            </div>
-
-                            <div class="order-item">
-                                <div class="item-image">
-                                    <img src="https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?w=60&h=60&fit=crop&crop=center" alt="Product">
-                                    <span class="item-quantity">1</span>
-                                </div>
-                                <div class="item-details">
-                                    <h4>Hydrating Moisturiser</h4>
-                                    <p>50ml</p>
-                                </div>
-                                <div class="item-price">฿1,590</div>
-                            </div>
+                            <!-- Items will be loaded dynamically -->
                         </div>
 
                         <div class="promo-code">
@@ -324,7 +303,7 @@
                         <div class="order-totals">
                             <div class="total-row">
                                 <span>Subtotal</span>
-                                <span id="subtotal">฿2,880</span>
+                                <span id="subtotal">฿0</span>
                             </div>
                             <div class="total-row" id="discount-row" style="display: none;">
                                 <span>Discount</span>
@@ -336,7 +315,7 @@
                             </div>
                             <div class="total-row">
                                 <span>Tax</span>
-                                <span id="tax-amount">฿202</span>
+                                <span id="tax-amount">฿0</span>
                             </div>
                             <div class="total-row total-final">
                                 <span>Total</span>
@@ -365,7 +344,25 @@
         </div>
     </main>
 
+    <!-- JavaScript Files -->
     <script src="script.js"></script>
+    <script src="auth.js"></script>
     <script src="JS/checkout.js"></script>
+     <!-- Omise.js for secure payment processing -->
+     <script src="https://cdn.omise.co/omise.js"></script>
+    
+     <!-- Configuration Script -->
+     <script>
+         // API Configuration
+         const API_BASE_URL = 'http://127.0.0.1:5000/api';
+         
+         // Omise Configuration (replace with your public key)
+         const OMISE_PUBLIC_KEY = 'pkey_test_64jt8kd53p45vdulorn';
+         
+         // Initialize Omise
+         if (typeof Omise !== 'undefined') {
+             Omise.setPublicKey(OMISE_PUBLIC_KEY);
+         }
+     </script>
 </body>
 </html>

@@ -1,7 +1,14 @@
-# Import all models here for easy access
-from .product import Product
+# Models package initialization
 from .user import User
-from .order import Order, OrderItem
+from .order import Order
+from .order_item import OrderItem
 
-# This makes it easy to import models from anywhere in your app
-# Example: from models import Product, User, Order
+# Import Product model if it exists in a separate file
+try:
+    from .product import Product
+except ImportError:
+    # If Product is defined elsewhere, you can import it here
+    # or create a product.py file with the Product model
+    pass
+
+__all__ = ['User', 'Order', 'OrderItem', 'Product']

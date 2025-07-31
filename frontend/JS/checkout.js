@@ -1,10 +1,82 @@
-// Fixed checkout.js - loads real cart data from localStorage
+// Updated checkout.js with Omise payment integration and guest checkout support
 
 document.addEventListener('DOMContentLoaded', function() {
     let currentStep = 1;
-    let checkoutData = loadCartData(); // Load from localStorage instead of hardcoded
+    let checkoutData = loadCartData();
+    let isAuthenticated = false;
+    let currentUser = null;
 
+    // Omise configuration - you'll need to set your public key
+    const OMISE_PUBLIC_KEY = 'pkey_test_64jt8kd53p45vdulorn'; // Replace with your actual public key
+    
     initCheckout();
+
+    async function initCheckout() {
+        // Check authentication status
+        await checkAuthStatus();
+        
+        // Check if cart is empty
+        if (checkoutData.cart.length === 0) {
+            showEmptyCartMessage();
+            return;
+        }
+        
+        loadOrderSummary();
+        setupFormValidation();
+        setupShippingOptions();
+        setupPaymentOptions();
+        setupPromoCode();
+        setupFormSubmission();
+        calculateTotals();
+        
+        // Pre-fill user data if authenticated
+        if (isAuthenticated && currentUser) {
+            prefillUserData();
+        } else {
+            prefillTestData(); // For demo purposes
+        }
+    }
+
+    async function checkAuthStatus() {
+        try {
+            const response = await fetch(`${API_BASE_URL}/auth/check`, {
+                credentials: 'include'
+            });
+            
+            const data = await response.json();
+            
+            if (data.status === 'success') {
+                isAuthenticated = data.authenticated;
+                currentUser = data.user;
+                
+                // Update UI based on auth status
+                updateAuthUI();
+            }
+        } catch (error) {
+            console.log('Auth check failed (probably not authenticated):', error);
+            isAuthenticated = false;
+            currentUser = null;
+        }
+    }
+
+    function updateAuthUI() {
+        const stepHeader = document.querySelector('#step-1 .step-header');
+        if (stepHeader && isAuthenticated) {
+            stepHeader.innerHTML = `
+                <h2>Contact Information</h2>
+                <p>Signed in as <strong>${currentUser.email}</strong> • <a href="#" class="login-link" onclick="logout()">Sign out</a></p>
+            `;
+        }
+    }
+
+    function prefillUserData() {
+        if (currentUser) {
+            document.getElementById('email').value = currentUser.email;
+            document.getElementById('first-name').value = currentUser.first_name || '';
+            document.getElementById('last-name').value = currentUser.last_name || '';
+            document.getElementById('phone').value = currentUser.phone || '';
+        }
+    }
 
     function loadCartData() {
         const cart = JSON.parse(localStorage.getItem('gaojie_cart')) || [];
@@ -19,9 +91,9 @@ document.addEventListener('DOMContentLoaded', function() {
         const promo = JSON.parse(localStorage.getItem('gaojie_promo') || '{}');
         const discount = promo.discount ? subtotal * promo.discount : 0;
         
-        const freeShippingThreshold = 999;
+        const freeShippingThreshold = 1500;
         const shipping = subtotal >= freeShippingThreshold ? 0 : 100;
-        const tax = subtotal * 0.07; // 7% VAT
+        const tax = (subtotal - discount) * 0.07; // 7% VAT
         
         return {
             cart: cart,
@@ -31,23 +103,6 @@ document.addEventListener('DOMContentLoaded', function() {
             discount: discount,
             discountCode: promo.code || null
         };
-    }
-
-    function initCheckout() {
-        // Check if cart is empty
-        if (checkoutData.cart.length === 0) {
-            showEmptyCartMessage();
-            return;
-        }
-        
-        loadOrderSummary();
-        setupFormValidation();
-        setupShippingOptions();
-        setupPaymentOptions();
-        setupPromoCode();
-        setupFormSubmission();
-        calculateTotals();
-        prefillTestData(); // For demo purposes
     }
 
     function loadOrderSummary() {
@@ -101,7 +156,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Calculate and Update Totals
     function calculateTotals() {
         const subtotal = checkoutData.subtotal;
         const discount = checkoutData.discount;
@@ -110,45 +164,36 @@ document.addEventListener('DOMContentLoaded', function() {
         const tax = Math.round(discountedSubtotal * 0.07);
         const total = discountedSubtotal + shipping + tax;
     
-        console.log('Calculating totals:', { subtotal, discount, shipping, tax, total }); // Debug
-    
-        // Update ALL possible selectors for each value
-        updateElement(['#subtotal', '.subtotal-amount', '#subtotal-amount'], `฿${subtotal.toLocaleString()}`);
-        updateElement(['#shipping-cost', '.shipping-amount', '#shipping-amount'], shipping === 0 ? 'FREE' : `฿${shipping}`);
-        updateElement(['#tax-amount', '.tax-amount', '#tax'], `฿${tax.toLocaleString()}`);
-        
-        // Add #final-total to the total selectors
-        updateElement(['#order-total', '.total-amount', '#final-total', '#total'], `฿${total.toLocaleString()}`);
+        // Update display elements
+        updateElement(['#subtotal', '.subtotal-amount'], `฿${subtotal.toLocaleString()}`);
+        updateElement(['#shipping-cost', '.shipping-amount'], shipping === 0 ? 'FREE' : `฿${shipping}`);
+        updateElement(['#tax-amount', '.tax-amount'], `฿${tax.toLocaleString()}`);
+        updateElement(['#final-total', '.total-amount'], `฿${total.toLocaleString()}`);
         
         // Show/hide discount row
         const discountRow = document.getElementById('discount-row');
-        const discountAmount = document.getElementById('discount-amount');
-        
         if (discount > 0 && discountRow) {
             discountRow.style.display = 'flex';
+            const discountAmount = document.getElementById('discount-amount');
             if (discountAmount) {
                 discountAmount.textContent = `-฿${Math.round(discount).toLocaleString()}`;
             }
         } else if (discountRow) {
             discountRow.style.display = 'none';
         }
-    
-        console.log('Updated final-total element:', document.getElementById('final-total')); // Debug
+
+        // Update checkout data
+        checkoutData.tax = tax;
+        checkoutData.total = total;
     }
 
     function updateElement(selectors, value) {
-        let found = false;
         for (const selector of selectors) {
             const element = document.querySelector(selector);
             if (element) {
-                console.log(`Updating ${selector} with value:`, value); // Debug
                 element.textContent = value;
-                found = true;
-                break;
+                return;
             }
-        }
-        if (!found) {
-            console.log('No element found for selectors:', selectors); // Debug
         }
     }
 
@@ -268,13 +313,53 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
         });
+
+        // Add input formatting
+        const cardNumberInput = document.getElementById('card-number');
+        const expiryInput = document.getElementById('expiry');
+        const cvvInput = document.getElementById('cvv');
+
+        if (cardNumberInput) {
+            cardNumberInput.addEventListener('input', function() {
+                formatCardNumber(this);
+            });
+        }
+
+        if (expiryInput) {
+            expiryInput.addEventListener('input', function() {
+                formatExpiry(this);
+            });
+        }
+
+        if (cvvInput) {
+            cvvInput.addEventListener('input', function() {
+                this.value = this.value.replace(/\D/g, '').substring(0, 4);
+            });
+        }
+    }
+
+    function formatCardNumber(input) {
+        let value = input.value.replace(/\D/g, '');
+        let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
+        if (formattedValue.length > 19) {
+            formattedValue = formattedValue.substr(0, 19);
+        }
+        input.value = formattedValue;
+    }
+
+    function formatExpiry(input) {
+        let value = input.value.replace(/\D/g, '');
+        if (value.length >= 2) {
+            value = value.substring(0, 2) + '/' + value.substring(2, 4);
+        }
+        input.value = value;
     }
 
     function setupShippingOptions() {
         const shippingOptions = document.querySelectorAll('input[name="shipping"]');
         shippingOptions.forEach(option => {
             option.addEventListener('change', function() {
-                const cost = parseInt(this.dataset.cost) || 0;
+                const cost = parseInt(this.closest('.shipping-option').dataset.cost) || 0;
                 checkoutData.shipping = cost;
                 calculateTotals();
             });
@@ -282,11 +367,16 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function setupPaymentOptions() {
-        const paymentOptions = document.querySelectorAll('input[name="payment-method"]');
+        const paymentOptions = document.querySelectorAll('input[name="payment"]');
+        const cardForm = document.getElementById('card-form');
+        
         paymentOptions.forEach(option => {
             option.addEventListener('change', function() {
-                // Handle payment method specific logic
-                console.log('Payment method selected:', this.value);
+                if (this.value === 'card') {
+                    cardForm.classList.add('active');
+                } else {
+                    cardForm.classList.remove('active');
+                }
             });
         });
     }
@@ -316,22 +406,18 @@ document.addEventListener('DOMContentLoaded', function() {
         const validCodes = {
             'welcome15': { type: 'percentage', value: 0.15, description: '15% off your order' },
             'save10': { type: 'percentage', value: 0.10, description: '10% off your order' },
-            'newcustomer': { type: 'percentage', value: 0.20, description: '20% off your order' },
-            'freeship': { type: 'shipping', value: 0, description: 'Free shipping' }
+            'newcustomer': { type: 'percentage', value: 0.20, description: '20% off your order' }
         };
 
         const discount = validCodes[code];
         if (discount) {
-            if (discount.type === 'percentage') {
-                checkoutData.discount = checkoutData.subtotal * discount.value;
-            } else if (discount.type === 'shipping') {
-                checkoutData.shipping = 0;
-            }
+            checkoutData.discount = checkoutData.subtotal * discount.value;
+            checkoutData.discountCode = code;
             
             // Save to localStorage
             localStorage.setItem('gaojie_promo', JSON.stringify({
                 code: code,
-                discount: discount.type === 'percentage' ? discount.value : 0
+                discount: discount.value
             }));
             
             calculateTotals();
@@ -345,90 +431,154 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function setupFormSubmission() {
-        const form = document.getElementById('checkout-form');
-        if (form) {
-            form.addEventListener('submit', async function(e) {
+        const completeBtn = document.getElementById('complete-order');
+        
+        if (completeBtn) {
+            completeBtn.addEventListener('click', async function(e) {
                 e.preventDefault();
                 
-                if (validateAllSteps()) {
-                    // Show loading state
-                    const submitBtn = document.querySelector('.final-submit-btn');
-                    if (submitBtn) {
-                        const originalText = submitBtn.innerHTML;
-                        submitBtn.innerHTML = `
-                            <svg class="animate-spin" width="16" height="16" viewBox="0 0 24 24" fill="none">
-                                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" stroke-opacity="0.3"/>
-                                <path fill="currentColor" d="M4 12a8 8 0 0 1 8-8v8H4z" stroke="currentColor" stroke-width="4"/>
-                            </svg>
-                            Processing Order...
-                        `;
-                        submitBtn.disabled = true;
-                    }
+                if (!validateCurrentStep()) {
+                    return;
+                }
 
-                    // Submit order to Python backend
-                    try {
-                        const response = await fetch('/api/orders/create', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                            body: JSON.stringify({
-                                items: getCartItems(),
-                                shipping_info: getShippingInfo(),
-                                payment_method: getSelectedPaymentMethod(),
-                                notes: document.getElementById('order-notes')?.value || ''
-                            })
-                        });
+                // Show loading state
+                this.classList.add('loading');
+                this.innerHTML = `
+                    <svg class="animate-spin" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" stroke-opacity="0.3"/>
+                        <path fill="currentColor" d="M4 12a8 8 0 0 1 8-8v8H4z" stroke="currentColor" stroke-width="4"/>
+                    </svg>
+                    Processing Order...
+                `;
+                this.disabled = true;
 
-                        const result = await response.json();
-                        
-                        if (result.status === 'success') {
-                            // Clear cart and redirect to success page
-                            clearCart();
-                            window.location.href = `/order-confirmation?order=${result.order.order_number}`;
-                        } else {
-                            showError(result.message);
-                            // Reset button
-                            if (submitBtn) {
-                                submitBtn.innerHTML = originalText;
-                                submitBtn.disabled = false;
-                            }
-                        }
-                    } catch (error) {
-                        showError('Order submission failed. Please try again.');
-                        // Reset button
-                        if (submitBtn) {
-                            submitBtn.innerHTML = originalText;
-                            submitBtn.disabled = false;
-                        }
-                    }
+                try {
+                    await processOrder();
+                } catch (error) {
+                    console.error('Order processing failed:', error);
+                    showNotification('Order processing failed. Please try again.', 'error');
+                    
+                    // Reset button
+                    this.classList.remove('loading');
+                    this.innerHTML = `
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                            <path d="M9 12L11 14L15 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                        Complete Order
+                    `;
+                    this.disabled = false;
                 }
             });
         }
     }
 
-    function validateAllSteps() {
-        let allValid = true;
-        
-        document.querySelectorAll('.checkout-step').forEach(step => {
-            const requiredFields = step.querySelectorAll('input[required], select[required]');
-            requiredFields.forEach(field => {
-                if (!field.value.trim()) {
-                    showFieldError(field, 'This field is required');
-                    allValid = false;
+    async function processOrder() {
+        try {
+            const paymentMethod = document.querySelector('input[name="payment"]:checked').value;
+            let paymentInfo = { method: paymentMethod };
+
+            // Handle credit card payment
+            if (paymentMethod === 'card') {
+                const token = await createOmiseToken();
+                if (!token) {
+                    throw new Error('Failed to process payment');
                 }
+                paymentInfo.token = token.id;
+            }
+
+            // Prepare order data
+            const orderData = {
+                items: getCartItems(),
+                shipping_info: getShippingInfo(),
+                payment_info: paymentInfo,
+                notes: document.getElementById('order-notes')?.value || '',
+                promo_code: checkoutData.discountCode
+            };
+
+            // Add guest info if not authenticated
+            if (!isAuthenticated) {
+                orderData.guest_info = {
+                    email: document.getElementById('email').value,
+                    first_name: document.getElementById('first-name').value,
+                    last_name: document.getElementById('last-name').value,
+                    phone: document.getElementById('phone').value
+                };
+            }
+
+            // Submit order
+            const endpoint = isAuthenticated ? '/api/orders/create' : '/api/orders/guest/create';
+            const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+                body: JSON.stringify(orderData)
             });
-        });
-        
-        return allValid;
+
+            const result = await response.json();
+
+            if (result.status === 'success') {
+                // Clear cart and redirect to success page
+                clearCart();
+                showNotification('Order placed successfully! Redirecting...', 'success');
+                
+                setTimeout(() => {
+                    // In a real app, redirect to order confirmation page
+                    window.location.href = `order-confirmation.html?order=${result.order.order_number}`;
+                }, 2000);
+            } else {
+                throw new Error(result.message);
+            }
+
+        } catch (error) {
+            console.error('Order processing error:', error);
+            throw error;
+        }
     }
 
-    // Helper functions (same as in cart.js)
+    async function createOmiseToken() {
+        try {
+            // Get card data
+            const cardData = {
+                name: document.getElementById('card-name').value,
+                number: document.getElementById('card-number').value.replace(/\s/g, ''),
+                expiration_month: document.getElementById('expiry').value.split('/')[0],
+                expiration_year: '20' + document.getElementById('expiry').value.split('/')[1],
+                security_code: document.getElementById('cvv').value
+            };
+
+            // Create token using Omise.js (you need to include the Omise.js library)
+            return new Promise((resolve, reject) => {
+                if (typeof Omise === 'undefined') {
+                    // Fallback for development - in production, use real Omise.js
+                    console.warn('Omise.js not loaded, using mock token');
+                    resolve({ id: 'tokn_test_mock_token' });
+                    return;
+                }
+
+                Omise.setPublicKey(OMISE_PUBLIC_KEY);
+                Omise.createToken('card', cardData, function(statusCode, response) {
+                    if (statusCode === 200) {
+                        resolve(response);
+                    } else {
+                        reject(new Error(response.message || 'Payment failed'));
+                    }
+                });
+            });
+
+        } catch (error) {
+            console.error('Token creation failed:', error);
+            throw error;
+        }
+    }
+
     function getCartItems() {
         return checkoutData.cart.map(item => ({
-            product_id: item.id,
+            id: item.id,
             quantity: item.quantity,
-            variant_id: item.variant_id || null
+            price: item.price
         }));
     }
 
@@ -447,18 +597,9 @@ document.addEventListener('DOMContentLoaded', function() {
         };
     }
 
-    function getSelectedPaymentMethod() {
-        const paymentRadio = document.querySelector('input[name="payment-method"]:checked');
-        return paymentRadio ? paymentRadio.value : 'credit_card';
-    }
-
     function clearCart() {
         localStorage.removeItem('gaojie_cart');
         localStorage.removeItem('gaojie_promo');
-    }
-
-    function showError(message) {
-        showNotification(message, 'error');
     }
 
     function showNotification(message, type) {
@@ -485,17 +626,35 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Auto-fill for demo/testing
     function prefillTestData() {
-        if (window.location.search.includes('demo=true')) {
+        if (window.location.search.includes('demo=true') || !isAuthenticated) {
             setTimeout(() => {
-                document.getElementById('email').value = 'demo@example.com';
-                document.getElementById('first-name').value = 'Demo';
-                document.getElementById('last-name').value = 'User';
-                document.getElementById('phone').value = '+66 12 345 6789';
-                document.getElementById('address').value = '123 Demo Street';
-                document.getElementById('city').value = 'Bangkok';
-                document.getElementById('postal-code').value = '10110';
-                document.getElementById('province').value = 'bangkok';
+                if (!document.getElementById('email').value) {
+                    document.getElementById('email').value = 'demo@example.com';
+                    document.getElementById('first-name').value = 'Demo';
+                    document.getElementById('last-name').value = 'User';
+                    document.getElementById('phone').value = '+66 12 345 6789';
+                    document.getElementById('address').value = '123 Demo Street';
+                    document.getElementById('city').value = 'Bangkok';
+                    document.getElementById('postal-code').value = '10110';
+                    document.getElementById('province').value = 'bangkok';
+                }
             }, 500);
         }
     }
+
+    // Global functions
+    window.logout = async function() {
+        try {
+            await fetch(`${API_BASE_URL}/auth/logout`, {
+                method: 'POST',
+                credentials: 'include'
+            });
+            
+            isAuthenticated = false;
+            currentUser = null;
+            location.reload();
+        } catch (error) {
+            console.error('Logout failed:', error);
+        }
+    };
 });
