@@ -11,11 +11,14 @@ class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'dev-secret-key-change-in-production'
     FLASK_ENV = os.environ.get('FLASK_ENV') or 'development'
     
-    # Session Configuration for CORS
+    # Session Configuration for CORS (Development settings)
     SESSION_COOKIE_SECURE = False  # Set to True in production with HTTPS
-    SESSION_COOKIE_HTTPONLY = True
-    SESSION_COOKIE_SAMESITE = 'Lax'  # Important for CORS
+    SESSION_COOKIE_HTTPONLY = False  # Allow JavaScript access for development debugging
+    SESSION_COOKIE_SAMESITE = 'Lax'  # More compatible than None for same-origin requests
+    SESSION_COOKIE_DOMAIN = None  # Let Flask set automatically for localhost
+    SESSION_COOKIE_PATH = '/'  # Ensure cookie is available for all paths
     PERMANENT_SESSION_LIFETIME = 3600  # 1 hour
+    SESSION_PERMANENT = False  # Let Flask-Login handle session duration
     
     # Database Configuration
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or 'sqlite:///skincare_store.db'

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auth Debug - GAOJIE</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .debug-section { margin: 20px 0; padding: 15px; border: 1px solid #ccc; }
+        .auth-buttons { margin: 10px 0; }
+        .auth-btn { margin: 5px; padding: 8px 16px; text-decoration: none; background: #007bff; color: white; border-radius: 4px; }
+        .user-menu { margin: 10px 0; padding: 10px; background: #f8f9fa; border-radius: 4px; }
+        #debug-log { height: 300px; overflow-y: scroll; background: #f1f3f4; padding: 10px; font-family: monospace; font-size: 12px; }
+    </style>
+</head>
+<body>
+    <h1>GAOJIE Auth Debug Page</h1>
+    
+    <div class="debug-section">
+        <h3>Auth Status</h3>
+        <div id="auth-status">Checking...</div>
+        <button onclick="manualAuthCheck()">Manual Auth Check</button>
+        <button onclick="testLogin()">Test Login</button>
+        <button onclick="clearStorage()">Clear Storage</button>
+    </div>
+    
+    <div class="debug-section">
+        <h3>UI Elements</h3>
+        <!-- Auth Buttons (will be hidden when authenticated) -->
+        <div class="auth-buttons">
+            <a href="login.html" class="auth-btn login-btn">Login</a>
+            <a href="register.html" class="auth-btn register-btn">Register</a>
+        </div>
+    </div>
+    
+    <div class="debug-section">
+        <h3>Debug Log</h3>
+        <div id="debug-log"></div>
+        <button onclick="clearLog()">Clear Log</button>
+    </div>
+
+    <script>
+        // Debug logging
+        const debugLog = document.getElementById('debug-log');
+        const originalConsoleLog = console.log;
+        console.log = function(...args) {
+            originalConsoleLog.apply(console, args);
+            debugLog.innerHTML += args.join(' ') + '\n';
+            debugLog.scrollTop = debugLog.scrollHeight;
+        };
+
+        // API Configuration
+        const API_BASE_URL = `${window.location.protocol}//${window.location.host}/api`;
+        
+        // Simple auth check function
+        async function checkAuthStatus() {
+            console.log('=== CHECKING AUTH STATUS ===');
+            try {
+                const response = await fetch(`${API_BASE_URL}/auth/check`, {
+                    credentials: 'include'
+                });
+                
+                console.log('Response status:', response.status);
+                console.log('Response headers:', [...response.headers.entries()]);
+                
+                const data = await response.json();
+                console.log('Response data:', JSON.stringify(data, null, 2));
+                
+                document.getElementById('auth-status').innerHTML = `
+                    <strong>Authenticated:</strong> ${data.authenticated}<br>
+                    <strong>User:</strong> ${data.user ? JSON.stringify(data.user, null, 2) : 'null'}
+                `;
+                
+                // Update UI based on auth status
+                updateUI(data.authenticated, data.user);
+                
+                return data;
+            } catch (error) {
+                console.error('Auth check failed:', error);
+                document.getElementById('auth-status').innerHTML = `<strong>Error:</strong> ${error.message}`;
+            }
+        }
+        
+        function updateUI(isAuthenticated, user) {
+            console.log('=== UPDATING UI ===');
+            console.log('isAuthenticated:', isAuthenticated);
+            console.log('user:', user);
+            
+            const authButtons = document.querySelector('.auth-buttons');
+            console.log('Found authButtons:', !!authButtons);
+            
+            if (isAuthenticated && user) {
+                console.log('User is authenticated - hiding auth buttons');
+                authButtons.style.display = 'none';
+                
+                // Create user menu if it doesn't exist
+                let userMenu = document.querySelector('.user-menu');
+                if (!userMenu) {
+                    userMenu = document.createElement('div');
+                    userMenu.className = 'user-menu';
+                    userMenu.innerHTML = `
+                        <strong>Welcome, ${user.first_name}!</strong><br>
+                        <button onclick="testLogout()">Logout</button>
+                    `;
+                    authButtons.parentNode.insertBefore(userMenu, authButtons.nextSibling);
+                    console.log('Created user menu');
+                }
+            } else {
+                console.log('User is not authenticated - showing auth buttons'); 
+                authButtons.style.display = 'block';
+                
+                // Remove user menu if it exists
+                const existingUserMenu = document.querySelector('.user-menu');
+                if (existingUserMenu) {
+                    existingUserMenu.remove();
+                    console.log('Removed user menu');
+                }
+            }
+        }
+        
+        async function manualAuthCheck() {
+            await checkAuthStatus();
+        }
+        
+        async function testLogin() {
+            console.log('=== TESTING LOGIN ===');
+            // This will fail but we can see the request
+            try {
+                const response = await fetch(`${API_BASE_URL}/auth/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify({
+                        email: 'test@example.com',
+                        password: 'TestPass123'
+                    })
+                });
+                const data = await response.json();
+                console.log('Login response:', data);
+            } catch (error) {
+                console.error('Login test failed:', error);
+            }
+        }
+        
+        async function testLogout() {
+            console.log('=== TESTING LOGOUT ===');
+            try {
+                const response = await fetch(`${API_BASE_URL}/auth/logout`, {
+                    method: 'POST',
+                    credentials: 'include'
+                });
+                const data = await response.json();
+                console.log('Logout response:', data);
+                await checkAuthStatus(); // Refresh auth status
+            } catch (error) {
+                console.error('Logout test failed:', error);
+            }
+        }
+        
+        function clearStorage() {
+            sessionStorage.clear();
+            localStorage.clear();
+            console.log('Storage cleared');
+        }
+        
+        function clearLog() {
+            debugLog.innerHTML = '';
+        }
+        
+        // Check auth status on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('Debug page loaded');
+            checkAuthStatus();
+        });
+    </script>
+</body>
+</html>

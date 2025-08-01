@@ -1,5 +1,5 @@
 // API Configuration
-const API_BASE_URL = 'http://localhost:5000/api';
+const API_BASE_URL = `${window.location.protocol}//${window.location.host}/api`;
 
 // API utility functions for GAOJIE Skincare
 class SkincareAPI {
@@ -12,6 +12,7 @@ class SkincareAPI {
                     'Content-Type': 'application/json',
                     ...options.headers
                 },
+                credentials: 'include',
                 ...options
             });
             

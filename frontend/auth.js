@@ -1,4 +1,9 @@
 // Authentication functionality for GAOJIE Skincare
+console.log('🔥 AUTH.JS FILE LOADED!');
+
+// API Configuration
+const API_BASE_URL = `${window.location.protocol}//${window.location.host}/api`;
+console.log('🔥 API_BASE_URL:', API_BASE_URL);
 
 class AuthManager {
     constructor() {
@@ -8,32 +13,144 @@ class AuthManager {
     }
     
     async init() {
-        // Check if user is already logged in
-        await this.checkAuthStatus();
+        console.log('Auth: init() called');
+        console.log('Auth: Current URL:', window.location.href);
+        console.log('Auth: Referrer:', document.referrer);
+        
+        // Check if we just logged in or registered
+        const justLoggedIn = sessionStorage.getItem('just_logged_in');
+        const justRegistered = sessionStorage.getItem('just_registered');
+        const expectingAuth = justLoggedIn || justRegistered || document.referrer.includes('login.html') || document.referrer.includes('register.html');
+        
+        console.log('Auth: Expecting authentication?', expectingAuth);
+        
+        // Small delay to ensure DOM is fully ready
+        await new Promise(resolve => setTimeout(resolve, 100));
+        
+        // Check authentication with retry if we're expecting to be logged in
+        if (expectingAuth) {
+            console.log('Auth: Using retry mechanism for expected auth');
+            await this.checkAuthStatusWithRetry(5); // More retries for expected auth
+        } else {
+            await this.checkAuthStatus();
+        }
+        
         this.setupEventListeners();
         this.updateUI();
+        console.log('Auth: init() completed');
+    }
+    
+    async checkAuthStatusWithRetry(maxRetries = 3) {
+        console.log('Auth: Starting auth check with retry mechanism');
+        
+        // Check multiple indicators that we should be authenticated
+        const justLoggedIn = sessionStorage.getItem('just_logged_in');
+        const justRegistered = sessionStorage.getItem('just_registered');
+        const expectingAuth = justLoggedIn || justRegistered || 
+                            document.referrer.includes('login.html') || 
+                            document.referrer.includes('register.html');
+        
+        console.log('Auth: Expecting authentication?', expectingAuth);
+        console.log('Auth: Just logged in?', !!justLoggedIn);
+        console.log('Auth: Just registered?', !!justRegistered);
+        
+        // Give extra time if we just completed login/registration
+        if (justLoggedIn || justRegistered) {
+            console.log('Auth: Detected recent login/registration, waiting a bit for session...');
+            await new Promise(resolve => setTimeout(resolve, 500));
+        }
+        
+        for (let attempt = 1; attempt <= maxRetries; attempt++) {
+            console.log(`Auth: Attempt ${attempt}/${maxRetries}`);
+            
+            try {
+                const result = await this.checkAuthStatus();
+                
+                // If we got a valid response
+                if (result && result.status === 'success') {
+                    console.log('Auth: Got valid response, authenticated:', result.authenticated);
+                    
+                    // If authenticated or we're not expecting auth, we're done
+                    if (result.authenticated || !expectingAuth) {
+                        console.log('Auth: Auth check completed successfully');
+                        
+                        // Force UI update if we found authentication
+                        if (result.authenticated && this.isAuthenticated && this.currentUser) {
+                            console.log('Auth: Forcing UI update after successful auth detection');
+                            this.updateUI();
+                        }
+                        
+                        // Clear the session flags now that we've processed them
+                        if (justLoggedIn || justRegistered) {
+                            console.log('Auth: Clearing session storage flags');
+                            sessionStorage.removeItem('just_logged_in');
+                            sessionStorage.removeItem('just_registered');
+                        }
+                        
+                        return result;
+                    }
+                    
+                    // If we expected auth but didn't get it, retry with longer delay
+                    if (expectingAuth && !result.authenticated && attempt < maxRetries) {
+                        console.log('Auth: Expected authentication but not found, retrying...');
+                        // Use progressively longer delays, especially for recent login/register
+                        const baseDelay = (justLoggedIn || justRegistered) ? 1500 : 1000;
+                        const delay = attempt <= 2 ? baseDelay : baseDelay * 2;
+                        await new Promise(resolve => setTimeout(resolve, delay));
+                        continue;
+                    }
+                }
+                
+                return result;
+                
+            } catch (error) {
+                console.error(`Auth: Attempt ${attempt} failed:`, error);
+                
+                // Wait before retrying (except on last attempt)
+                if (attempt < maxRetries) {
+                    console.log('Auth: Waiting before retry due to error...');
+                    const retryDelay = (justLoggedIn || justRegistered) ? 1000 : 800;
+                    await new Promise(resolve => setTimeout(resolve, retryDelay));
+                }
+            }
+        }
+        
+        console.log('Auth: All retry attempts exhausted, defaulting to not authenticated');
+        return { status: 'success', authenticated: false, user: null };
     }
     
     // Check current authentication status
     async checkAuthStatus() {
+        console.log('Auth: Checking auth status...');
         try {
             const response = await fetch(`${API_BASE_URL}/auth/check`, {
                 credentials: 'include'
             });
             
             const data = await response.json();
+            console.log('Auth: API response:', data);
             
             if (data.status === 'success') {
                 this.isAuthenticated = data.authenticated;
                 this.currentUser = data.user;
+                console.log('Auth: Set isAuthenticated =', this.isAuthenticated);
+                console.log('Auth: Set currentUser =', this.currentUser);
                 return data;
             }
             
         } catch (error) {
             console.error('Auth check failed:', error);
+            // Assume not authenticated if API is down
             this.isAuthenticated = false;
             this.currentUser = null;
         }
+        
+        // Always return a valid state for UI updates
+        return {
+            status: 'success',
+            authenticated: this.isAuthenticated,
+            user: this.currentUser
+        };
     }
     
     // Register new user
@@ -190,6 +307,9 @@ class AuthManager {
     
     // Update UI based on authentication status
     updateUI() {
+        // Remove any leftover debug elements
+        this.removeDebugElements();
+        
         // Update header actions
         this.updateHeaderActions();
         
@@ -205,56 +325,97 @@ class AuthManager {
         }));
     }
     
+    // Remove any debug elements from the page
+    removeDebugElements() {
+        const debugDiv = document.getElementById('auth-debug');
+        if (debugDiv) {
+            debugDiv.remove();
+        }
+    }
+    
     updateHeaderActions() {
-        const headerActions = document.querySelector('.header-actions');
-        if (!headerActions) return;
+        console.log('Auth: updateHeaderActions called');
+        console.log('Auth: isAuthenticated =', this.isAuthenticated);
+        console.log('Auth: currentUser =', this.currentUser);
         
-        // Remove existing auth buttons
-        const existingAuthButtons = headerActions.querySelectorAll('.auth-btn, .user-menu');
-        existingAuthButtons.forEach(btn => btn.remove());
+        const authButtons = document.querySelector('.auth-buttons');
+        
+        if (!authButtons) {
+            console.log('Auth: No .auth-buttons found in DOM');
+            console.log('Auth: Available elements:', document.querySelectorAll('[class*="auth"]'));
+            return;
+        }
         
         if (this.isAuthenticated && this.currentUser) {
-            // Show user menu
-            const userMenu = document.createElement('div');
-            userMenu.className = 'user-menu';
-            userMenu.innerHTML = `
-                <button class="user-btn auth-btn" aria-label="User menu">
-                    <span class="user-name">Hi, ${this.currentUser.first_name}</span>
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2"/>
-                    </svg>
-                </button>
-                <div class="user-dropdown" style="display: none;">
-                    <a href="#" class="dropdown-item" data-action="profile">My Profile</a>
-                    <a href="#" class="dropdown-item" data-action="orders">My Orders</a>
-                    <a href="#" class="dropdown-item" data-action="logout">Logout</a>
-                </div>
-            `;
+            console.log('Auth: User is authenticated, hiding auth buttons');
+            console.log('Auth: authButtons element:', authButtons);
+            console.log('Auth: authButtons.style before:', authButtons.style.cssText);
             
-            // Insert before the influencers link
-            const influencerLink = headerActions.querySelector('.influencer-link');
-            if (influencerLink) {
-                headerActions.insertBefore(userMenu, influencerLink);
+            // Hide auth buttons and show user menu - use multiple methods
+            authButtons.style.display = 'none !important';
+            authButtons.style.visibility = 'hidden';
+            authButtons.style.opacity = '0';
+            authButtons.setAttribute('hidden', 'true');
+            authButtons.classList.add('auth-hidden');
+            
+            console.log('Auth: Auth buttons hidden, authButtons.style.display =', authButtons.style.display);
+            console.log('Auth: authButtons.style after:', authButtons.style.cssText);
+            
+            // Check if user menu already exists
+            let userMenu = document.querySelector('.user-menu');
+            console.log('Auth: Existing user menu found:', !!userMenu);
+            if (!userMenu) {
+                console.log('Auth: Creating new user menu');
+                userMenu = document.createElement('div');
+                userMenu.className = 'user-menu';
+                userMenu.innerHTML = `
+                    <button class="user-btn" aria-label="User menu">
+                        <span class="user-name">Hi, ${this.currentUser.first_name}</span>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </button>
+                    <div class="user-dropdown" style="display: none;">
+                        <a href="user-orders.html" class="dropdown-item">My Orders</a>
+                        <a href="#" class="dropdown-item" data-action="profile">My Profile</a>
+                        <a href="#" class="dropdown-item" data-action="logout">Logout</a>
+                    </div>
+                `;
+                
+                // Insert after auth buttons
+                console.log('Auth: Inserting user menu after auth buttons');
+                authButtons.parentNode.insertBefore(userMenu, authButtons.nextSibling);
+                console.log('Auth: User menu inserted successfully');
+                
+                // Setup click handlers for the new user menu
+                this.setupUserMenuEvents(userMenu);
             } else {
-                headerActions.appendChild(userMenu);
+                console.log('Auth: User menu already exists, updating content and making it visible');
+                // Update existing user menu content
+                const userNameEl = userMenu.querySelector('.user-name');
+                if (userNameEl) {
+                    userNameEl.textContent = `Hi, ${this.currentUser.first_name}`;
+                }
+                userMenu.style.display = 'block';
+                userMenu.style.visibility = 'visible';
+                userMenu.style.opacity = '1';
+                userMenu.removeAttribute('hidden');
             }
-            
         } else {
-            // Show login/register buttons
-            const authButtons = document.createElement('div');
-            authButtons.className = 'auth-buttons';
-            authButtons.innerHTML = `
-                <button class="login-btn auth-btn" data-action="login">Login</button>
-                <button class="register-btn auth-btn" data-action="register">Register</button>
-            `;
+            // Show auth buttons and hide user menu
+            console.log('Auth: User not authenticated, showing auth buttons');
+            authButtons.style.display = 'flex';
+            authButtons.style.visibility = 'visible';
+            authButtons.style.opacity = '1';
+            authButtons.removeAttribute('hidden');
+            authButtons.classList.remove('auth-hidden');
             
-            // Insert before the influencers link
-            const influencerLink = headerActions.querySelector('.influencer-link');
-            if (influencerLink) {
-                headerActions.insertBefore(authButtons, influencerLink);
-            } else {
-                headerActions.appendChild(authButtons);
+            // Remove user menu if it exists
+            const existingUserMenu = document.querySelector('.user-menu');
+            if (existingUserMenu) {
+                existingUserMenu.remove();
+                console.log('Auth: Removed existing user menu');
             }
         }
     }
@@ -299,18 +460,41 @@ class AuthManager {
             }
         });
         
-        // Handle user menu toggle
+        // Handle user menu toggle - only for dynamically created menus
         document.addEventListener('click', (e) => {
-            if (e.target.closest('.user-btn')) {
+            // Only handle if it's a dynamically created user menu
+            const userBtn = e.target.closest('.user-btn');
+            if (userBtn && userBtn.closest('.user-menu')) {
                 e.preventDefault();
-                const dropdown = e.target.closest('.user-menu').querySelector('.user-dropdown');
-                dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
-            } else {
+                const dropdown = userBtn.closest('.user-menu').querySelector('.user-dropdown');
+                if (dropdown) {
+                    const isVisible = dropdown.style.display !== 'none';
+                    dropdown.style.display = isVisible ? 'none' : 'block';
+                }
+            } else if (!e.target.closest('.user-menu')) {
                 // Close dropdown when clicking outside
                 const dropdowns = document.querySelectorAll('.user-dropdown');
                 dropdowns.forEach(dropdown => dropdown.style.display = 'none');
             }
         });
+    }
+    
+    // Setup events specifically for a user menu
+    setupUserMenuEvents(userMenu) {
+        const userBtn = userMenu.querySelector('.user-btn');
+        const dropdown = userMenu.querySelector('.user-dropdown');
+        
+        if (userBtn && dropdown) {
+            userBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                const isVisible = dropdown.style.display !== 'none';
+                // Close all other dropdowns first
+                document.querySelectorAll('.user-dropdown').forEach(d => d.style.display = 'none');
+                // Toggle this dropdown
+                dropdown.style.display = isVisible ? 'none' : 'block';
+            });
+        }
     }
     
     // Show login modal
@@ -495,9 +679,9 @@ class AuthManager {
     }
     
     showNotification(message, type = 'info') {
-        // Use the existing notification system
-        if (typeof showNotification === 'function') {
-            showNotification(message, type);
+        // Use the GaojieUtils notification system
+        if (typeof GaojieUtils !== 'undefined' && GaojieUtils.showNotification) {
+            GaojieUtils.showNotification(message, type);
         } else {
             console.log(`${type}: ${message}`);
         }
@@ -506,9 +690,46 @@ class AuthManager {
 
 // Initialize auth manager when DOM is loaded
 let authManager;
-document.addEventListener('DOMContentLoaded', () => {
-    authManager = new AuthManager();
-});
 
-// Make auth manager globally available
-window.authManager = authManager;
+// Function to initialize auth manager
+function initializeAuthManager() {
+    console.log('Auth: Initializing AuthManager');
+    if (!authManager) {
+        authManager = new AuthManager();
+        // Make auth manager globally available after initialization
+        window.authManager = authManager;
+        console.log('Auth: AuthManager initialized successfully');
+    } else {
+        console.log('Auth: AuthManager already exists');
+    }
+}
+
+// Global function to force auth check and UI update
+window.forceAuthUpdate = async function() {
+    console.log('=== FORCE AUTH UPDATE CALLED ===');
+    if (window.authManager) {
+        console.log('AuthManager exists, forcing check and update');
+        await window.authManager.checkAuthStatus();
+        window.authManager.updateUI();
+        console.log('Force update completed');
+    } else {
+        console.log('AuthManager not found, initializing...');
+        initializeAuthManager();
+        if (window.authManager) {
+            await window.authManager.checkAuthStatus();
+            window.authManager.updateUI();
+        }
+    }
+};
+
+document.addEventListener('DOMContentLoaded', initializeAuthManager);
+
+// Also initialize if DOM is already loaded (in case the script loads late)
+if (document.readyState === 'loading') {
+    // DOM is still loading, event listener will handle it
+    console.log('Auth: DOM still loading, waiting for DOMContentLoaded');
+} else {
+    // DOM already loaded, initialize immediately
+    console.log('Auth: DOM already loaded, initializing immediately');
+    initializeAuthManager();
+}

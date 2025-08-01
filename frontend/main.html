@@ -1,10 +1,18 @@
-</section<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GAOJIE - Premium Skincare</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Ensure auth buttons can be hidden */
+        .auth-hidden {
+            display: none !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
+        }
+    </style>
 </head>
 <body>
     <!-- Announcement Bar -->
@@ -84,7 +92,14 @@
                     </svg>
                     <span class="bag-count">1</span>
                 </a>
-                <a href="/influencers" class="nav-link influencer-link">
+                
+                <!-- Auth Buttons -->
+                <div class="auth-buttons">
+                    <a href="login.html" class="auth-btn login-btn">Login</a>
+                    <a href="register.html" class="auth-btn register-btn">Register</a>
+                </div>
+                
+                <a href="influencers.html" class="nav-link influencer-link">
                     <svg class="influencer-icon" width="16" height="16" viewBox="0 0 24 24" fill="none">
                         <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         <circle cx="9" cy="7" r="4" stroke="currentColor" stroke-width="2"/>
@@ -573,8 +588,153 @@
             </div>
         </div>
     </footer>
+    <script src="gaojie-common.js"></script>
     <script src="api.js"></script>
-    <script src="auth.js"></script>
     <script src="index.js"></script>
+    <script src="auth.js"></script>
+    <script>
+        // Debug script specifically for main.html
+        console.log('=== MAIN.HTML DEBUG SCRIPT ===');
+        
+        // Check DOM elements immediately
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Main.html DOM loaded');
+            
+            // Check if auth buttons exist
+            const authButtons = document.querySelector('.auth-buttons');
+            console.log('Auth buttons found:', !!authButtons);
+            if (authButtons) {
+                console.log('Auth buttons display:', authButtons.style.display);
+                console.log('Auth buttons computed display:', window.getComputedStyle(authButtons).display);
+            }
+            
+            // Force auth check after a delay to ensure auth.js is loaded
+            setTimeout(async () => {
+                console.log('=== MANUAL AUTH CHECK FROM MAIN.HTML ===');
+                
+                // Direct auth check to bypass potential issues
+                try {
+                    const response = await fetch('/api/auth/check', { 
+                        credentials: 'include' 
+                    });
+                    const data = await response.json();
+                    console.log('Direct auth check result:', data);
+                    
+                    if (data.status === 'success' && data.authenticated && data.user) {
+                        console.log('User is authenticated, manually updating UI');
+                        
+                        // Manual UI update since authManager might have issues
+                        const authButtons = document.querySelector('.auth-buttons');
+                        if (authButtons) {
+                            console.log('Hiding auth buttons');
+                            authButtons.style.display = 'none';
+                            
+                            // Create user menu if it doesn't exist
+                            let userMenu = document.querySelector('.user-menu');
+                            if (!userMenu) {
+                                console.log('Creating user menu');
+                                userMenu = document.createElement('div');
+                                userMenu.className = 'user-menu';
+                                userMenu.innerHTML = `
+                                    <button class="user-btn" aria-label="User menu">
+                                        <span class="user-name">Hi, ${data.user.first_name}</span>
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2"/>
+                                        </svg>
+                                    </button>
+                                    <div class="user-dropdown" style="display: none;">
+                                        <a href="user-orders.html" class="dropdown-item">My Orders</a>
+                                        <a href="#" class="dropdown-item" onclick="handleProfile()">My Profile</a>
+                                        <a href="#" class="dropdown-item" onclick="handleLogout()">Logout</a>
+                                    </div>
+                                `;
+                                
+                                // Add click handler for dropdown
+                                const userBtn = userMenu.querySelector('.user-btn');
+                                const dropdown = userMenu.querySelector('.user-dropdown');
+                                userBtn.addEventListener('click', (e) => {
+                                    e.preventDefault();
+                                    dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
+                                });
+                                
+                                authButtons.parentNode.insertBefore(userMenu, authButtons.nextSibling);
+                                console.log('User menu created and inserted');
+                            }
+                        }
+                    } else {
+                        console.log('User not authenticated or auth check failed');
+                    }
+                } catch (error) {
+                    console.error('Direct auth check failed:', error);
+                }
+                
+                // Also try the auth manager if it exists
+                if (window.forceAuthUpdate) {
+                    console.log('Also running forceAuthUpdate for consistency');
+                    await window.forceAuthUpdate();
+                }
+            }, 500);
+        });
+        
+        // Handle profile function
+        window.handleProfile = function() {
+            if (window.GaojieUtils && GaojieUtils.showNotification) {
+                GaojieUtils.showNotification('Profile page coming soon!', 'info');
+            } else {
+                alert('Profile page coming soon!');
+            }
+        };
+
+        // Handle logout function
+        window.handleLogout = async function() {
+            try {
+                const response = await fetch('/api/auth/logout', {
+                    method: 'POST',
+                    credentials: 'include'
+                });
+                const data = await response.json();
+                
+                // Clear user menu and show auth buttons
+                const userMenu = document.querySelector('.user-menu');
+                const authButtons = document.querySelector('.auth-buttons');
+                
+                if (userMenu) userMenu.remove();
+                if (authButtons) authButtons.style.display = 'flex';
+                
+                // Show success message
+                if (window.GaojieUtils && GaojieUtils.showNotification) {
+                    GaojieUtils.showNotification('Logged out successfully', 'success');
+                }
+                
+                // Optionally redirect to login page
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 1500);
+                
+            } catch (error) {
+                console.error('Logout failed:', error);
+                if (window.GaojieUtils && GaojieUtils.showNotification) {
+                    GaojieUtils.showNotification('Logout failed', 'error');
+                }
+            }
+        };
+        
+        // Also check when window loads
+        window.addEventListener('load', function() {
+            console.log('Main.html window loaded');
+            
+            // Check if authManager exists
+            setTimeout(() => {
+                console.log('AuthManager exists:', !!window.authManager);
+                if (window.authManager) {
+                    console.log('AuthManager state:', {
+                        isAuthenticated: window.authManager.isAuthenticated,
+                        currentUser: window.authManager.currentUser
+                    });
+                }
+            }, 1000);
+        });
+    </script>
 </body>
 </html>

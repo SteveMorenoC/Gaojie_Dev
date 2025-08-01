@@ -196,9 +196,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // ===== FORM SUBMISSION HANDLERS =====
 
-    function handleLoginSubmit() {
+    async function handleLoginSubmit() {
         const emailInput = document.querySelector('.login-input[type="email"]');
         const passwordInput = document.querySelector('.login-input[type="password"]');
+        const rememberMe = document.querySelector('.login-checkbox').checked;
         
         let isValid = true;
         
@@ -222,18 +223,49 @@ document.addEventListener('DOMContentLoaded', function() {
             loginSubmitBtn.textContent = 'Signing In...';
             loginSubmitBtn.disabled = true;
             
-            // Simulate login process
-            setTimeout(() => {
-                showSuccessMessage('Login successful! Redirecting...');
-                // Here you would typically redirect or make an API call
-                // window.location.href = '/dashboard';
-            }, 1500);
+            try {
+                // Call login API
+                const response = await fetch(`${window.location.protocol}//${window.location.host}/api/auth/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    credentials: 'include',
+                    body: JSON.stringify({
+                        email: emailInput.value.trim(),
+                        password: passwordInput.value,
+                        remember_me: rememberMe
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    showSuccessMessage('Login successful! Redirecting...');
+                    clearAutoSavedData();
+                    // Set a flag to indicate successful login for main.html
+                    sessionStorage.setItem('just_logged_in', 'true');
+                    setTimeout(() => {
+                        window.location.href = 'main.html';
+                    }, 1500);
+                } else {
+                    showErrorMessage(data.message || 'Login failed. Please try again.');
+                    loginSubmitBtn.textContent = 'Sign In';
+                    loginSubmitBtn.disabled = false;
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                showErrorMessage('Network error. Please try again.');
+                loginSubmitBtn.textContent = 'Sign In';
+                loginSubmitBtn.disabled = false;
+            }
         }
     }
 
-    function handleRegisterSubmit() {
+    async function handleRegisterSubmit() {
         const inputs = document.querySelectorAll('.register-input');
         const termsCheckbox = document.querySelector('.register-terms input[type="checkbox"]');
+        const newsletterCheckbox = document.querySelector('.register-newsletter input[type="checkbox"]');
         
         let isValid = true;
         
@@ -264,12 +296,50 @@ document.addEventListener('DOMContentLoaded', function() {
             registerSubmitBtn.textContent = 'Creating Account...';
             registerSubmitBtn.disabled = true;
             
-            // Simulate registration process
-            setTimeout(() => {
-                showSuccessMessage('Account created successfully! Welcome to GAOJIE!');
-                // Here you would typically redirect or make an API call
-                // window.location.href = '/welcome';
-            }, 2000);
+            try {
+                // Get form data
+                const firstName = inputs[0].value.trim();
+                const lastName = inputs[1].value.trim();
+                const email = inputs[2].value.trim();
+                const password = inputs[3].value;
+                
+                // Call register API
+                const response = await fetch(`${window.location.protocol}//${window.location.host}/api/auth/register`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    credentials: 'include',
+                    body: JSON.stringify({
+                        first_name: firstName,
+                        last_name: lastName,
+                        email: email,
+                        password: password,
+                        newsletter: newsletterCheckbox.checked
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    showSuccessMessage('Account created successfully! Welcome to GAOJIE!');
+                    clearAutoSavedData();
+                    // Set a flag to indicate successful registration for main.html
+                    sessionStorage.setItem('just_registered', 'true');
+                    setTimeout(() => {
+                        window.location.href = 'main.html';
+                    }, 1500);
+                } else {
+                    showErrorMessage(data.message || 'Registration failed. Please try again.');
+                    registerSubmitBtn.textContent = 'Create Account';
+                    registerSubmitBtn.disabled = false;
+                }
+            } catch (error) {
+                console.error('Registration error:', error);
+                showErrorMessage('Network error. Please try again.');
+                registerSubmitBtn.textContent = 'Create Account';
+                registerSubmitBtn.disabled = false;
+            }
         }
     }
 

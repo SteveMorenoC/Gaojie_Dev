@@ -3,7 +3,7 @@ from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.security import check_password_hash
 from sqlalchemy import func
 from datetime import datetime
-from extensions import db
+from extensions import db, login_manager
 from models import User
 import re
 
@@ -145,6 +145,9 @@ def register():
             login_user(user, remember=False)
             print("Login successful")  # Debug
             
+            # Ensure session is committed
+            db.session.commit()
+            
             return jsonify({
                 'status': 'success',
                 'message': 'Account created successfully! Welcome to GAOJIE!',
@@ -216,6 +219,9 @@ def login():
         # Log the user in
         login_user(user, remember=remember_me)
         user.update_last_login()
+        
+        # Ensure session is committed
+        db.session.commit()
         
         return jsonify({
             'status': 'success',
@@ -385,21 +391,59 @@ def change_password():
 def check_auth():
     """Check if user is authenticated"""
     try:
+        print(f"Auth check - Session ID: {session.get('_id', 'No session ID')}")
+        print(f"Auth check - User ID in session: {session.get('_user_id', 'No user ID')}")
+        print(f"Auth check - current_user.is_authenticated: {current_user.is_authenticated}")
+        
         if current_user.is_authenticated:
+            print(f"Auth check - Authenticated user: {current_user.email}")
             return jsonify({
                 'status': 'success',
                 'authenticated': True,
-                'user': current_user.to_dict()
+                'user': current_user.to_dict(),
+                'session_id': session.get('_id', 'unknown')[:8] + '...' if session.get('_id') else None
             })
         else:
+            print("Auth check - User not authenticated")
             return jsonify({
                 'status': 'success',
                 'authenticated': False,
-                'user': None
+                'user': None,
+                'session_id': session.get('_id', 'unknown')[:8] + '...' if session.get('_id') else None
             })
             
     except Exception as e:
+        print(f"Auth check error: {e}")
         return jsonify({
             'status': 'error',
             'message': 'Failed to check authentication status'
+        }), 500
+
+@auth_bp.route('/debug', methods=['GET'])
+def debug_auth():
+    """Debug authentication and session information"""
+    try:
+        return jsonify({
+            'status': 'success',
+            'session_data': {
+                'session_id': session.get('_id', 'No session ID'),
+                'user_id': session.get('_user_id', 'No user ID'),
+                'session_keys': list(session.keys()),
+                'permanent': session.permanent
+            },
+            'current_user': {
+                'is_authenticated': current_user.is_authenticated,
+                'is_active': current_user.is_active if hasattr(current_user, 'is_active') else 'N/A',
+                'is_anonymous': current_user.is_anonymous,
+                'get_id': current_user.get_id() if hasattr(current_user, 'get_id') else 'N/A'
+            },
+            'flask_login': {
+                'login_manager_configured': bool(login_manager),
+                'user_loader_registered': bool(login_manager.user_loader)
+            }
+        })
+    except Exception as e:
+        return jsonify({
+            'status': 'error',
+            'message': f'Debug failed: {str(e)}'
         }), 500

@@ -507,8 +507,12 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             // Submit order
-            const endpoint = isAuthenticated ? '/api/orders/create' : '/api/orders/guest/create';
-            const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+            const endpoint = isAuthenticated ? '/orders/create' : '/orders/guest/create';
+            const fullUrl = `${API_BASE_URL}${endpoint}`;
+            console.log('Submitting order to:', fullUrl);
+            console.log('Order data:', orderData);
+            
+            const response = await fetch(fullUrl, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -525,8 +529,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 showNotification('Order placed successfully! Redirecting...', 'success');
                 
                 setTimeout(() => {
-                    // In a real app, redirect to order confirmation page
-                    window.location.href = `order-confirmation.html?order=${result.order.order_number}`;
+                    // Redirect to success page
+                    window.location.href = `success.html?order=${result.order.order_number}`;
                 }, 2000);
             } else {
                 throw new Error(result.message);
