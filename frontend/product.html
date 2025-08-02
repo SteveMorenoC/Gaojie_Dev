@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Amino-Acid Cleanser - GAOJIE</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="product.css">
+    <title>Product - GAOJIE</title>
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="/product.css">
 </head>
 <body class="product-page">
     <!-- Announcement Bar -->
@@ -19,15 +19,16 @@
     <header class="header">
         <div class="header-container">
             <div class="logo">
-                <a href="main.html" class="logo-link">GAOJIE</a>
+                <a href="/main" class="logo-link">GAOJIE</a>
             </div>
 
             <nav class="nav">
                 <ul class="nav-list">
-                    <li class="nav-item"><a href="#" class="nav-link">Cleansers</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link">Serums</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link">Moisturizers</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link">About</a></li>
+                    <li class="nav-item"><a href="/cleanser" class="nav-link">Cleansers</a></li>
+                    <li class="nav-item"><a href="/treatments" class="nav-link">Treatments</a></li>
+                    <li class="nav-item"><a href="/moisturiser" class="nav-link">Moisturisers</a></li>
+                    <li class="nav-item"><a href="/lip-care" class="nav-link">Lip Care</a></li>
+                    <li class="nav-item"><a href="/sets" class="nav-link">Sets</a></li>
                 </ul>
             </nav>
 
@@ -53,8 +54,8 @@
                 
                 <!-- Auth Buttons -->
                 <div class="auth-buttons">
-                    <a href="login.html" class="auth-btn login-btn">Login</a>
-                    <a href="register.html" class="auth-btn register-btn">Register</a>
+                    <a href="/login.html" class="auth-btn login-btn">Login</a>
+                    <a href="/register.html" class="auth-btn register-btn">Register</a>
                 </div>
             </div>
         </div>
@@ -63,11 +64,11 @@
     <!-- Breadcrumb -->
     <div class="breadcrumb">
         <div class="breadcrumb-container">
-            <a href="main.html">Home</a>
+            <a href="/main" id="breadcrumb-home">Home</a>
             <span>/</span>
-            <a href="#">Cleansers</a>
+            <a href="#" id="breadcrumb-category">Category</a>
             <span>/</span>
-            <span>Amino-Acid Cleanser</span>
+            <span id="breadcrumb-product">Product</span>
         </div>
     </div>
 
@@ -91,11 +92,9 @@
                         </button>
                     </div>
                     
-                    <div class="thumbnail-images">
-                        <img src="https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=100&h=100&fit=crop&crop=center" alt="Front view" class="thumbnail active">
-                        <img src="https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=100&h=100&fit=crop&crop=center" alt="Ingredients" class="thumbnail">
-                        <img src="https://images.unsplash.com/photo-1570194065650-d99fb4bedf0a?w=100&h=100&fit=crop&crop=center" alt="Texture" class="thumbnail">
-                        <img src="https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?w=100&h=100&fit=crop&crop=center" alt="Usage" class="thumbnail">
+                    <div class="thumbnail-images" id="product-thumbnails">
+                        <img src="https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=100&h=100&fit=crop&crop=center" alt="Primary view" class="thumbnail active" id="thumbnail-primary">
+                        <img src="https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=100&h=100&fit=crop&crop=center" alt="Secondary view" class="thumbnail" id="thumbnail-secondary">
                     </div>
                 </div>
 
@@ -110,9 +109,9 @@
                     </div>
 
                     <div class="product-price">
-                        <span class="price-current">฿1,290</span>
-                        <span class="price-original">฿1,450</span>
-                        <span class="price-save">Save 11%</span>
+                        <span class="price-current" id="product-price-current">฿1,290</span>
+                        <span class="price-original" id="product-price-original">฿1,450</span>
+                        <span class="price-save" id="product-price-save">Save 11%</span>
                     </div>
 
                     <div class="product-benefits">
@@ -218,7 +217,7 @@
                 <div class="tab-content">
                     <div class="tab-panel active" id="description">
                         <h3>Product Description</h3>
-                        <p>Our gentle amino acid cleanser is formulated with a unique blend of natural amino acids that effectively remove impurities while maintaining your skin's natural moisture barrier. Perfect for daily use on all skin types, including sensitive skin.</p>
+                        <p id="product-description-content">Our gentle amino acid cleanser is formulated with a unique blend of natural amino acids that effectively remove impurities while maintaining your skin's natural moisture barrier. Perfect for daily use on all skin types, including sensitive skin.</p>
                         
                         <h4>What makes it special:</h4>
                         <ul>
@@ -231,26 +230,30 @@
 
                     <div class="tab-panel" id="ingredients">
                         <h3>Full Ingredients List</h3>
-                        <p><strong>Key Ingredients:</strong></p>
-                        <ul>
-                            <li><strong>Sodium Cocoyl Glutamate:</strong> Gentle amino acid-based cleanser</li>
-                            <li><strong>Glycerin:</strong> Hydrating and moisture-retaining agent</li>
-                            <li><strong>Chamomile Extract:</strong> Soothing and anti-inflammatory</li>
-                            <li><strong>Green Tea Extract:</strong> Antioxidant protection</li>
-                        </ul>
-                        <p><em>Full INCI list available on packaging.</em></p>
+                        <div id="product-ingredients-content">
+                            <p><strong>Key Ingredients:</strong></p>
+                            <ul>
+                                <li><strong>Sodium Cocoyl Glutamate:</strong> Gentle amino acid-based cleanser</li>
+                                <li><strong>Glycerin:</strong> Hydrating and moisture-retaining agent</li>
+                                <li><strong>Chamomile Extract:</strong> Soothing and anti-inflammatory</li>
+                                <li><strong>Green Tea Extract:</strong> Antioxidant protection</li>
+                            </ul>
+                            <p><em>Full INCI list available on packaging.</em></p>
+                        </div>
                     </div>
 
                     <div class="tab-panel" id="usage">
                         <h3>How to Use</h3>
-                        <ol>
-                            <li>Wet your face with lukewarm water</li>
-                            <li>Apply a small amount to your palms and create a gentle lather</li>
-                            <li>Massage onto face in circular motions for 30 seconds</li>
-                            <li>Rinse thoroughly with lukewarm water</li>
-                            <li>Pat dry with a clean towel</li>
-                        </ol>
-                        <p><strong>Best used:</strong> Morning and evening as part of your skincare routine.</p>
+                        <div id="product-usage-content">
+                            <ol>
+                                <li>Wet your face with lukewarm water</li>
+                                <li>Apply a small amount to your palms and create a gentle lather</li>
+                                <li>Massage onto face in circular motions for 30 seconds</li>
+                                <li>Rinse thoroughly with lukewarm water</li>
+                                <li>Pat dry with a clean towel</li>
+                            </ol>
+                            <p><strong>Best used:</strong> Morning and evening as part of your skincare routine.</p>
+                        </div>
                     </div>
 
                     <div class="tab-panel" id="reviews">
@@ -423,21 +426,480 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="footer-container">
+            <!-- Footer Main Content -->
+            <div class="footer-main">
+                <!-- Brand Section -->
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <h3 class="footer-logo-text">GAOJIE</h3>
+                    </div>
+                    <p class="footer-description">
+                        Premium skincare crafted with clinically proven ingredients and scientific innovation for radiant, healthy skin.
+                    </p>
+                    <div class="footer-social">
+                        <a href="#" class="social-link" aria-label="Instagram">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-link" aria-label="TikTok">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Facebook">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Collections -->
+                <div class="footer-column">
+                    <h4 class="footer-column-title">Collections</h4>
+                    <ul class="footer-links">
+                        <li><a href="/cleanser" class="footer-link">Cleansers</a></li>
+                        <li><a href="/moisturiser" class="footer-link">Moisturisers</a></li>
+                        <li><a href="/treatments" class="footer-link">Treatments</a></li>
+                        <li><a href="/lip-care" class="footer-link">Lip Care</a></li>
+                        <li><a href="/sets" class="footer-link">Sets & Bundles</a></li>
+                        <li><a href="/travel" class="footer-link">Travel Size</a></li>
+                    </ul>
+                </div>
+
+                <!-- Company -->
+                <div class="footer-column">
+                    <h4 class="footer-column-title">Company</h4>
+                    <ul class="footer-links">
+                        <li><a href="/about" class="footer-link">About Us</a></li>
+                        <li><a href="/science" class="footer-link">Our Science</a></li>
+                        <li><a href="/ingredients" class="footer-link">Ingredients</a></li>
+                        <li><a href="/sustainability" class="footer-link">Sustainability</a></li>
+                        <li><a href="/reviews" class="footer-link">Reviews</a></li>
+                        <li><a href="/blog" class="footer-link">Skincare Blog</a></li>
+                    </ul>
+                </div>
+
+                <!-- Support -->
+                <div class="footer-column">
+                    <h4 class="footer-column-title">Support</h4>
+                    <ul class="footer-links">
+                        <li><a href="/contact" class="footer-link">Contact Us</a></li>
+                        <li><a href="/faq" class="footer-link">FAQ</a></li>
+                        <li><a href="/shipping" class="footer-link">Shipping Info</a></li>
+                        <li><a href="/returns" class="footer-link">Returns</a></li>
+                        <li><a href="/skincare-quiz" class="footer-link">Skincare Quiz</a></li>
+                        <li><a href="/track-order" class="footer-link">Track Order</a></li>
+                    </ul>
+                </div>
+
+                <!-- Newsletter -->
+                <div class="footer-newsletter">
+                    <span class="newsletter-incentive">Get 15% Off First Order</span>
+                    <h4 class="footer-column-title">Join Our Skincare Community</h4>
+                    <p class="newsletter-description">Be the first to know about new launches, exclusive offers, and expert skincare tips.</p>
+                    
+                    <ul class="newsletter-benefits">
+                        <li>Exclusive early access to new products</li>
+                        <li>Personalized skincare tips & routines</li>
+                        <li>Members-only discounts & promotions</li>
+                        <li>Free skincare consultation offers</li>
+                    </ul>
+                    
+                    <div class="newsletter-form">
+                        <input type="email" class="newsletter-input" placeholder="Enter your email for 15% off" aria-label="Email address">
+                        <button type="submit" class="newsletter-button">Get My 15% Discount</button>
+                    </div>
+                    <p class="newsletter-disclaimer">
+                        By subscribing, you agree to our <a href="/privacy" class="disclaimer-link">Privacy Policy</a>. Unsubscribe anytime.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Footer Bottom -->
             <div class="footer-bottom">
                 <div class="footer-bottom-content">
                     <p class="footer-copyright">© 2025 GAOJIE. All rights reserved.</p>
-                    <div class="footer-legal">
-                        <a href="/privacy" class="legal-link">Privacy Policy</a>
-                        <a href="/terms" class="legal-link">Terms of Service</a>
-                        <a href="/returns" class="legal-link">Returns</a>
-                    </div>
+                    
                 </div>
             </div>
         </div>
     </footer>
 
-    <script src="gaojie-common.js"></script>
-    <script src="auth.js"></script>
-    <script src="JS/product.js"></script>
+    <script src="/gaojie-common.js"></script>
+    <script src="/auth.js"></script>
+    <script src="/JS/product.js"></script>
+    
+    <script>
+        // Dynamic Product Page Script
+        let currentProduct = null;
+        
+        // Get product slug from URL
+        function getProductSlug() {
+            const pathParts = window.location.pathname.split('/');
+            return pathParts[pathParts.length - 1]; // Last part of the URL
+        }
+        
+        // Load product data by slug
+        async function loadProductData() {
+            try {
+                const slug = getProductSlug();
+                console.log(`🛍️ Loading product: ${slug}`);
+                
+                const response = await fetch(`/api/products/slug/${slug}`);
+                const data = await response.json();
+                
+                if (data.status === 'success' && data.product) {
+                    currentProduct = data.product;
+                    updateProductDisplay(currentProduct);
+                    console.log(`✅ Loaded product: ${currentProduct.name}`);
+                } else {
+                    console.error('❌ Product not found');
+                    showProductNotFound();
+                }
+            } catch (error) {
+                console.error('💥 Error loading product:', error);
+                showProductNotFound();
+            }
+        }
+        
+        // Update the product page with dynamic data
+        function updateProductDisplay(product) {
+            // Update title
+            document.title = `${product.name} - GAOJIE`;
+            
+            // Update breadcrumb with smart category links
+            updateBreadcrumb(product);
+            
+            // Update main product image
+            const mainImage = document.getElementById('main-product-image');
+            if (mainImage && product.primary_image) {
+                mainImage.src = product.primary_image;
+                mainImage.alt = product.name;
+            }
+            
+            // Update product thumbnails
+            updateProductThumbnails(product);
+            
+            // Update product title
+            const productTitle = document.querySelector('.product-page-title');
+            if (productTitle) productTitle.textContent = product.name;
+            
+            // Update product description
+            const productDesc = document.querySelector('.product-description');
+            if (productDesc && product.description) {
+                productDesc.textContent = product.description;
+            }
+            
+            // Update prices with proper formatting
+            updateProductPrices(product);
+            
+            // Update tab content with product data
+            updateProductTabContent(product);
+            
+            // Add badges if available
+            const badgesContainer = document.querySelector('.image-badges');
+            if (badgesContainer && product.badges && product.badges.length > 0) {
+                badgesContainer.innerHTML = product.badges.map(badge => 
+                    `<span class="badge" style="background-color: ${badge.background_color}; color: ${badge.text_color};">${badge.name}</span>`
+                ).join('');
+            }
+        }
+        
+        // Update breadcrumb with proper links
+        function updateBreadcrumb(product) {
+            // Map categories to their URL paths
+            const categoryUrlMap = {
+                'cleanser': '/cleanser',
+                'moisturiser': '/moisturiser', 
+                'treatments': '/treatments',
+                'lip-care': '/lip-care',
+                'sets': '/sets'
+            };
+            
+            const categoryNameMap = {
+                'cleanser': 'Cleansers',
+                'moisturiser': 'Moisturisers',
+                'treatments': 'Treatments',
+                'lip-care': 'Lip Care',
+                'sets': 'Sets'
+            };
+            
+            // Update breadcrumb elements
+            const breadcrumbCategory = document.getElementById('breadcrumb-category');
+            const breadcrumbProduct = document.getElementById('breadcrumb-product');
+            
+            if (breadcrumbCategory && product.category) {
+                const categoryUrl = categoryUrlMap[product.category] || `/${product.category}`;
+                const categoryName = categoryNameMap[product.category] || product.category.charAt(0).toUpperCase() + product.category.slice(1);
+                
+                breadcrumbCategory.href = categoryUrl;
+                breadcrumbCategory.textContent = categoryName;
+            }
+            
+            if (breadcrumbProduct) {
+                breadcrumbProduct.textContent = product.name;
+            }
+        }
+        
+        // Update product thumbnails
+        function updateProductThumbnails(product) {
+            const thumbnailContainer = document.getElementById('product-thumbnails');
+            if (!thumbnailContainer) return;
+            
+            // Clear existing thumbnails
+            thumbnailContainer.innerHTML = '';
+            
+            // Add primary image thumbnail
+            if (product.primary_image) {
+                const primaryThumb = document.createElement('img');
+                primaryThumb.src = product.primary_image;
+                primaryThumb.alt = `${product.name} - Primary view`;
+                primaryThumb.className = 'thumbnail active';
+                primaryThumb.id = 'thumbnail-primary';
+                primaryThumb.onclick = () => switchMainImage(product.primary_image);
+                thumbnailContainer.appendChild(primaryThumb);
+            }
+            
+            // Add secondary image thumbnail if available
+            if (product.secondary_image) {
+                const secondaryThumb = document.createElement('img');
+                secondaryThumb.src = product.secondary_image;
+                secondaryThumb.alt = `${product.name} - Secondary view`;
+                secondaryThumb.className = 'thumbnail';
+                secondaryThumb.id = 'thumbnail-secondary';
+                secondaryThumb.onclick = () => switchMainImage(product.secondary_image);
+                thumbnailContainer.appendChild(secondaryThumb);
+            }
+        }
+        
+        // Switch main product image when thumbnail is clicked
+        function switchMainImage(imageSrc) {
+            const mainImage = document.getElementById('main-product-image');
+            if (mainImage) {
+                mainImage.src = imageSrc;
+            }
+            
+            // Update active thumbnail
+            document.querySelectorAll('.thumbnail').forEach(thumb => thumb.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+        
+        // Update product prices with proper logic
+        function updateProductPrices(product) {
+            const currentPrice = document.getElementById('product-price-current');
+            const originalPrice = document.getElementById('product-price-original');
+            const savePrice = document.getElementById('product-price-save');
+            
+            // Always show current price
+            if (currentPrice) {
+                currentPrice.textContent = `฿${product.price.toLocaleString()}`;
+            }
+            
+            // Show original price and savings only if there's a discount
+            if (product.original_price && product.original_price > product.price) {
+                if (originalPrice) {
+                    originalPrice.textContent = `฿${product.original_price.toLocaleString()}`;
+                    originalPrice.style.display = 'inline';
+                }
+                
+                if (savePrice) {
+                    const savings = product.original_price - product.price;
+                    const percentage = Math.round((savings / product.original_price) * 100);
+                    savePrice.textContent = `Save ${percentage}%`;
+                    savePrice.style.display = 'inline';
+                }
+            } else {
+                // Hide original price and savings if no discount
+                if (originalPrice) originalPrice.style.display = 'none';
+                if (savePrice) savePrice.style.display = 'none';
+            }
+        }
+        
+        // Update product tab content with dynamic data
+        function updateProductTabContent(product) {
+            // Update description tab
+            const descriptionContent = document.getElementById('product-description-content');
+            if (descriptionContent && product.description) {
+                descriptionContent.innerHTML = `<p>${product.description}</p>`;
+            }
+            
+            // Update ingredients tab
+            const ingredientsContent = document.getElementById('product-ingredients-content');
+            if (ingredientsContent && product.ingredients) {
+                // Format ingredients as a list if it's plain text, or use as HTML if it's already formatted
+                let ingredientsHtml;
+                if (product.ingredients.includes('<') || product.ingredients.includes('\n')) {
+                    // Assume it's formatted HTML or has line breaks
+                    ingredientsHtml = product.ingredients.replace(/\n/g, '<br>');
+                } else {
+                    // Assume it's a comma-separated list
+                    const ingredientsList = product.ingredients.split(',').map(ing => ing.trim());
+                    ingredientsHtml = `
+                        <p><strong>Ingredients:</strong></p>
+                        <ul>
+                            ${ingredientsList.map(ing => `<li>${ing}</li>`).join('')}
+                        </ul>
+                    `;
+                }
+                ingredientsContent.innerHTML = ingredientsHtml;
+            }
+            
+            // Update usage instructions tab
+            const usageContent = document.getElementById('product-usage-content');
+            if (usageContent && product.usage_instructions) {
+                // Format usage instructions, handling both plain text and formatted text
+                let usageHtml;
+                if (product.usage_instructions.includes('<') || product.usage_instructions.includes('\n')) {
+                    // Assume it's formatted HTML or has line breaks
+                    usageHtml = product.usage_instructions.replace(/\n/g, '<br>');
+                } else {
+                    // Assume it's plain text instructions
+                    usageHtml = `<p>${product.usage_instructions}</p>`;
+                }
+                usageContent.innerHTML = usageHtml;
+            }
+        }
+        
+        // Show product not found message
+        function showProductNotFound() {
+            const main = document.querySelector('main');
+            if (main) {
+                main.innerHTML = `
+                    <div style="text-align: center; padding: 4rem 2rem;">
+                        <h1>Product Not Found</h1>
+                        <p>The product you're looking for doesn't exist or has been removed.</p>
+                        <a href="/cleanser" style="color: #007bff; text-decoration: none;">← Back to Products</a>
+                    </div>
+                `;
+            }
+        }
+        
+        // Initialize product page
+        document.addEventListener('DOMContentLoaded', async function() {
+            await loadProductData();
+            
+            // Check if auth buttons exist
+            const authButtons = document.querySelector('.auth-buttons');
+            console.log('Auth buttons found:', !!authButtons);
+            if (authButtons) {
+                console.log('Auth buttons display:', authButtons.style.display);
+                console.log('Auth buttons computed display:', window.getComputedStyle(authButtons).display);
+            }
+            
+            // Force auth check after a delay to ensure auth.js is loaded
+            setTimeout(async () => {
+                console.log('=== MANUAL AUTH CHECK FROM PRODUCT.HTML ===');
+                
+                // Direct auth check to bypass potential issues
+                try {
+                    const response = await fetch('/api/auth/check', { 
+                        credentials: 'include' 
+                    });
+                    const data = await response.json();
+                    console.log('Direct auth check result:', data);
+                    
+                    if (data.status === 'success' && data.authenticated && data.user) {
+                        console.log('User is authenticated, manually updating UI');
+                        
+                        // Manual UI update since authManager might have issues
+                        const authButtons = document.querySelector('.auth-buttons');
+                        if (authButtons) {
+                            console.log('Hiding auth buttons');
+                            authButtons.style.display = 'none';
+                            
+                            // Create user menu if it doesn't exist
+                            let userMenu = document.querySelector('.user-menu');
+                            if (!userMenu) {
+                                console.log('Creating user menu');
+                                userMenu = document.createElement('div');
+                                userMenu.className = 'user-menu';
+                                userMenu.innerHTML = `
+                                    <button class="user-btn" aria-label="User menu">
+                                        <span class="user-name">Hi, ${data.user.first_name}</span>
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2"/>
+                                        </svg>
+                                    </button>
+                                    <div class="user-dropdown" style="display: none;">
+                                        <a href="/user-orders.html" class="dropdown-item">My Orders</a>
+                                        <a href="#" class="dropdown-item" onclick="handleProfile()">My Profile</a>
+                                        ${data.user.is_admin ? '<a href="/admin" class="dropdown-item">Admin Dashboard</a>' : ''}
+                                        <a href="#" class="dropdown-item" onclick="handleLogout()">Logout</a>
+                                    </div>
+                                `;
+                                
+                                // Add click handler for dropdown
+                                const userBtn = userMenu.querySelector('.user-btn');
+                                const dropdown = userMenu.querySelector('.user-dropdown');
+                                userBtn.addEventListener('click', (e) => {
+                                    e.preventDefault();
+                                    dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
+                                });
+                                
+                                authButtons.parentNode.insertBefore(userMenu, authButtons.nextSibling);
+                                console.log('User menu created and inserted');
+                            }
+                        }
+                    } else {
+                        console.log('User not authenticated or auth check failed');
+                    }
+                } catch (error) {
+                    console.error('Direct auth check failed:', error);
+                }
+                
+                // Also try the auth manager if it exists
+                if (window.forceAuthUpdate) {
+                    console.log('Also running forceAuthUpdate for consistency');
+                    await window.forceAuthUpdate();
+                }
+            }, 500);
+        });
+        
+        // Handle profile function
+        window.handleProfile = function() {
+            if (window.GaojieUtils && GaojieUtils.showNotification) {
+                GaojieUtils.showNotification('Profile page coming soon!', 'info');
+            } else {
+                alert('Profile page coming soon!');
+            }
+        };
+
+        // Handle logout function
+        window.handleLogout = async function() {
+            try {
+                const response = await fetch('/api/auth/logout', {
+                    method: 'POST',
+                    credentials: 'include'
+                });
+                const data = await response.json();
+                
+                // Clear user menu and show auth buttons
+                const userMenu = document.querySelector('.user-menu');
+                const authButtons = document.querySelector('.auth-buttons');
+                
+                if (userMenu) userMenu.remove();
+                if (authButtons) authButtons.style.display = 'flex';
+                
+                // Show success message
+                if (window.GaojieUtils && GaojieUtils.showNotification) {
+                    GaojieUtils.showNotification('Logged out successfully', 'success');
+                }
+                
+                // Optionally redirect to login page
+                setTimeout(() => {
+                    window.location.href = '/login.html';
+                }, 1500);
+                
+            } catch (error) {
+                console.error('Logout failed:', error);
+                if (window.GaojieUtils && GaojieUtils.showNotification) {
+                    GaojieUtils.showNotification('Logout failed', 'error');
+                }
+            }
+        };
+    </script>
 </body>
 </html>

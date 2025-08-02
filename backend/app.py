@@ -33,7 +33,7 @@ def create_app(config_name=None):
     
     
     # Import models (this ensures they're registered with SQLAlchemy)
-    from models import User, Order, OrderItem
+    from models import User, Order, OrderItem, Badge
     
     # Try to import Product model
     try:
@@ -77,6 +77,12 @@ def create_app(config_name=None):
         app.register_blueprint(cart_bp)
     except ImportError as e:
         print(f"Warning: Could not import cart blueprint: {e}")
+    
+    try:
+        from badges.routes import badges_bp
+        app.register_blueprint(badges_bp)
+    except ImportError as e:
+        print(f"Warning: Could not import badges blueprint: {e}")
     
     # Register a simple test route
     @app.route('/')
@@ -292,6 +298,25 @@ def create_app(config_name=None):
                 'status': 'error'
             }), 500
     
+    # ===== PRODUCT ROUTES =====
+    @app.route('/product/<slug>')
+    def product_page(slug):
+        """Serve individual product pages based on slug"""
+        from flask import send_from_directory, abort
+        import os
+        
+        # Check if product exists
+        product = Product.query.filter_by(slug=slug, is_active=True).first()
+        if not product:
+            abort(404)
+        
+        # Serve the product.html template
+        frontend_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'frontend')
+        try:
+            return send_from_directory(frontend_dir, 'product.html')
+        except FileNotFoundError:
+            abort(404)
+    
     # ===== LOGO REDIRECT ROUTE =====
     @app.route('/home')
     @app.route('/main')
@@ -406,6 +431,41 @@ def create_app(config_name=None):
         try:
             from flask import send_from_directory
             return send_from_directory(frontend_dir, filename)
+        except FileNotFoundError:
+            from flask import abort
+            abort(404)
+    
+    # Category page routes
+    @app.route('/cleanser')
+    @app.route('/moisturiser')
+    @app.route('/treatments')
+    @app.route('/lip-care')
+    @app.route('/sets')
+    @app.route('/category/<category_name>')
+    def category_page(category_name=None):
+        """Serve dynamic category pages"""
+        import os
+        frontend_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'frontend')
+        
+        # Map URL paths to category names
+        category_mapping = {
+            'cleanser': 'cleanser',
+            'moisturiser': 'moisturiser', 
+            'treatments': 'serum',  # treatments maps to serum category
+            'lip-care': 'lip-care',
+            'sets': 'sets'
+        }
+        
+        # Extract category from URL
+        if not category_name:
+            # Get category from request path
+            import flask
+            path = flask.request.path.strip('/')
+            category_name = category_mapping.get(path, path)
+        
+        try:
+            from flask import send_from_directory
+            return send_from_directory(frontend_dir, 'category.html')
         except FileNotFoundError:
             from flask import abort
             abort(404)

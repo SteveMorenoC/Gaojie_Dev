@@ -417,6 +417,18 @@ def admin_create_product():
                 counter += 1
             slug = new_slug
         
+        # Handle gallery images (convert list to JSON string if provided)
+        gallery_images = data.get('gallery_images')
+        if isinstance(gallery_images, list):
+            import json
+            gallery_images = json.dumps(gallery_images)
+        
+        # Handle badge IDs (convert list to JSON string if provided)
+        badge_ids = data.get('badge_ids')
+        if isinstance(badge_ids, list):
+            import json
+            badge_ids = json.dumps(badge_ids)
+        
         # Create new product with defaults for missing fields
         product = Product(
             name=data.get('name', 'Untitled Product'),
@@ -441,7 +453,8 @@ def admin_create_product():
             tags=data.get('tags'),
             primary_image=data.get('primary_image'),
             secondary_image=data.get('secondary_image'),
-            gallery_images=data.get('gallery_images')
+            gallery_images=gallery_images,
+            badge_ids=badge_ids
         )
         
         db.session.add(product)
@@ -506,8 +519,8 @@ def admin_update_product(product_id):
         updateable_fields = [
             'description', 'short_description', 'price', 'original_price', 'cost_price',
             'stock_quantity', 'low_stock_threshold', 'category', 'skin_type', 'ingredients',
-            'size', 'is_active', 'is_featured', 'is_bestseller', 'is_new', 'meta_title',
-            'meta_description', 'tags', 'primary_image', 'secondary_image', 'gallery_images'
+            'usage_instructions', 'size', 'is_active', 'is_featured', 'is_bestseller', 'is_new', 'meta_title',
+            'meta_description', 'tags', 'primary_image', 'secondary_image', 'gallery_images', 'badge_ids'
         ]
         
         for field in updateable_fields:
@@ -516,6 +529,14 @@ def admin_update_product(product_id):
                     setattr(product, field, float(data[field]))
                 elif field in ['stock_quantity', 'low_stock_threshold'] and data[field] is not None:
                     setattr(product, field, int(data[field]))
+                elif field == 'gallery_images' and isinstance(data[field], list):
+                    # Convert list to JSON string for gallery_images
+                    import json
+                    setattr(product, field, json.dumps(data[field]))
+                elif field == 'badge_ids' and isinstance(data[field], list):
+                    # Convert list to JSON string for badge_ids
+                    import json
+                    setattr(product, field, json.dumps(data[field]))
                 else:
                     setattr(product, field, data[field])
         
@@ -609,6 +630,7 @@ def admin_duplicate_product(product_id):
             category=original_product.category,
             skin_type=original_product.skin_type,
             ingredients=original_product.ingredients,
+            usage_instructions=original_product.usage_instructions,
             size=original_product.size,
             is_active=False,  # Start as inactive for review
             is_featured=False,
@@ -668,6 +690,59 @@ def admin_toggle_product_status(product_id):
         db.session.rollback()
         return jsonify({
             'message': 'Error toggling product status',
+            'error': str(e),
+            'status': 'error'
+        }), 500
+
+@products_bp.route('/admin', methods=['POST'])
+def create_product():
+    """Create a new product (admin only)"""
+    try:
+        data = request.get_json()
+        
+        # Create new product
+        product = Product(
+            name=data.get('name'),
+            description=data.get('description'),
+            short_description=data.get('short_description'),
+            price=data.get('price'),
+            original_price=data.get('original_price'),
+            category=data.get('category'),
+            stock_quantity=data.get('stock_quantity', 0),
+            skin_type=data.get('skin_type'),
+            ingredients=data.get('ingredients'),
+            size=data.get('size'),
+            usage_instructions=data.get('usage_instructions'),
+            primary_image=data.get('primary_image'),
+            secondary_image=data.get('secondary_image'),
+            is_active=data.get('is_active', True),
+            is_featured=data.get('is_featured', False),
+            is_bestseller=data.get('is_bestseller', False),
+            is_new=data.get('is_new', False)
+        )
+        
+        # Generate slug from product name
+        product.set_slug_from_name()
+        
+        # Handle badge assignment
+        badge_ids = data.get('badge_ids', [])
+        if badge_ids:
+            import json
+            product.badge_ids = json.dumps(badge_ids)
+        
+        db.session.add(product)
+        db.session.commit()
+        
+        return jsonify({
+            'product': product.to_dict(),
+            'status': 'success',
+            'message': 'Product created successfully'
+        }), 201
+        
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({
+            'message': 'Error creating product',
             'error': str(e),
             'status': 'error'
         }), 500

@@ -43,6 +43,15 @@ window.GaojieUtils = {
         }, 3000);
     },
 
+    // Hide notifications manually
+    hideNotification: function() {
+        const notifications = document.querySelectorAll('.gaojie-notification');
+        notifications.forEach(notification => {
+            notification.style.animation = 'gaojieSlideOut 0.3s ease-in';
+            setTimeout(() => notification.remove(), 300);
+        });
+    },
+
     // Format currency for Thai Baht
     formatCurrency: function(amount) {
         return `฿${amount.toLocaleString()}`;

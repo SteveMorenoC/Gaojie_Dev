@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cleansers - GAOJIE Premium Skincare</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Dynamic loading styles */
+        .loading-products {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+        
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #007bff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 1rem;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 4rem 2rem;
+            text-align: center;
+            grid-column: 1 / -1;
+        }
+        
+        .empty-state h3 {
+            color: #333;
+            margin-bottom: 1rem;
+        }
+        
+        .empty-state p {
+            color: #666;
+            margin-bottom: 2rem;
+        }
+        
+        .btn-primary {
+            background: #007bff;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+        
+        .btn-primary:hover {
+            background: #0056b3;
+        }
+        
+        /* Dynamic badge styles */
+        .product-badges .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.6875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-right: 0.25rem;
+            margin-bottom: 0.25rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Announcement Bar -->
+    <div class="announcement-bar">
+        <div class="announcement-content">
+            <span class="announcement-text">Free shipping in Thailand on orders over ฿999</span>
+        </div>
+    </div>
+
+    <!-- Main Header -->
+    <header class="header">
+        <div class="header-container">
+            <!-- Logo -->
+            <div class="logo">
+                <a href="/" class="logo-link">GAOJIE</a>
+            </div>
+
+            <!-- Mobile Menu Toggle -->
+            <button id="mobile-menu-toggle" class="mobile-menu-toggle" aria-label="Toggle menu">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
+
+            <!-- Navigation -->
+            <nav class="nav" id="main-nav">
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="/cleanser" class="nav-link">Cleanser</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/moisturiser" class="nav-link">Moisturiser</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a href="/treatments" class="nav-link dropdown-toggle">
+                            Treatments
+                            <svg class="dropdown-icon" width="12" height="8" viewBox="0 0 12 8" fill="none">
+                                <path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/lip-care" class="nav-link">Lip Care</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/sets" class="nav-link">Sets</a>
+                    </li>
+                </ul>
+            </nav>
+
+            <!-- Header Actions -->
+            <div class="header-actions">
+                <!-- Search -->
+                <div class="search-container">
+                    <form class="search-form" role="search">
+                        <input 
+                            type="search" 
+                            class="search-input" 
+                            placeholder="Search..." 
+                            aria-label="Search products"
+                        >
+                        <button type="submit" class="search-btn" aria-label="Submit search">
+                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                                <circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.5"/>
+                                <path d="M15 15L11.5 11.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                            </svg>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Shopping Bag -->
+                <a href="/cart" class="bag-btn" aria-label="Shopping bag">
+                    <svg class="bag-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <path d="M3.5 7H16.5L15.5 16H4.5L3.5 7Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                        <path d="M7 7V5C7 3.89543 7.89543 3 9 3H11C12.1046 3 13 3.89543 13 5V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span class="bag-count">1</span>
+                </a>
+                
+                <!-- Auth Buttons -->
+                <div class="auth-buttons">
+                    <a href="login.html" class="auth-btn login-btn">Login</a>
+                    <a href="register.html" class="auth-btn register-btn">Register</a>
+                </div>
+                
+                <a href="influencers.html" class="nav-link influencer-link">
+                    <svg class="influencer-icon" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <circle cx="9" cy="7" r="4" stroke="currentColor" stroke-width="2"/>
+                        <path d="m22 21-3-3m0 0a2 2 0 1 0-2.83-2.83A2 2 0 0 0 19 18Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Influencers
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Breadcrumb -->
+    <nav class="category-breadcrumb">
+        <div class="category-breadcrumb-container">
+            <a href="/" class="breadcrumb-link">Home</a>
+            <svg width="8" height="8" viewBox="0 0 8 8" fill="none" class="breadcrumb-separator">
+                <path d="M2 1L6 4L2 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="breadcrumb-current">Cleansers</span>
+        </div>
+    </nav>
+
+    <!-- Category Hero -->
+    <section class="category-hero">
+        <div class="category-hero-container">
+            <div class="category-hero-content">
+                <h1 class="category-hero-title">Cleansers</h1>
+                <p class="category-hero-subtitle">Gentle yet effective cleansers that remove impurities while preserving your skin's natural balance</p>
+                <div class="category-hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">12</span>
+                        <span class="stat-label">Products</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">4.8★</span>
+                        <span class="stat-label">Avg Rating</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">2,041</span>
+                        <span class="stat-label">Reviews</span>
+                    </div>
+                </div>
+            </div>
+            <div class="category-hero-image">
+                <img src="https://images.unsplash.com/photo-1571781926291-c477ebfd024b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Cleanser Collection" class="hero-img">
+            </div>
+        </div>
+    </section>
+
+    <!-- Category Main -->
+    <main class="category-main">
+        <div class="category-container">
+            
+            <!-- Filters & Sort Bar -->
+            <div class="category-toolbar">
+                <div class="filters-toggle">
+                    <button class="filters-btn" id="filters-toggle">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                            <path d="M2 4H14M4 8H12M6 12H10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                        </svg>
+                        Filters
+                        <span class="active-filters-count" id="active-filters">0</span>
+                    </button>
+                </div>
+                
+                <div class="category-results-info">
+                    <span class="results-count">Showing <strong>12</strong> products</span>
+                </div>
+
+                <div class="sort-container">
+                    <label for="sort-select" class="sort-label">Sort by:</label>
+                    <select id="sort-select" class="sort-select">
+                        <option value="featured">Featured</option>
+                        <option value="price-low">Price: Low to High</option>
+                        <option value="price-high">Price: High to Low</option>
+                        <option value="rating">Highest Rated</option>
+                        <option value="newest">Newest</option>
+                        <option value="bestselling">Best Selling</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Filters Sidebar -->
+            <div class="filters-sidebar" id="filters-sidebar">
+                <div class="filters-header">
+                    <h3>Filters</h3>
+                    <button class="filters-close" id="filters-close">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                            <path d="M12 4L4 12M4 4L12 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="filter-group">
+                    <h4 class="filter-title">Skin Type</h4>
+                    <div class="filter-options">
+                        <label class="filter-option">
+                            <input type="checkbox" value="all-skin-types" data-filter="skin-type">
+                            <span class="checkmark"></span>
+                            All Skin Types
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" value="oily" data-filter="skin-type">
+                            <span class="checkmark"></span>
+                            Oily
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" value="dry" data-filter="skin-type">
+                            <span class="checkmark"></span>
+                            Dry
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" value="sensitive" data-filter="skin-type">
+                            <span class="checkmark"></span>
+                            Sensitive
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" value="combination" data-filter="skin-type">
+                            <span class="checkmark"></span>
+                            Combination
+                        </label>
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <h4 class="filter-title">Key Ingredients</h4>
+                    <div class="filter-options">
+                        <label class="filter-option">
+                            <input type="checkbox" value="amino-acids" data-filter="ingredient">
+                            <span class="checkmark"></span>
+                            Amino Acids
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" value="hyaluronic-acid" data-filter="ingredient">
+                            <span class="checkmark"></span>
+                            Hyaluronic Acid
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" value="ceramides" data-filter="ingredient">
+                            <span class="checkmark"></span>
+                            Ceramides
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" value="glycolic-acid" data-filter="ingredient">
+                            <span class="checkmark"></span>
+                            Glycolic Acid
+                        </label>
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <h4 class="filter-title">Price Range</h4>
+                    <div class="price-range-container">
+                        <div class="price-inputs">
+                            <input type="number" class="price-input" id="price-min" placeholder="Min" min="0">
+                            <span class="price-separator">-</span>
+                            <input type="number" class="price-input" id="price-max" placeholder="Max" min="0">
+                        </div>
+                        <div class="price-slider">
+                            <input type="range" class="range-slider" id="price-range" min="0" max="3000" step="50">
+                        </div>
+                        <div class="price-labels">
+                            <span>฿0</span>
+                            <span>฿3,000</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <h4 class="filter-title">Size</h4>
+                    <div class="filter-options">
+                        <label class="filter-option">
+                            <input type="checkbox" value="travel" data-filter="size">
+                            <span class="checkmark"></span>
+                            Travel Size (50ml)
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" value="standard" data-filter="size">
+                            <span class="checkmark"></span>
+                            Standard (150ml)
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" value="value" data-filter="size">
+                            <span class="checkmark"></span>
+                            Value Size (300ml)
+                        </label>
+                    </div>
+                </div>
+
+                <div class="filters-actions">
+                    <button class="clear-filters-btn" id="clear-filters">Clear All</button>
+                    <button class="apply-filters-btn" id="apply-filters">Apply Filters</button>
+                </div>
+            </div>
+
+            <!-- Products Grid -->
+            <div class="category-content">
+                <div class="category-products-grid" id="products-grid">
+                    <!-- Products will be loaded dynamically -->
+                    <div class="loading-products">
+                        <div class="loading-spinner"></div>
+                        <p>Loading products...</p>
+                    </div>
+                    <!-- All products will be loaded dynamically via JavaScript -->
+                            <div class="product-images">
+                                <img src="https://images.unsplash.com/photo-1571781926291-c477ebfd024b?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Amino-Acid Cleanser" class="product-image primary">
+                                <img src="https://images.unsplash.com/photo-1556228578-8c89e6adf883?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Amino-Acid Cleanser in use" class="product-image secondary">
+                            </div>
+                            <button class="quick-view-btn" data-product="amino-acid-cleanser">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M1 8S3 3 8 3S15 8 15 8S13 13 8 13S1 8 1 8Z" stroke="currentColor" stroke-width="1.5"/>
+                                    <circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.5"/>
+                                </svg>
+                                Quick View
+                            </button>
+                           
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-category-title">Amino-Acid Cleanser</h3>
+                            <p class="product-description">Gentle daily cleanser for radiant, healthy skin</p>
+                            <div class="product-rating">
+                                <div class="stars">4.8★</div>
+                                <span class="rating-count">(247 reviews)</span>
+                            </div>
+                            <div class="product-price">
+                                <span class="price-current">฿1,290</span>
+                                <span class="price-per-use">Only ฿21 per use</span>
+                            </div>
+                            <div class="product-features">
+                                <span class="feature">All Skin Types</span>
+                                <span class="feature">Dermatologist Tested</span>
+                            </div>
+                            <div class="product-actions">
+                                <button class="add-to-cart-btn" data-product="amino-acid-cleanser">
+                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                        <path d="M3 7H13L12 13H4L3 7Z" stroke="currentColor" stroke-width="1.5"/>
+                                        <path d="M6 7V5C6 3.9 6.9 3 8 3S10 3.9 10 5V7" stroke="currentColor" stroke-width="1.5"/>
+                                    </svg>
+                                    Add to Cart
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 2 -->
+                        <div class="product-info">
+                            <h3 class="product-category-title">Gentle Daily Cleanser</h3>
+                            <p class="product-description">Ultra-gentle formula for sensitive skin</p>
+                            <div class="product-rating">
+                                <div class="stars">4.7★</div>
+                                <span class="rating-count">(189 reviews)</span>
+                            </div>
+                            <div class="product-price">
+                                <span class="price-current">฿1,190</span>
+                                <span class="price-per-use">Only ฿19 per use</span>
+                            </div>
+                            <div class="product-features">
+                                <span class="feature">Sensitive Skin</span>
+                                <span class="feature">Fragrance-Free</span>
+                            </div>
+                            <div class="product-actions">
+                                <button class="add-to-cart-btn" data-product="gentle-daily-cleanser">
+                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                        <path d="M3 7H13L12 13H4L3 7Z" stroke="currentColor" stroke-width="1.5"/>
+                                        <path d="M6 7V5C6 3.9 6.9 3 8 3S10 3.9 10 5V7" stroke="currentColor" stroke-width="1.5"/>
+                                    </svg>
+                                    Add to Cart
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 3 -->
+                        <div class="product-info">
+                            <h3 class="product-category-title">Deep Clean Foaming Cleanser</h3>
+                            <p class="product-description">Purifying foam cleanser for oily and combination skin</p>
+                            <div class="product-rating">
+                                <div class="stars">4.6★</div>
+                                <span class="rating-count">(156 reviews)</span>
+                            </div>
+                            <div class="product-price">
+                                <span class="price-current">฿1,390</span>
+                                <span class="price-per-use">Only ฿23 per use</span>
+                            </div>
+                            <div class="product-features">
+                                <span class="feature">Oily Skin</span>
+                                <span class="feature">Deep Cleansing</span>
+                            </div>
+                            <div class="product-actions">
+                                <button class="add-to-cart-btn" data-product="deep-clean-foaming">
+                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                        <path d="M3 7H13L12 13H4L3 7Z" stroke="currentColor" stroke-width="1.5"/>
+                                        <path d="M6 7V5C6 3.9 6.9 3 8 3S10 3.9 10 5V7" stroke="currentColor" stroke-width="1.5"/>
+                                    </svg>
+                                    Add to Cart
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 4 -->
+                        <div class="product-info">
+                            <h3 class="product-title">Amino-Acid Cleanser Travel</h3>
+                            <p class="product-description">Perfect size for travel and first-time users</p>
+                            <div class="product-rating">
+                                <div class="stars">4.8★</div>
+                                <span class="rating-count">(98 reviews)</span>
+                            </div>
+                            <div class="product-price">
+                                <span class="price-current">฿590</span>
+                                <span class="price-per-use">Same formula, travel size</span>
+                            </div>
+                            <div class="product-features">
+                                <span class="feature">Travel Size</span>
+                                <span class="feature">50ml</span>
+                            </div>
+                            <div class="product-actions">
+                                <button class="add-to-cart-btn" data-product="amino-acid-travel">
+                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                        <path d="M3 7H13L12 13H4L3 7Z" stroke="currentColor" stroke-width="1.5"/>
+                                        <path d="M6 7V5C6 3.9 6.9 3 8 3S10 3.9 10 5V7" stroke="currentColor" stroke-width="1.5"/>
+                                    </svg>
+                                    Add to Cart
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 5 -->
+                        <div class="product-info">
+                            <h3 class="product-title">Hydrating Cream Cleanser</h3>
+                            <p class="product-description">Rich, creamy cleanser that doesn't strip moisture</p>
+                            <div class="product-rating">
+                                <div class="stars">4.9★</div>
+                                <span class="rating-count">(203 reviews)</span>
+                            </div>
+                            <div class="product-price">
+                                <span class="price-current">฿1,490</span>
+                                <span class="price-per-use">Only ฿25 per use</span>
+                            </div>
+                            <div class="product-features">
+                                <span class="feature">Dry Skin</span>
+                                <span class="feature">Hydrating</span>
+                            </div>
+                            <div class="product-actions">
+                                <button class="add-to-cart-btn" data-product="hydrating-cream">
+                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                        <path d="M3 7H13L12 13H4L3 7Z" stroke="currentColor" stroke-width="1.5"/>
+                                        <path d="M6 7V5C6 3.9 6.9 3 8 3S10 3.9 10 5V7" stroke="currentColor" stroke-width="1.5"/>
+                                    </svg>
+                                    Add to Cart
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 6 -->
+                        <div class="product-info">
+                            <h3 class="product-title">Cleanser Duo Set</h3>
+                            <p class="product-description">Two full-size cleansers at a special price</p>
+                            <div class="product-rating">
+                                <div class="stars">4.8★</div>
+                                <span class="rating-count">(134 reviews)</span>
+                            </div>
+                            <div class="product-price">
+                                <span class="price-current">฿2,290</span>
+                                <span class="price-original">฿2,580</span>
+                            </div>
+                            <div class="product-features">
+                                <span class="feature">Value Set</span>
+                                <span class="feature">20% Savings</span>
+                            </div>
+                            <div class="product-actions">
+                                <button class="add-to-cart-btn" data-product="cleanser-duo">
+                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                        <path d="M3 7H13L12 13H4L3 7Z" stroke="currentColor" stroke-width="1.5"/>
+                                        <path d="M6 7V5C6 3.9 6.9 3 8 3S10 3.9 10 5V7" stroke="currentColor" stroke-width="1.5"/>
+                                    </svg>
+                                    Add to Cart
+                                </button>
+                            </div>
+                </div>
+
+                <!-- Load More -->
+                <div class="load-more-container">
+                    <button class="load-more-btn" id="load-more">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                            <path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        Load More Products
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Quick View Modal -->
+    <div class="quick-view-modal" id="quick-view-modal">
+        <div class="modal-overlay" id="modal-overlay"></div>
+        <div class="modal-content">
+            <button class="modal-close" id="modal-close">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                    <path d="M15 5L5 15M5 5L15 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+            </button>
+            <div class="modal-body" id="modal-body">
+                <!-- Dynamic content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <!-- Footer Main Content -->
+            <div class="footer-main">
+                <!-- Brand Section -->
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <h3 class="footer-logo-text">GAOJIE</h3>
+                    </div>
+                    <p class="footer-description">
+                        Premium skincare crafted with clinically proven ingredients and scientific innovation for radiant, healthy skin.
+                    </p>
+                    <div class="footer-social">
+                        <a href="#" class="social-link" aria-label="Instagram">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-link" aria-label="TikTok">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Facebook">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Collections -->
+                <div class="footer-column">
+                    <h4 class="footer-column-title">Collections</h4>
+                    <ul class="footer-links">
+                        <li><a href="/cleanser" class="footer-link">Cleansers</a></li>
+                        <li><a href="/moisturiser" class="footer-link">Moisturisers</a></li>
+                        <li><a href="/treatments" class="footer-link">Treatments</a></li>
+                        <li><a href="/lip-care" class="footer-link">Lip Care</a></li>
+                        <li><a href="/sets" class="footer-link">Sets & Bundles</a></li>
+                        <li><a href="/travel" class="footer-link">Travel Size</a></li>
+                    </ul>
+                </div>
+
+                <!-- Company -->
+                <div class="footer-column">
+                    <h4 class="footer-column-title">Company</h4>
+                    <ul class="footer-links">
+                        <li><a href="/about" class="footer-link">About Us</a></li>
+                        <li><a href="/science" class="footer-link">Our Science</a></li>
+                        <li><a href="/ingredients" class="footer-link">Ingredients</a></li>
+                        <li><a href="/sustainability" class="footer-link">Sustainability</a></li>
+                        <li><a href="/reviews" class="footer-link">Reviews</a></li>
+                        <li><a href="/blog" class="footer-link">Skincare Blog</a></li>
+                    </ul>
+                </div>
+
+                <!-- Support -->
+                <div class="footer-column">
+                    <h4 class="footer-column-title">Support</h4>
+                    <ul class="footer-links">
+                        <li><a href="/contact" class="footer-link">Contact Us</a></li>
+                        <li><a href="/faq" class="footer-link">FAQ</a></li>
+                        <li><a href="/shipping" class="footer-link">Shipping Info</a></li>
+                        <li><a href="/returns" class="footer-link">Returns</a></li>
+                        <li><a href="/skincare-quiz" class="footer-link">Skincare Quiz</a></li>
+                        <li><a href="/track-order" class="footer-link">Track Order</a></li>
+                    </ul>
+                </div>
+
+                <!-- Newsletter -->
+                <div class="footer-newsletter">
+                    <span class="newsletter-incentive">Get 15% Off First Order</span>
+                    <h4 class="footer-column-title">Join Our Skincare Community</h4>
+                    <p class="newsletter-description">Be the first to know about new launches, exclusive offers, and expert skincare tips.</p>
+                    
+                    <ul class="newsletter-benefits">
+                        <li>Exclusive early access to new products</li>
+                        <li>Personalized skincare tips & routines</li>
+                        <li>Members-only discounts & promotions</li>
+                        <li>Free skincare consultation offers</li>
+                    </ul>
+                    
+                    <div class="newsletter-form">
+                        <input type="email" class="newsletter-input" placeholder="Enter your email for 15% off" aria-label="Email address">
+                        <button type="submit" class="newsletter-button">Get My 15% Discount</button>
+                    </div>
+                    <p class="newsletter-disclaimer">
+                        By subscribing, you agree to our <a href="/privacy" class="disclaimer-link">Privacy Policy</a>. Unsubscribe anytime.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Footer Bottom -->
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <p class="footer-copyright">© 2025 GAOJIE. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="gaojie-common.js"></script>
+    <script src="auth.js"></script>
+    <script src="JS/categories.js"></script>
+    
+    <script>
+        // Dynamic Category Page Script
+        let currentCategory = '';
+        let currentProducts = [];
+        
+        // Get category from URL path
+        function getCurrentCategory() {
+            const path = window.location.pathname.replace('/', '');
+            const categoryMap = {
+                'cleanser': 'cleanser',
+                'moisturiser': 'moisturiser', 
+                'treatments': 'serum',
+                'lip-care': 'lip-care',
+                'sets': 'sets'
+            };
+            return categoryMap[path] || path || 'cleanser';
+        }
+        
+        // Update page title and headers based on category
+        function updatePageHeaders(category) {
+            const categoryNames = {
+                'cleanser': 'Cleansers',
+                'moisturiser': 'Moisturisers',
+                'serum': 'Treatments & Serums',
+                'lip-care': 'Lip Care',
+                'sets': 'Sets & Bundles'
+            };
+            
+            const categoryName = categoryNames[category] || category.charAt(0).toUpperCase() + category.slice(1);
+            
+            // Update page title
+            document.title = `${categoryName} - GAOJIE Premium Skincare`;
+            
+            // Update category header if it exists
+            const categoryHeader = document.querySelector('.category-header h1, .category-title, h1');
+            if (categoryHeader) {
+                categoryHeader.textContent = categoryName;
+            }
+        }
+        
+        // Load products for current category
+        async function loadCategoryProducts() {
+            try {
+                console.log(`🛍️ Loading products for category: ${currentCategory}`);
+                
+                const response = await fetch(`/api/products?category=${currentCategory}`);
+                const data = await response.json();
+                
+                if (data.status === 'success' && data.products) {
+                    currentProducts = data.products;
+                    renderProducts(currentProducts);
+                    console.log(`✅ Loaded ${currentProducts.length} products for ${currentCategory}`);
+                } else {
+                    console.error('❌ Failed to load products:', data.message);
+                    showEmptyState(`No ${currentCategory} products found`);
+                }
+            } catch (error) {
+                console.error('💥 Error loading products:', error);
+                showEmptyState('Failed to load products. Please try again later.');
+            }
+        }
+        
+        // Render products in the grid
+        function renderProducts(products) {
+            const grid = document.getElementById('products-grid');
+            
+            if (products.length === 0) {
+                showEmptyState(`No ${currentCategory} products available`);
+                return;
+            }
+            
+            grid.innerHTML = products.map(product => createProductCard(product)).join('');
+        }
+        
+        // Create product card HTML with dynamic badges
+        function createProductCard(product) {
+            const badgesHtml = product.badges && product.badges.length > 0 
+                ? `<div class="product-badges">
+                     ${product.badges.map(badge => 
+                       `<span class="badge" style="background-color: ${badge.background_color}; color: ${badge.text_color};">${badge.name}</span>`
+                     ).join('')}
+                   </div>`
+                : '';
+            
+            const discountHtml = product.original_price && product.original_price > product.price
+                ? `<span class="price-original">฿${product.original_price.toLocaleString()}</span>`
+                : '';
+            
+            return `
+                    <div class="product-info">
+                        <h3 class="product-category-title">${product.name}</h3>
+                        <p class="product-description">${product.short_description || product.description?.substring(0, 80) + '...' || ''}</p>
+                        <div class="product-rating">
+                            <div class="stars">4.8★</div>
+                            <span class="rating-count">(${Math.floor(Math.random() * 300) + 50} reviews)</span>
+                        </div>
+                        <div class="product-price">
+                            <span class="price-current">฿${product.price.toLocaleString()}</span>
+                            ${discountHtml}
+                            <span class="price-per-use">Only ฿${Math.ceil(product.price / 60)} per use</span>
+                        </div>
+                        <div class="product-features">
+                            <span class="feature">${product.skin_type || 'All Skin Types'}</span>
+                            <span class="feature">Dermatologist Tested</span>
+                        </div>
+                        <div class="product-actions">
+                            <button class="add-to-cart-btn" data-product="${product.slug}">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M3 7H13L12 13H4L3 7Z" stroke="currentColor" stroke-width="1.5"/>
+                                    <path d="M6 7V5C6 3.9 6.9 3 8 3S10 3.9 10 5V7" stroke="currentColor" stroke-width="1.5"/>
+                                </svg>
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Show empty state
+        function showEmptyState(message) {
+            const grid = document.getElementById('products-grid');
+            grid.innerHTML = `
+                <div class="empty-state">
+                    <h3>No Products Found</h3>
+                    <p>${message}</p>
+                    <a href="/" class="btn-primary">Browse All Products</a>
+                </div>
+            `;
+        }
+        
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', async function() {
+            currentCategory = getCurrentCategory();
+            console.log(`🏷️ Current category: ${currentCategory}`);
+            
+            // Update page headers
+            updatePageHeaders(currentCategory);
+            
+            // Load products
+            await loadCategoryProducts();
+        });
+    </script>
+</body>
+</html>

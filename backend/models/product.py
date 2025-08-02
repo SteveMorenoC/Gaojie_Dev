@@ -1,6 +1,7 @@
 from datetime import datetime
 from sqlalchemy import Numeric
 from extensions import db
+import re
 
 class Product(db.Model):
     """Product model for skincare items"""
@@ -30,6 +31,7 @@ class Product(db.Model):
     category = db.Column(db.String(50), nullable=False, index=True)  # cleanser, moisturizer, serum, etc.
     skin_type = db.Column(db.String(100))  # "all", "oily", "dry", "combination", "sensitive"
     ingredients = db.Column(db.Text)  # Key ingredients list
+    usage_instructions = db.Column(db.Text)  # How to use instructions
     size = db.Column(db.String(20))  # "50ml", "100ml", etc.
     
     # Product Status
@@ -48,6 +50,9 @@ class Product(db.Model):
     secondary_image = db.Column(db.String(200))  # Hover/secondary image
     gallery_images = db.Column(db.Text)  # JSON string of additional images
     
+    # Badges
+    badge_ids = db.Column(db.Text)  # JSON string of badge IDs
+    
     # Analytics
     view_count = db.Column(db.Integer, default=0)
     sales_count = db.Column(db.Integer, default=0)
@@ -61,6 +66,30 @@ class Product(db.Model):
     
     def __repr__(self):
         return f'<Product {self.name}>'
+    
+    @staticmethod
+    def generate_slug(name):
+        """Generate a URL-friendly slug from product name"""
+        # Convert to lowercase and replace spaces/special chars with hyphens
+        slug = re.sub(r'[^a-zA-Z0-9\s-]', '', name.lower())
+        slug = re.sub(r'\s+', '-', slug)
+        slug = re.sub(r'-+', '-', slug)
+        slug = slug.strip('-')
+        return slug
+    
+    def set_slug_from_name(self):
+        """Set the slug based on the product name"""
+        if self.name:
+            base_slug = self.generate_slug(self.name)
+            
+            # Check for uniqueness and append number if needed
+            counter = 1
+            slug = base_slug
+            while Product.query.filter_by(slug=slug).first() is not None:
+                slug = f"{base_slug}-{counter}"
+                counter += 1
+            
+            self.slug = slug
     
     @property
     def is_on_sale(self):
@@ -88,6 +117,41 @@ class Product(db.Model):
             return False
         return self.stock_quantity <= self.low_stock_threshold
     
+    def get_gallery_images_list(self):
+        """Parse gallery_images JSON string to list"""
+        if not self.gallery_images:
+            return []
+        try:
+            import json
+            return json.loads(self.gallery_images) if isinstance(self.gallery_images, str) else self.gallery_images
+        except (json.JSONDecodeError, TypeError):
+            return []
+    
+    def get_badge_ids_list(self):
+        """Parse badge_ids JSON string to list"""
+        badge_ids = getattr(self, 'badge_ids', None)
+        if not badge_ids:
+            return []
+        try:
+            import json
+            return json.loads(badge_ids) if isinstance(badge_ids, str) else badge_ids
+        except (json.JSONDecodeError, TypeError):
+            return []
+    
+    def get_badges(self):
+        """Get actual badge objects for this product"""
+        badge_ids = self.get_badge_ids_list()
+        if not badge_ids:
+            return []
+        
+        # Import here to avoid circular imports
+        from models.badge import Badge
+        try:
+            return Badge.query.filter(Badge.id.in_(badge_ids), Badge.is_active == True).all()
+        except Exception as e:
+            print(f"Error fetching badges: {e}")
+            return []
+    
     def to_dict(self):
         """Convert product to dictionary for JSON responses"""
         return {
@@ -102,6 +166,7 @@ class Product(db.Model):
             'category': self.category,
             'skin_type': self.skin_type,
             'ingredients': self.ingredients,
+            'usage_instructions': self.usage_instructions,
             'size': self.size,
             'stock_quantity': self.stock_quantity,
             'low_stock_threshold': self.low_stock_threshold,
@@ -114,6 +179,10 @@ class Product(db.Model):
             'primary_image': self.primary_image,
             'secondary_image': self.secondary_image,
             'gallery_images': self.gallery_images,
+            'gallery_images_list': self.get_gallery_images_list(),
+            'badge_ids': getattr(self, 'badge_ids', None),
+            'badge_ids_list': self.get_badge_ids_list(),
+            'badges': [badge.to_dict() for badge in self.get_badges()],
             'tags': self.tags,
             'is_on_sale': self.is_on_sale,
             'discount_percentage': self.discount_percentage,

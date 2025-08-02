@@ -2,6 +2,7 @@
 from .user import User
 from .order import Order
 from .order_item import OrderItem
+from .badge import Badge
 
 # Import Product model if it exists in a separate file
 try:
@@ -11,4 +12,4 @@ except ImportError:
     # or create a product.py file with the Product model
     pass
 
-__all__ = ['User', 'Order', 'OrderItem', 'Product']
+__all__ = ['User', 'Order', 'OrderItem', 'Product', 'Badge']

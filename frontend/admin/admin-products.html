@@ -6,6 +6,349 @@
     <title>Product Management - GAOJIE Admin</title>
     <link rel="stylesheet" href="../styles.css">
     <link rel="stylesheet" href="../css/admin.css">
+    <style>
+        /* Image Management Styles */
+        .admin-section-description {
+            color: #6c757d;
+            font-size: 0.875rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .admin-image-slots {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .admin-image-slot {
+            background: white;
+            border: 2px dashed #dee2e6;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .admin-image-slot:hover {
+            border-color: #007bff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,123,255,0.1);
+        }
+        
+        .admin-image-slot.has-image {
+            border-style: solid;
+            border-color: #28a745;
+            cursor: move;
+        }
+        
+        .admin-image-slot.dragging {
+            opacity: 0.5;
+            transform: rotate(2deg) scale(0.95);
+        }
+        
+        .admin-image-slot.drop-target {
+            border-color: #ffc107;
+            background: #fff3cd;
+        }
+        
+        .admin-slot-content {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: #f8f9fa;
+        }
+        
+        .admin-slot-upload {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem;
+            text-align: center;
+        }
+        
+        .admin-slot-icon {
+            color: #adb5bd;
+            transition: color 0.2s;
+        }
+        
+        .admin-image-slot:hover .admin-slot-icon {
+            color: #007bff;
+        }
+        
+        .admin-slot-text {
+            font-size: 0.875rem;
+            color: #6c757d;
+            font-weight: 500;
+        }
+        
+        .admin-slot-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        
+        .admin-slot-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        
+        .admin-image-slot:hover .admin-slot-overlay {
+            opacity: 1;
+        }
+        
+        .admin-slot-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .admin-slot-action {
+            background: rgba(255,255,255,0.9);
+            border: none;
+            border-radius: 6px;
+            padding: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #495057;
+        }
+        
+        .admin-slot-action:hover {
+            background: white;
+            transform: scale(1.1);
+        }
+        
+        .admin-slot-action.remove {
+            background: rgba(220,53,69,0.9);
+            color: white;
+        }
+        
+        .admin-slot-action.remove:hover {
+            background: #dc3545;
+        }
+        
+        .admin-slot-label {
+            padding: 0.75rem;
+            background: white;
+            border-top: 1px solid #dee2e6;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .admin-slot-number {
+            background: #007bff;
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        
+        .admin-image-slot[data-type="main"] .admin-slot-number {
+            background: #28a745;
+        }
+        
+        .admin-image-slot[data-type="hover"] .admin-slot-number {
+            background: #ffc107;
+            color: #000;
+        }
+        
+        .admin-slot-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.125rem;
+        }
+        
+        .admin-slot-title {
+            font-weight: 600;
+            font-size: 0.875rem;
+            color: #495057;
+        }
+        
+        .admin-slot-desc {
+            font-size: 0.75rem;
+            color: #6c757d;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .admin-image-slots {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .admin-image-slots {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Badge Management Styles */
+        .admin-section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        
+        .admin-badge-manager {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1rem;
+        }
+        
+        .admin-badge-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            min-height: 60px;
+            align-items: flex-start;
+        }
+        
+        .admin-badge-item {
+            position: relative;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        
+        .admin-badge-item:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+        
+        .admin-badge-item.selected {
+            transform: scale(0.95);
+            box-shadow: 0 0 0 2px #007bff;
+        }
+        
+        .admin-badge-preview {
+            padding: 6px 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-radius: 6px;
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.2s ease;
+        }
+        
+        .admin-badge-loading {
+            color: #6c757d;
+            font-style: italic;
+            padding: 1rem;
+            text-align: center;
+            width: 100%;
+        }
+        
+        /* Badge Modal Styles */
+        .admin-badge-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        
+        .admin-badge-modal-content {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .admin-color-picker-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .admin-color-input-wrapper {
+            position: relative;
+        }
+        
+        .admin-color-preview {
+            width: 40px;
+            height: 40px;
+            border-radius: 6px;
+            border: 2px solid #dee2e6;
+            cursor: pointer;
+            margin-bottom: 0.5rem;
+            transition: all 0.2s ease;
+        }
+        
+        .admin-color-preview:hover {
+            transform: scale(1.05);
+            border-color: #007bff;
+        }
+        
+        .admin-color-input {
+            position: absolute;
+            opacity: 0;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+        }
+        
+        .admin-badge-preview-section {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        
+        .admin-badge-preview-title {
+            font-size: 0.875rem;
+            color: #6c757d;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+        
+        .admin-badge-live-preview {
+            display: inline-block;
+            padding: 6px 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-radius: 6px;
+            min-width: 80px;
+            transition: all 0.2s ease;
+        }
+    </style>
 </head>
 <body>
     <!-- Announcement Bar -->
@@ -207,43 +550,141 @@
     
                     <!-- Image Management Section -->
                     <div class="admin-form-section">
-                        <h4 class="admin-section-title">Product Images & Media</h4>
+                        <h4 class="admin-section-title">Product Images</h4>
+                        <p class="admin-section-description">Upload images for each slot. Drag images between slots to reorder.</p>
                         
-                        <!-- Image Upload Area -->
-                        <div class="admin-image-upload-section">
-                            <div class="admin-image-upload-header">
-                                <span class="admin-upload-instruction">Upload product images (drag & drop or click to browse)</span>
-                                <input type="file" class="admin-file-input" id="product-images" multiple accept="image/*">
-                                <button type="button" class="admin-btn secondary" onclick="document.getElementById('product-images').click()">
-                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                        <path d="M8 2V14M2 8H14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                                    </svg>
-                                    Add Images
-                                </button>
-                            </div>
-    
-                            <!-- Image Preview & Management -->
-                            <div class="admin-image-manager" id="image-manager">
-                                <!-- This will be populated dynamically -->
-                            </div>
-                        </div>
-    
-                        <!-- Video Upload -->
-                        <div class="admin-video-upload-section">
-                            <h5 class="admin-subsection-title">Product Videos (Optional)</h5>
-                            <div class="admin-video-upload">
-                                <input type="file" class="admin-file-input" id="product-videos" multiple accept="video/*">
-                                <div class="admin-file-upload-area" onclick="document.getElementById('product-videos').click()">
-                                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" class="admin-upload-icon">
-                                        <path d="M22 10L28 6V18L22 14V20C22 21.1046 21.1046 22 20 22H4C2.89543 22 2 21.1046 2 20V8C2 6.89543 2.89543 6 4 6H20C21.1046 6 22 6.89543 22 8V10Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                    </svg>
-                                    <p>Drop videos here or click to upload</p>
-                                    <span class="admin-file-note">MP4, WebM up to 50MB each</span>
+                        <!-- Individual Image Slots -->
+                        <div class="admin-image-slots" id="image-slots">
+                            <!-- Slot 1: Main Image -->
+                            <div class="admin-image-slot" data-slot="0" data-type="main">
+                                <input type="file" class="admin-slot-input" id="slot-input-0" accept="image/*" style="display: none;">
+                                <div class="admin-slot-content" id="slot-content-0">
+                                    <div class="admin-slot-upload">
+                                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" class="admin-slot-icon">
+                                            <path d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15" stroke="currentColor" stroke-width="2"/>
+                                            <path d="M17 8L12 3L7 8" stroke="currentColor" stroke-width="2"/>
+                                            <path d="M12 3V15" stroke="currentColor" stroke-width="2"/>
+                                        </svg>
+                                        <span class="admin-slot-text">Click to Upload</span>
+                                    </div>
+                                </div>
+                                <div class="admin-slot-label">
+                                    <span class="admin-slot-number">1</span>
+                                    <div class="admin-slot-info">
+                                        <span class="admin-slot-title">Main Image</span>
+                                        <span class="admin-slot-desc">Primary product display</span>
+                                    </div>
                                 </div>
                             </div>
                             
-                            <div class="admin-video-manager" id="video-manager">
-                                <!-- Video previews will appear here -->
+                            <!-- Slot 2: Hover Image -->
+                            <div class="admin-image-slot" data-slot="1" data-type="hover">
+                                <input type="file" class="admin-slot-input" id="slot-input-1" accept="image/*" style="display: none;">
+                                <div class="admin-slot-content" id="slot-content-1">
+                                    <div class="admin-slot-upload">
+                                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" class="admin-slot-icon">
+                                            <path d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15" stroke="currentColor" stroke-width="2"/>
+                                            <path d="M17 8L12 3L7 8" stroke="currentColor" stroke-width="2"/>
+                                            <path d="M12 3V15" stroke="currentColor" stroke-width="2"/>
+                                        </svg>
+                                        <span class="admin-slot-text">Click to Upload</span>
+                                    </div>
+                                </div>
+                                <div class="admin-slot-label">
+                                    <span class="admin-slot-number">2</span>
+                                    <div class="admin-slot-info">
+                                        <span class="admin-slot-title">Hover Image</span>
+                                        <span class="admin-slot-desc">Shows on card hover</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Slot 3: Additional Image 1 -->
+                            <div class="admin-image-slot" data-slot="2" data-type="additional">
+                                <input type="file" class="admin-slot-input" id="slot-input-2" accept="image/*" style="display: none;">
+                                <div class="admin-slot-content" id="slot-content-2">
+                                    <div class="admin-slot-upload">
+                                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" class="admin-slot-icon">
+                                            <path d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15" stroke="currentColor" stroke-width="2"/>
+                                            <path d="M17 8L12 3L7 8" stroke="currentColor" stroke-width="2"/>
+                                            <path d="M12 3V15" stroke="currentColor" stroke-width="2"/>
+                                        </svg>
+                                        <span class="admin-slot-text">Click to Upload</span>
+                                    </div>
+                                </div>
+                                <div class="admin-slot-label">
+                                    <span class="admin-slot-number">3</span>
+                                    <div class="admin-slot-info">
+                                        <span class="admin-slot-title">Gallery Image 1</span>
+                                        <span class="admin-slot-desc">Product detail page</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Slot 4: Additional Image 2 -->
+                            <div class="admin-image-slot" data-slot="3" data-type="additional">
+                                <input type="file" class="admin-slot-input" id="slot-input-3" accept="image/*" style="display: none;">
+                                <div class="admin-slot-content" id="slot-content-3">
+                                    <div class="admin-slot-upload">
+                                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" class="admin-slot-icon">
+                                            <path d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15" stroke="currentColor" stroke-width="2"/>
+                                            <path d="M17 8L12 3L7 8" stroke="currentColor" stroke-width="2"/>
+                                            <path d="M12 3V15" stroke="currentColor" stroke-width="2"/>
+                                        </svg>
+                                        <span class="admin-slot-text">Click to Upload</span>
+                                    </div>
+                                </div>
+                                <div class="admin-slot-label">
+                                    <span class="admin-slot-number">4</span>
+                                    <div class="admin-slot-info">
+                                        <span class="admin-slot-title">Gallery Image 2</span>
+                                        <span class="admin-slot-desc">Product detail page</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Slot 5: Additional Image 3 -->
+                            <div class="admin-image-slot" data-slot="4" data-type="additional">
+                                <input type="file" class="admin-slot-input" id="slot-input-4" accept="image/*" style="display: none;">
+                                <div class="admin-slot-content" id="slot-content-4">
+                                    <div class="admin-slot-upload">
+                                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" class="admin-slot-icon">
+                                            <path d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15" stroke="currentColor" stroke-width="2"/>
+                                            <path d="M17 8L12 3L7 8" stroke="currentColor" stroke-width="2"/>
+                                            <path d="M12 3V15" stroke="currentColor" stroke-width="2"/>
+                                        </svg>
+                                        <span class="admin-slot-text">Click to Upload</span>
+                                    </div>
+                                </div>
+                                <div class="admin-slot-label">
+                                    <span class="admin-slot-number">5</span>
+                                    <div class="admin-slot-info">
+                                        <span class="admin-slot-title">Gallery Image 3</span>
+                                        <span class="admin-slot-desc">Product detail page</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product Badges -->
+                    <div class="admin-form-section">
+                        <div class="admin-section-header">
+                            <h4 class="admin-section-title">Product Badges</h4>
+                            <button type="button" class="admin-btn admin-btn-secondary" onclick="openBadgeModal()">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                    <path d="M12 5V19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                    <path d="M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                </svg>
+                                New Badge
+                            </button>
+                        </div>
+                        <p class="admin-section-description">Select badges to display on the product card. Create custom badges with your own colors.</p>
+                        
+                        <div class="admin-badge-manager">
+                            <div class="admin-badge-list" id="available-badges">
+                                <!-- Badges will be loaded dynamically -->
+                                <div class="admin-badge-loading">Loading badges...</div>
                             </div>
                         </div>
                     </div>
@@ -305,6 +746,64 @@
                 <button type="button" class="admin-btn secondary" onclick="saveProductDraft()">Save Draft</button>
                 <button type="submit" class="admin-btn primary" onclick="saveProduct()">Save Product</button>
             </div>
+        </div>
+    </div>
+
+    <!-- Badge Creation Modal -->
+    <div class="admin-badge-modal" id="badge-modal" style="display: none;">
+        <div class="admin-badge-modal-content">
+            <div class="admin-modal-header">
+                <h3 class="admin-modal-title">Create New Badge</h3>
+                <button class="admin-modal-close" onclick="closeBadgeModal()">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <path d="M15 5L5 15M5 5L15 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </div>
+            
+            <form id="badge-form">
+                <div class="admin-form-group">
+                    <label class="admin-form-label">Badge Name</label>
+                    <input type="text" class="admin-form-input" id="badge-name" placeholder="e.g. Anti-Aging, Serum, etc." required>
+                </div>
+                
+                <div class="admin-color-picker-group">
+                    <div class="admin-form-group">
+                        <label class="admin-form-label">Background Color</label>
+                        <div class="admin-color-input-wrapper">
+                            <div class="admin-color-preview" id="bg-color-preview" style="background-color: #E3F2FD;"></div>
+                            <input type="color" class="admin-color-input" id="badge-bg-color" value="#E3F2FD">
+                            <input type="text" class="admin-form-input" id="badge-bg-hex" placeholder="#E3F2FD" style="margin-top: 0.5rem;">
+                        </div>
+                    </div>
+                    
+                    <div class="admin-form-group">
+                        <label class="admin-form-label">Text Color</label>
+                        <div class="admin-color-input-wrapper">
+                            <div class="admin-color-preview" id="text-color-preview" style="background-color: #1976D2;"></div>
+                            <input type="color" class="admin-color-input" id="badge-text-color" value="#1976D2">
+                            <input type="text" class="admin-form-input" id="badge-text-hex" placeholder="#1976D2" style="margin-top: 0.5rem;">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="admin-badge-preview-section">
+                    <div class="admin-badge-preview-title">Preview</div>
+                    <div class="admin-badge-live-preview" id="badge-live-preview" style="background-color: #E3F2FD; color: #1976D2;">Sample Badge</div>
+                </div>
+                
+                <div class="admin-form-group">
+                    <label class="admin-checkbox-wrapper">
+                        <input type="checkbox" id="badge-is-category" checked>
+                        <span class="admin-checkbox-text">Category Badge (appears on product cards)</span>
+                    </label>
+                </div>
+                
+                <div class="admin-modal-footer">
+                    <button type="button" class="admin-btn secondary" onclick="closeBadgeModal()">Cancel</button>
+                    <button type="submit" class="admin-btn primary">Create Badge</button>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -413,9 +912,12 @@
 
     <script src="../gaojie-common.js"></script>
     <script>
+        console.log('🚀 ADMIN PRODUCTS - LOADING CUSTOM JAVASCRIPT');
+        
         // Global variables
         let currentProducts = [];
         let currentEditingProduct = null;
+        let imageSlots = [null, null, null, null, null]; // Array for 5 image slots
         
         // Initialize admin products page
         document.addEventListener('DOMContentLoaded', async function() {
@@ -444,6 +946,9 @@
             // Setup dropdown
             const userBtn = document.querySelector('#admin-user-menu .user-btn');
             const dropdown = document.querySelector('#admin-user-menu .user-dropdown');
+            
+            // Load badges
+            await loadBadges();
             if (userBtn && dropdown) {
                 userBtn.addEventListener('click', (e) => {
                     e.preventDefault();
@@ -470,6 +975,45 @@
             // Search functionality
             document.getElementById('products-search').addEventListener('input', debounce(handleSearch, 300));
             
+            // Badge form event listeners
+            const badgeForm = document.getElementById('badge-form');
+            if (badgeForm) {
+                badgeForm.addEventListener('submit', createBadge);
+            }
+            
+            // Color picker event listeners
+            ['badge-bg-color', 'badge-text-color', 'badge-name'].forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.addEventListener('input', updateBadgePreview);
+                }
+            });
+            
+            // Hex input event listeners
+            ['badge-bg-hex', 'badge-text-hex'].forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.addEventListener('input', (e) => {
+                        const colorInput = document.getElementById(id.replace('-hex', ''));
+                        const preview = document.getElementById(id.includes('bg') ? 'bg-color-preview' : 'text-color-preview');
+                        if (e.target.value.match(/^#[0-9A-Fa-f]{6}$/)) {
+                            colorInput.value = e.target.value;
+                            preview.style.backgroundColor = e.target.value;
+                            updateBadgePreview();
+                        }
+                    });
+                }
+            });
+            
+            // Color preview click handlers
+            document.getElementById('bg-color-preview')?.addEventListener('click', () => {
+                document.getElementById('badge-bg-color').click();
+            });
+            
+            document.getElementById('text-color-preview')?.addEventListener('click', () => {
+                document.getElementById('badge-text-color').click();
+            });
+            
             // Filter functionality  
             document.getElementById('stock-filter').addEventListener('change', handleFilters);
             document.getElementById('status-filter').addEventListener('change', async function() {
@@ -485,44 +1029,275 @@
                     handleFilters();
                 });
             });
+            
+            // Initialize image management
+            initImageManagement();
         }
 
-        // Load products with specific status
-        async function loadProductsWithStatus(status) {
+        // ===== SLOT-BASED IMAGE MANAGEMENT SYSTEM =====
+        
+        function initImageManagement() {
+            console.log('🖼️ Initializing slot-based image management');
+            
+            // Initialize each slot
+            for (let i = 0; i < 5; i++) {
+                initImageSlot(i);
+            }
+            
+            console.log('✅ All image slots initialized');
+        }
+        
+        function initImageSlot(slotIndex) {
+            const slot = document.querySelector(`[data-slot="${slotIndex}"]`);
+            const input = document.getElementById(`slot-input-${slotIndex}`);
+            const content = document.getElementById(`slot-content-${slotIndex}`);
+            
+            if (!slot || !input || !content) {
+                console.warn(`Slot ${slotIndex} elements not found`);
+                return;
+            }
+            
+            // Click to upload
+            content.addEventListener('click', () => {
+                input.click();
+            });
+            
+            // File selection
+            input.addEventListener('change', (e) => {
+                if (e.target.files[0]) {
+                    handleSlotImage(slotIndex, e.target.files[0]);
+                }
+            });
+            
+            // Drag and drop
+            slot.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                slot.classList.add('drop-target');
+            });
+            
+            slot.addEventListener('dragleave', (e) => {
+                e.preventDefault();
+                slot.classList.remove('drop-target');
+            });
+            
+            slot.addEventListener('drop', (e) => {
+                e.preventDefault();
+                slot.classList.remove('drop-target');
+                
+                // Check if it's an external file drop
+                if (e.dataTransfer.files[0]) {
+                    handleSlotImage(slotIndex, e.dataTransfer.files[0]);
+                } else {
+                    // It's a drag from another slot
+                    const sourceSlot = parseInt(e.dataTransfer.getData('text/plain'));
+                    if (sourceSlot !== slotIndex) {
+                        swapSlotImages(sourceSlot, slotIndex);
+                    }
+                }
+            });
+            
+            // Drag start (for reordering)
+            slot.addEventListener('dragstart', (e) => {
+                if (imageSlots[slotIndex]) {
+                    e.dataTransfer.setData('text/plain', slotIndex.toString());
+                    slot.classList.add('dragging');
+                }
+            });
+            
+            slot.addEventListener('dragend', (e) => {
+                slot.classList.remove('dragging');
+            });
+            
+            console.log(`✅ Slot ${slotIndex + 1} initialized`);
+        }
+        
+        function handleSlotImage(slotIndex, file) {
+            console.log(`📁 Processing image for slot ${slotIndex + 1}: ${file.name}`);
+            
+            // Validate file
+            if (!file.type.startsWith('image/')) {
+                GaojieUtils.showNotification(`${file.name} is not an image`, 'error');
+                return;
+            }
+            
+            if (file.size > 5 * 1024 * 1024) {
+                GaojieUtils.showNotification(`${file.name} is too large (max 5MB)`, 'error');
+                return;
+            }
+            
+            // Read and store image
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                imageSlots[slotIndex] = {
+                    file: file,
+                    url: e.target.result,
+                    name: file.name
+                };
+                
+                renderSlot(slotIndex);
+                GaojieUtils.showNotification(`Image added to slot ${slotIndex + 1}`, 'success');
+                
+                console.log(`✅ Image added to slot ${slotIndex + 1}: ${file.name}`);
+            };
+            reader.readAsDataURL(file);
+        }
+        
+        function renderSlot(slotIndex) {
+            const content = document.getElementById(`slot-content-${slotIndex}`);
+            const slot = document.querySelector(`[data-slot="${slotIndex}"]`);
+            
+            if (!content || !slot) return;
+            
+            const image = imageSlots[slotIndex];
+            
+            if (image) {
+                // Has image - show image with overlay
+                content.innerHTML = `
+                    <img src="${image.url}" alt="${image.name}" class="admin-slot-image">
+                    <div class="admin-slot-overlay">
+                        <div class="admin-slot-actions">
+                            <button class="admin-slot-action" onclick="replaceSlotImage(${slotIndex})" title="Replace image">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                    <path d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15" stroke="currentColor" stroke-width="2"/>
+                                    <path d="M17 8L12 3L7 8" stroke="currentColor" stroke-width="2"/>
+                                    <path d="M12 3V15" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                            </button>
+                            <button class="admin-slot-action remove" onclick="removeSlotImage(${slotIndex})" title="Remove image">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                    <path d="M3 6H5H21" stroke="currentColor" stroke-width="2"/>
+                                    <path d="M8 6V4C8 3.44772 8.44772 3 9 3H15C15.5523 3 16 3.44772 16 4V6" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                `;
+                slot.classList.add('has-image');
+                slot.setAttribute('draggable', 'true');
+            } else {
+                // No image - show upload prompt
+                content.innerHTML = `
+                    <div class="admin-slot-upload">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" class="admin-slot-icon">
+                            <path d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15" stroke="currentColor" stroke-width="2"/>
+                            <path d="M17 8L12 3L7 8" stroke="currentColor" stroke-width="2"/>
+                            <path d="M12 3V15" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                        <span class="admin-slot-text">Click to Upload</span>
+                    </div>
+                `;
+                slot.classList.remove('has-image');
+                slot.setAttribute('draggable', 'false');
+            }
+        }
+        
+        function replaceSlotImage(slotIndex) {
+            const input = document.getElementById(`slot-input-${slotIndex}`);
+            input.click();
+        }
+        
+        function removeSlotImage(slotIndex) {
+            imageSlots[slotIndex] = null;
+            renderSlot(slotIndex);
+            GaojieUtils.showNotification(`Image removed from slot ${slotIndex + 1}`, 'success');
+            console.log(`🗑️ Removed image from slot ${slotIndex + 1}`);
+        }
+        
+        function swapSlotImages(sourceSlot, targetSlot) {
+            const temp = imageSlots[sourceSlot];
+            imageSlots[sourceSlot] = imageSlots[targetSlot];
+            imageSlots[targetSlot] = temp;
+            
+            renderSlot(sourceSlot);
+            renderSlot(targetSlot);
+            
+            GaojieUtils.showNotification(`Images swapped between slots ${sourceSlot + 1} and ${targetSlot + 1}`, 'success');
+            console.log(`🔄 Swapped images: slot ${sourceSlot + 1} ↔ slot ${targetSlot + 1}`);
+        }
+        
+        function clearAllSlots() {
+            imageSlots = [null, null, null, null, null];
+            for (let i = 0; i < 5; i++) {
+                renderSlot(i);
+            }
+            console.log('🧹 Cleared all image slots');
+        }
+        
+        function getImageData() {
+            return {
+                primary_image: imageSlots[0]?.url || null,
+                secondary_image: imageSlots[1]?.url || null,
+                gallery_images: imageSlots.slice(2).filter(img => img).map(img => img.url),
+                image_files: imageSlots.filter(img => img).map(img => img.file),
+                badge_ids: getSelectedBadgeData()
+            };
+        }
+
+        // REWRITTEN: Load products with comprehensive debugging
+        async function loadProducts() {
+            console.log('🔄 LOADING PRODUCTS - START');
+            
             try {
                 // Show loading state
                 const grid = document.querySelector('.admin-products-grid');
+                if (!grid) {
+                    console.error('❌ Products grid not found!');
+                    return;
+                }
+                
                 grid.innerHTML = '<div class="admin-loading-state"><p>Loading products...</p></div>';
                 
-                const response = await fetch(`/api/products/admin?status=${status}`, { credentials: 'include' });
+                // Get current status filter
+                const statusFilter = document.getElementById('status-filter');
+                const currentStatus = statusFilter ? statusFilter.value : 'active';
+                console.log(`📊 Loading products with status: ${currentStatus}`);
+                
+                // Make API call
+                const response = await fetch(`/api/products/admin?status=${currentStatus}`, { 
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
                 const data = await response.json();
+                console.log('🔥 API Response:', data);
                 
-                console.log(`API Response for status ${status}:`, data);
-                
-                if (data.status === 'success') {
+                if (data.status === 'success' && data.products) {
+                    // Update global state
                     currentProducts = data.products;
-                    updateCategoryCounts(data.category_counts);
+                    console.log(`✅ Loaded ${currentProducts.length} products`);
+                    
+                    // Update UI
                     renderProducts(currentProducts);
                     
-                    console.log(`Loaded ${currentProducts.length} products with status: ${status}`);
+                    // Update category counts
+                    if (data.category_counts) {
+                        updateCategoryCounts(data.category_counts);
+                    }
+                    
+                    console.log('🎉 PRODUCTS LOADED SUCCESSFULLY');
                 } else {
-                    console.error('Failed to load products:', data.message);
-                    grid.innerHTML = '<div class="admin-empty-state"><h3>Failed to Load Products</h3><p>Please refresh the page and try again.</p></div>';
-                    if (window.GaojieUtils) GaojieUtils.showNotification(data.message || 'Failed to load products', 'error');
+                    console.error('❌ API returned error:', data.message);
+                    grid.innerHTML = `<div class="admin-empty-state"><h3>Failed to Load Products</h3><p>${data.message || 'Unknown error'}</p></div>`;
+                    if (window.GaojieUtils) {
+                        GaojieUtils.showNotification(data.message || 'Failed to load products', 'error');
+                    }
                 }
             } catch (error) {
-                console.error('Error loading products:', error);
+                console.error('💥 CRITICAL ERROR loading products:', error);
                 const grid = document.querySelector('.admin-products-grid');
-                grid.innerHTML = '<div class="admin-empty-state"><h3>Error Loading Products</h3><p>Please check your connection and try again.</p></div>';
-                if (window.GaojieUtils) GaojieUtils.showNotification('Error loading products', 'error');
+                if (grid) {
+                    grid.innerHTML = `<div class="admin-empty-state"><h3>Connection Error</h3><p>${error.message}</p></div>`;
+                }
+                if (window.GaojieUtils) {
+                    GaojieUtils.showNotification(`Error: ${error.message}`, 'error');
+                }
             }
-        }
-
-        // Load products from backend (respects current status filter)
-        async function loadProducts() {
-            const statusFilter = document.getElementById('status-filter');
-            const currentStatus = statusFilter ? statusFilter.value : 'active';
-            await loadProductsWithStatus(currentStatus);
         }
 
         // Update category counts in tabs
@@ -671,6 +1446,12 @@
                     field.value = '';
                 }
             });
+            
+            // Clear image slots
+            clearAllSlots();
+            
+            // Clear selected badges
+            clearSelectedBadges();
         }
 
         // Product CRUD operations
@@ -743,47 +1524,77 @@
             }
         }
 
+        // REWRITTEN: Delete product with comprehensive debugging
         async function deleteProduct(productId) {
+            console.log(`🗑️ DELETE PRODUCT - START (ID: ${productId})`);
+            
             // Find the product name for confirmation
             const product = currentProducts.find(p => p.id === productId);
             const productName = product ? product.name : 'this product';
+            console.log(`🔍 Found product: ${productName}`);
             
-            if (!confirm(`Are you sure you want to delete "${productName}"? This will deactivate it from the store.`)) return;
+            if (!confirm(`Are you sure you want to delete "${productName}"? This will deactivate it from the store.`)) {
+                console.log('❌ Delete cancelled by user');
+                return;
+            }
             
             try {
-                // Show loading feedback
-                if (window.GaojieUtils) GaojieUtils.showNotification('Deleting product...', 'info');
+                console.log('🔄 Sending delete request...');
+                
+                if (window.GaojieUtils) {
+                    GaojieUtils.showNotification('Deleting product...', 'info');
+                }
                 
                 const response = await fetch(`/api/products/admin/${productId}`, {
                     method: 'DELETE',
-                    credentials: 'include'
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
                 });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
                 const data = await response.json();
+                console.log('📥 Delete response:', data);
                 
                 if (data.status === 'success') {
-                    if (window.GaojieUtils) GaojieUtils.showNotification(`"${productName}" deleted successfully`, 'success');
+                    console.log('✅ Product deleted successfully!');
                     
-                    // Remove the product from current list immediately
-                    currentProducts = currentProducts.filter(p => p.id !== productId);
+                    if (window.GaojieUtils) {
+                        GaojieUtils.showNotification(`"${productName}" deleted successfully`, 'success');
+                    }
                     
-                    // Re-render the filtered list
-                    renderProducts(currentProducts);
-                    
-                    // Update category counts
-                    updateCategoryCounts(getCategoryCounts(currentProducts));
+                    // Force reload to ensure UI consistency
+                    console.log('🔄 Reloading products after delete...');
+                    await loadProducts();
+                    console.log('🎉 DELETE COMPLETE!');
                     
                 } else {
-                    console.error('Delete error:', data);
-                    if (window.GaojieUtils) GaojieUtils.showNotification(data.message || 'Failed to delete product', 'error');
+                    console.error('❌ Delete failed:', data.message);
+                    if (window.GaojieUtils) {
+                        GaojieUtils.showNotification(data.message || 'Failed to delete product', 'error');
+                    }
                 }
             } catch (error) {
-                console.error('Error deleting product:', error);
-                if (window.GaojieUtils) GaojieUtils.showNotification('Error deleting product. Please try again.', 'error');
+                console.error('💥 CRITICAL ERROR deleting product:', error);
+                if (window.GaojieUtils) {
+                    GaojieUtils.showNotification(`Error: ${error.message}`, 'error');
+                }
             }
         }
 
+        // REWRITTEN: Save product with comprehensive debugging
         async function saveProduct() {
+            console.log('💾 SAVE PRODUCT - START');
+            
             const form = document.getElementById('product-form');
+            if (!form) {
+                console.error('❌ Product form not found!');
+                return;
+            }
             
             // Convert form data to JSON
             const productData = {};
@@ -817,20 +1628,30 @@
                 }
             });
             
-            // Ensure stock_quantity has a default value of 0 if not provided
-            if (!productData.stock_quantity && productData.stock_quantity !== 0) {
+            // Ensure stock_quantity has a default value
+            if (productData.stock_quantity === undefined) {
                 productData.stock_quantity = 0;
             }
+            
+            // Add image data
+            const imageData = getImageData();
+            Object.assign(productData, imageData);
+            
+            console.log('📤 Product data to send:', productData);
+            console.log('🖼️ Image data:', imageData);
             
             try {
                 const isEditing = currentEditingProduct !== null;
                 const url = isEditing ? `/api/products/admin/${currentEditingProduct.id}` : '/api/products/admin';
                 const method = isEditing ? 'PUT' : 'POST';
                 
-                // Show loading feedback
-                if (window.GaojieUtils) GaojieUtils.showNotification(`${isEditing ? 'Updating' : 'Creating'} product...`, 'info');
+                console.log(`🔧 ${method} request to: ${url}`);
+                console.log(`🔄 ${isEditing ? 'Editing' : 'Creating'} product...`);
                 
-                console.log('Sending product data:', productData);
+                // Show loading feedback
+                if (window.GaojieUtils) {
+                    GaojieUtils.showNotification(`${isEditing ? 'Updating' : 'Creating'} product...`, 'info');
+                }
                 
                 const response = await fetch(url, {
                     method: method,
@@ -841,26 +1662,42 @@
                     body: JSON.stringify(productData)
                 });
                 
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
                 const data = await response.json();
-                console.log('Response:', data);
+                console.log('📥 Save response:', data);
                 
                 if (data.status === 'success') {
-                    if (window.GaojieUtils) GaojieUtils.showNotification(
-                        `Product ${isEditing ? 'updated' : 'created'} successfully!`, 
-                        'success'
-                    );
+                    console.log('✅ Product saved successfully!');
+                    
+                    if (window.GaojieUtils) {
+                        GaojieUtils.showNotification(
+                            `Product ${isEditing ? 'updated' : 'created'} successfully!`, 
+                            'success'
+                        );
+                    }
+                    
+                    // Close modal
                     closeProductModal();
                     
-                    // Force a complete reload of products to ensure consistency
+                    // Force reload products
+                    console.log('🔄 Reloading products after save...');
                     await loadProducts();
+                    console.log('🎉 SAVE COMPLETE!');
                     
                 } else {
-                    console.error('Save error:', data);
-                    if (window.GaojieUtils) GaojieUtils.showNotification(data.message || 'Failed to save product', 'error');
+                    console.error('❌ Save failed:', data.message);
+                    if (window.GaojieUtils) {
+                        GaojieUtils.showNotification(data.message || 'Failed to save product', 'error');
+                    }
                 }
             } catch (error) {
-                console.error('Error saving product:', error);
-                if (window.GaojieUtils) GaojieUtils.showNotification('Error saving product. Please try again.', 'error');
+                console.error('💥 CRITICAL ERROR saving product:', error);
+                if (window.GaojieUtils) {
+                    GaojieUtils.showNotification(`Error: ${error.message}`, 'error');
+                }
             }
         }
 
@@ -871,73 +1708,135 @@
             saveProduct();
         }
 
-        // Populate edit form with product data - DIRECT ASSIGNMENT
+        // REWRITTEN: Populate edit form with comprehensive debugging
         function populateEditForm(product) {
-            console.log('🔥 POPULATING FORM WITH:', product);
+            console.log('📝 POPULATE FORM - START');
+            console.log('🔥 Product data received:', product);
             
             try {
-                // Get all form fields
-                const nameField = document.getElementById('product-name');
-                const skuField = document.getElementById('product-sku');
-                const categoryField = document.getElementById('product-category');
-                const sizeField = document.getElementById('product-size');
-                const priceField = document.getElementById('product-price');
-                const costField = document.getElementById('product-cost');
-                const stockField = document.getElementById('product-stock');
-                const lowStockField = document.getElementById('product-low-stock');
-                const descField = document.getElementById('product-description');
-                const metaDescField = document.getElementById('product-meta-description');
-                const tagsField = document.getElementById('product-tags');
+                // Wait a bit to ensure modal is fully rendered
+                setTimeout(() => {
+                    console.log('⏰ Starting form population...');
+                    
+                    // Field mapping with debugging
+                    const fieldMappings = [
+                        { id: 'product-name', key: 'name', label: 'Name' },
+                        { id: 'product-sku', key: 'slug', label: 'SKU' },
+                        { id: 'product-category', key: 'category', label: 'Category' },
+                        { id: 'product-size', key: 'size', label: 'Size' },
+                        { id: 'product-price', key: 'price', label: 'Price' },
+                        { id: 'product-cost', key: 'cost_price', label: 'Cost Price' },
+                        { id: 'product-stock', key: 'stock_quantity', label: 'Stock' },
+                        { id: 'product-low-stock', key: 'low_stock_threshold', label: 'Low Stock Threshold' },
+                        { id: 'product-description', key: 'description', label: 'Description' },
+                        { id: 'product-meta-description', key: 'meta_description', label: 'Meta Description' },
+                        { id: 'product-tags', key: 'tags', label: 'Tags' }
+                    ];
+                    
+                    let successCount = 0;
+                    let errorCount = 0;
+                    
+                    fieldMappings.forEach(field => {
+                        try {
+                            const element = document.getElementById(field.id);
+                            
+                            if (!element) {
+                                console.warn(`⚠️ Field not found: ${field.id}`);
+                                errorCount++;
+                                return;
+                            }
+                            
+                            const value = product[field.key];
+                            let displayValue = '';
+                            
+                            if (value !== undefined && value !== null) {
+                                displayValue = String(value);
+                            }
+                            
+                            element.value = displayValue;
+                            console.log(`✅ ${field.label}: "${displayValue}"`);
+                            successCount++;
+                            
+                        } catch (fieldError) {
+                            console.error(`❌ Error populating ${field.label}:`, fieldError);
+                            errorCount++;
+                        }
+                    });
+                    
+                    console.log(`📊 Form population summary: ${successCount} success, ${errorCount} errors`);
+                    
+                    // Populate image slots
+                    try {
+                        console.log('🖼️ Populating image slots...');
+                        clearAllSlots(); // Clear existing images first
+                        
+                        // Populate slot 0 (Main Image)
+                        if (product.primary_image) {
+                            imageSlots[0] = {
+                                url: product.primary_image,
+                                file: null // This is an existing image, no file object
+                            };
+                            renderSlot(0);
+                            console.log('✅ Populated main image (slot 1)');
+                        }
+                        
+                        // Populate slot 1 (Hover Image)
+                        if (product.secondary_image) {
+                            imageSlots[1] = {
+                                url: product.secondary_image,
+                                file: null
+                            };
+                            renderSlot(1);
+                            console.log('✅ Populated hover image (slot 2)');
+                        }
+                        
+                        // Populate slots 2-4 (Gallery Images)
+                        if (product.gallery_images_list && Array.isArray(product.gallery_images_list)) {
+                            product.gallery_images_list.forEach((imageUrl, index) => {
+                                if (index < 3 && imageUrl) { // Only first 3 gallery images (slots 2-4)
+                                    const slotIndex = index + 2;
+                                    imageSlots[slotIndex] = {
+                                        url: imageUrl,
+                                        file: null
+                                    };
+                                    renderSlot(slotIndex);
+                                    console.log(`✅ Populated gallery image ${index + 1} (slot ${slotIndex + 1})`);
+                                }
+                            });
+                        }
+                        
+                        console.log('🖼️ Image slots populated successfully');
+                        
+                    } catch (imageError) {
+                        console.error('❌ Error populating image slots:', imageError);
+                    }
+                    
+                    // Populate badges
+                    try {
+                        console.log('🏷️ Populating badges...');
+                        if (product.badge_ids_list && Array.isArray(product.badge_ids_list)) {
+                            setSelectedBadges(product.badge_ids_list);
+                            console.log(`✅ Populated ${product.badge_ids_list.length} badges`);
+                        } else {
+                            setSelectedBadges([]);
+                            console.log('✅ No badges to populate');
+                        }
+                        console.log('🏷️ Badges populated successfully');
+                        
+                    } catch (badgeError) {
+                        console.error('❌ Error populating badges:', badgeError);
+                    }
+                    
+                    if (successCount > 0) {
+                        console.log('🎉 FORM POPULATED SUCCESSFULLY!');
+                    } else {
+                        console.error('💥 FORM POPULATION FAILED!');
+                    }
+                    
+                }, 100); // Small delay to ensure DOM is ready
                 
-                // Populate all fields with proper fallbacks
-                if (nameField) {
-                    nameField.value = product.name || '';
-                    console.log('Name field populated:', nameField.value);
-                }
-                if (skuField) {
-                    skuField.value = product.slug || '';
-                    console.log('SKU field populated:', skuField.value);
-                }
-                if (categoryField) {
-                    categoryField.value = product.category || '';
-                    console.log('Category field populated:', categoryField.value);
-                }
-                if (sizeField) {
-                    sizeField.value = product.size || '';
-                    console.log('Size field populated:', sizeField.value);
-                }
-                if (priceField) {
-                    priceField.value = product.price || '';
-                    console.log('Price field populated:', priceField.value);
-                }
-                if (costField) {
-                    costField.value = product.cost_price || '';
-                    console.log('Cost field populated:', costField.value);
-                }
-                if (stockField) {
-                    stockField.value = product.stock_quantity !== undefined ? product.stock_quantity : 0;
-                    console.log('Stock field populated:', stockField.value);
-                }
-                if (lowStockField) {
-                    lowStockField.value = product.low_stock_threshold !== undefined ? product.low_stock_threshold : 10;
-                    console.log('Low stock field populated:', lowStockField.value);
-                }
-                if (descField) {
-                    descField.value = product.description || '';
-                    console.log('Description field populated:', descField.value);
-                }
-                if (metaDescField) {
-                    metaDescField.value = product.meta_description || '';
-                    console.log('Meta description field populated:', metaDescField.value);
-                }
-                if (tagsField) {
-                    tagsField.value = product.tags || '';
-                    console.log('Tags field populated:', tagsField.value);
-                }
-                
-                console.log('✅ FORM POPULATED SUCCESSFULLY - ALL FIELDS UPDATED');
             } catch (error) {
-                console.error('❌ ERROR POPULATING FORM:', error);
+                console.error('💥 CRITICAL ERROR in populateEditForm:', error);
             }
         }
 
@@ -1009,6 +1908,187 @@
             } catch (error) { console.error('Logout failed:', error); }
         };
 
+        // DEBUG: Console helper functions for testing
+        window.debugProductSystem = function() {
+            console.log('🔧 PRODUCT SYSTEM DEBUG INFO:');
+            console.log('📊 Current products count:', currentProducts.length);
+            console.log('🎯 Current editing product:', currentEditingProduct);
+            console.log('📋 Products array:', currentProducts);
+            
+            // Test modal
+            const modal = document.getElementById('product-modal');
+            console.log('🪟 Modal element:', modal ? 'Found' : 'NOT FOUND');
+            
+            // Test form
+            const form = document.getElementById('product-form');
+            console.log('📝 Form element:', form ? 'Found' : 'NOT FOUND');
+            
+            // Test grid
+            const grid = document.querySelector('.admin-products-grid');
+            console.log('🎯 Grid element:', grid ? 'Found' : 'NOT FOUND');
+            
+            // Test function sources
+            console.log('🔍 Function sources:');
+            console.log('- editProduct:', editProduct.toString().substring(0, 100) + '...');
+            console.log('- deleteProduct:', deleteProduct.toString().substring(0, 100) + '...');
+            console.log('- saveProduct:', saveProduct.toString().substring(0, 100) + '...');
+            
+            console.log('✅ Debug complete - check above for any issues');
+        };
+
+        // ===== BADGE MANAGEMENT FUNCTIONS =====
+        
+        let availableBadges = [];
+        let selectedBadgeIds = [];
+        
+        // Load available badges
+        async function loadBadges() {
+            try {
+                console.log('🏷️ Loading badges...');
+                const response = await fetch('/api/badges/', { credentials: 'include' });
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    availableBadges = data.badges;
+                    renderBadgeList();
+                    console.log(`✅ Loaded ${availableBadges.length} badges`);
+                } else {
+                    console.error('❌ Failed to load badges:', data.message);
+                }
+            } catch (error) {
+                console.error('💥 Error loading badges:', error);
+                const badgeList = document.getElementById('available-badges');
+                if (badgeList) {
+                    badgeList.innerHTML = '<div class="admin-badge-loading">Failed to load badges</div>';
+                }
+            }
+        }
+        
+        // Render badge list
+        function renderBadgeList() {
+            const badgeList = document.getElementById('available-badges');
+            if (!badgeList) return;
+            
+            if (availableBadges.length === 0) {
+                badgeList.innerHTML = '<div class="admin-badge-loading">No badges available. Create your first badge!</div>';
+                return;
+            }
+            
+            badgeList.innerHTML = availableBadges.map(badge => {
+                const isSelected = selectedBadgeIds.includes(badge.id);
+                return `
+                    <div class="admin-badge-item ${isSelected ? 'selected' : ''}" data-badge-id="${badge.id}" onclick="toggleBadge(${badge.id})">
+                        <div class="admin-badge-preview" style="background-color: ${badge.background_color}; color: ${badge.text_color};">
+                            ${badge.name}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        // Toggle badge selection
+        function toggleBadge(badgeId) {
+            const index = selectedBadgeIds.indexOf(badgeId);
+            if (index > -1) {
+                selectedBadgeIds.splice(index, 1);
+            } else {
+                selectedBadgeIds.push(badgeId);
+            }
+            renderBadgeList();
+            console.log('🏷️ Selected badges:', selectedBadgeIds);
+        }
+        
+        // Open badge creation modal
+        function openBadgeModal() {
+            document.getElementById('badge-modal').style.display = 'flex';
+            // Reset form
+            document.getElementById('badge-form').reset();
+            updateBadgePreview();
+        }
+        
+        // Close badge creation modal
+        function closeBadgeModal() {
+            document.getElementById('badge-modal').style.display = 'none';
+        }
+        
+        // Update badge preview in real-time
+        function updateBadgePreview() {
+            const name = document.getElementById('badge-name').value || 'Sample Badge';
+            const bgColor = document.getElementById('badge-bg-color').value;
+            const textColor = document.getElementById('badge-text-color').value;
+            
+            const preview = document.getElementById('badge-live-preview');
+            const bgPreview = document.getElementById('bg-color-preview');
+            const textPreview = document.getElementById('text-color-preview');
+            const bgHex = document.getElementById('badge-bg-hex');
+            const textHex = document.getElementById('badge-text-hex');
+            
+            preview.textContent = name;
+            preview.style.backgroundColor = bgColor;
+            preview.style.color = textColor;
+            
+            bgPreview.style.backgroundColor = bgColor;
+            textPreview.style.backgroundColor = textColor;
+            
+            bgHex.value = bgColor;
+            textHex.value = textColor;
+        }
+        
+        // Create new badge
+        async function createBadge(event) {
+            event.preventDefault();
+            
+            const formData = {
+                name: document.getElementById('badge-name').value,
+                background_color: document.getElementById('badge-bg-color').value,
+                text_color: document.getElementById('badge-text-color').value,
+                is_category_badge: document.getElementById('badge-is-category').checked
+            };
+            
+            try {
+                console.log('🏷️ Creating badge:', formData);
+                
+                const response = await fetch('/api/badges/admin', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    credentials: 'include',
+                    body: JSON.stringify(formData)
+                });
+                
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    GaojieUtils.showNotification(`Badge "${formData.name}" created successfully!`, 'success');
+                    closeBadgeModal();
+                    await loadBadges(); // Reload badges
+                } else {
+                    GaojieUtils.showNotification(data.message || 'Failed to create badge', 'error');
+                }
+            } catch (error) {
+                console.error('💥 Error creating badge:', error);
+                GaojieUtils.showNotification('Error creating badge. Please try again.', 'error');
+            }
+        }
+        
+        // Clear selected badges
+        function clearSelectedBadges() {
+            selectedBadgeIds = [];
+            renderBadgeList();
+        }
+        
+        // Get selected badge data for saving
+        function getSelectedBadgeData() {
+            return selectedBadgeIds;
+        }
+        
+        // Set selected badges (for editing)
+        function setSelectedBadges(badgeIds) {
+            selectedBadgeIds = badgeIds || [];
+            renderBadgeList();
+        }
+        
         // Make functions globally available
         window.editProduct = editProduct;
         window.duplicateProduct = duplicateProduct;
@@ -1016,8 +2096,33 @@
         window.saveProduct = saveProduct;
         window.saveProductDraft = saveProductDraft;
         window.closeProductModal = closeProductModal;
+        window.handleSlotImage = handleSlotImage;
+        window.removeSlotImage = removeSlotImage;
+        window.swapSlotImages = swapSlotImages;
+        window.clearAllSlots = clearAllSlots;
+        window.renderSlot = renderSlot;
+        window.openBadgeModal = openBadgeModal;
+        window.closeBadgeModal = closeBadgeModal;
+        window.toggleBadge = toggleBadge;
+        window.updateBadgePreview = updateBadgePreview;
+        window.createBadge = createBadge;
+        
+        console.log('✅ ADMIN PRODUCTS - CUSTOM JAVASCRIPT LOADED SUCCESSFULLY');
+        console.log('🔧 Available functions:', {
+            editProduct: typeof editProduct,
+            deleteProduct: typeof deleteProduct,
+            saveProduct: typeof saveProduct,
+            loadProducts: typeof loadProducts,
+            handleSlotImage: typeof handleSlotImage,
+            removeSlotImage: typeof removeSlotImage,
+            swapSlotImages: typeof swapSlotImages,
+            clearAllSlots: typeof clearAllSlots,
+            renderSlot: typeof renderSlot
+        });
     </script>
+    <!-- REMOVED CONFLICTING SCRIPTS:
     <script src="script.js"></script>
     <script src="../JS/admin-script.js"></script>
+    -->
 </body>
 </html>
