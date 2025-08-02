@@ -2,6 +2,8 @@ from flask import Blueprint, request, jsonify
 from extensions import db
 from models import Product
 from sqlalchemy import or_
+from datetime import datetime
+import re
 
 # Create products blueprint
 products_bp = Blueprint('products', __name__, url_prefix='/api/products')
@@ -220,6 +222,452 @@ def get_new_products():
     except Exception as e:
         return jsonify({
             'message': 'Error fetching new products',
+            'error': str(e),
+            'status': 'error'
+        }), 500
+
+# ===== ADMIN ENDPOINTS =====
+
+def generate_slug(name):
+    """Generate URL-friendly slug from product name"""
+    slug = re.sub(r'[^\w\s-]', '', name.lower())
+    slug = re.sub(r'[-\s]+', '-', slug)
+    return slug.strip('-')
+
+def admin_required(f):
+    """Decorator to require admin privileges"""
+    from functools import wraps
+    
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        try:
+            from flask import session
+            from flask_login import current_user
+            
+            # Check session-based auth first (primary method)
+            if 'user_id' in session:
+                from models import User
+                user = User.query.get(session['user_id'])
+                if user and user.is_admin:
+                    return f(*args, **kwargs)
+                elif user:
+                    return jsonify({'message': 'Admin privileges required', 'status': 'error'}), 403
+            
+            # Check Flask-Login as fallback
+            if current_user.is_authenticated and hasattr(current_user, 'is_admin') and current_user.is_admin:
+                return f(*args, **kwargs)
+            elif current_user.is_authenticated:
+                return jsonify({'message': 'Admin privileges required', 'status': 'error'}), 403
+            
+            # No valid authentication found
+            return jsonify({'message': 'Authentication required', 'status': 'error'}), 401
+                
+        except Exception as e:
+            print(f"Admin auth error: {e}")
+            import traceback
+            traceback.print_exc()
+            return jsonify({'message': 'Authentication error', 'error': str(e), 'status': 'error'}), 401
+    
+    return decorated_function
+
+@products_bp.route('/admin', methods=['GET'])
+@admin_required
+def admin_get_products():
+    """Get all products for admin (including inactive ones)"""
+    try:
+        # Get query parameters
+        page = request.args.get('page', 1, type=int)
+        per_page = request.args.get('per_page', 50, type=int)
+        category = request.args.get('category')
+        status = request.args.get('status')  # 'active', 'inactive', 'all'
+        stock = request.args.get('stock')    # 'in-stock', 'low-stock', 'out-of-stock', 'all'
+        search = request.args.get('search')
+        
+        # Build query (admin sees all products including inactive)
+        query = Product.query
+        
+        # Apply filters
+        if category and category != 'all':
+            query = query.filter(Product.category == category)
+        
+        if status and status != 'all':
+            if status == 'active':
+                query = query.filter(Product.is_active == True)
+            elif status == 'inactive':
+                query = query.filter(Product.is_active == False)
+        
+        if stock and stock != 'all':
+            if stock == 'in-stock':
+                query = query.filter(Product.stock_quantity > Product.low_stock_threshold)
+            elif stock == 'low-stock':
+                query = query.filter(
+                    Product.stock_quantity <= Product.low_stock_threshold,
+                    Product.stock_quantity > 0
+                )
+            elif stock == 'out-of-stock':
+                query = query.filter(Product.stock_quantity == 0)
+        
+        if search:
+            search_term = f"%{search}%"
+            query = query.filter(
+                or_(
+                    Product.name.ilike(search_term),
+                    Product.description.ilike(search_term),
+                    Product.slug.ilike(search_term),
+                    Product.tags.ilike(search_term)
+                )
+            )
+        
+        # Order by updated_at (most recently updated first)
+        query = query.order_by(Product.updated_at.desc())
+        
+        # Paginate results
+        products_pagination = query.paginate(
+            page=page, 
+            per_page=per_page, 
+            error_out=False
+        )
+        
+        products = products_pagination.items
+        
+        # Get category counts for admin
+        category_counts = {}
+        all_categories = db.session.query(Product.category).distinct().all()
+        for cat in all_categories:
+            if cat[0]:
+                category_counts[cat[0]] = Product.query.filter_by(category=cat[0]).count()
+        
+        return jsonify({
+            'products': [product.to_dict() for product in products],
+            'pagination': {
+                'page': page,
+                'per_page': per_page,
+                'total': products_pagination.total,
+                'pages': products_pagination.pages,
+                'has_next': products_pagination.has_next,
+                'has_prev': products_pagination.has_prev
+            },
+            'category_counts': category_counts,
+            'total_products': Product.query.count(),
+            'status': 'success'
+        })
+        
+    except Exception as e:
+        return jsonify({
+            'message': 'Error fetching products',
+            'error': str(e),
+            'status': 'error'
+        }), 500
+
+@products_bp.route('/admin/<int:product_id>', methods=['GET'])
+@admin_required
+def admin_get_product(product_id):
+    """Get a single product by ID for admin (including inactive)"""
+    try:
+        product = Product.query.get(product_id)
+        
+        if not product:
+            return jsonify({
+                'message': 'Product not found',
+                'status': 'error'
+            }), 404
+        
+        return jsonify({
+            'product': product.to_dict(),
+            'status': 'success'
+        })
+        
+    except Exception as e:
+        return jsonify({
+            'message': 'Error fetching product',
+            'error': str(e),
+            'status': 'error'
+        }), 500
+
+@products_bp.route('/admin', methods=['POST'])
+@admin_required
+def admin_create_product():
+    """Create a new product"""
+    try:
+        data = request.get_json()
+        
+        # NO REQUIRED FIELDS - allow saving with any data
+        
+        # Set default stock_quantity if not provided
+        if 'stock_quantity' not in data:
+            data['stock_quantity'] = 0
+        
+        # Use provided slug/sku if available, otherwise generate from name or timestamp
+        if data.get('slug'):
+            slug = data['slug'].lower().replace(' ', '-')
+        elif data.get('name'):
+            slug = generate_slug(data['name'])
+        else:
+            from datetime import datetime
+            slug = f"product-{int(datetime.now().timestamp())}"
+        
+        # Check if slug already exists
+        existing_product = Product.query.filter_by(slug=slug).first()
+        if existing_product:
+            # Add number suffix to make it unique
+            counter = 1
+            while existing_product:
+                new_slug = f"{slug}-{counter}"
+                existing_product = Product.query.filter_by(slug=new_slug).first()
+                counter += 1
+            slug = new_slug
+        
+        # Create new product with defaults for missing fields
+        product = Product(
+            name=data.get('name', 'Untitled Product'),
+            slug=slug,
+            description=data.get('description', ''),
+            short_description=data.get('short_description', ''),
+            price=float(data['price']) if data.get('price') else 0.0,
+            original_price=float(data['original_price']) if data.get('original_price') else None,
+            cost_price=float(data['cost_price']) if data.get('cost_price') else None,
+            stock_quantity=int(data['stock_quantity']),
+            low_stock_threshold=int(data.get('low_stock_threshold', 10)),
+            category=data.get('category', 'uncategorized'),
+            skin_type=data.get('skin_type'),
+            ingredients=data.get('ingredients'),
+            size=data.get('size'),
+            is_active=data.get('is_active', True),
+            is_featured=data.get('is_featured', False),
+            is_bestseller=data.get('is_bestseller', False),
+            is_new=data.get('is_new', False),
+            meta_title=data.get('meta_title'),
+            meta_description=data.get('meta_description'),
+            tags=data.get('tags'),
+            primary_image=data.get('primary_image'),
+            secondary_image=data.get('secondary_image'),
+            gallery_images=data.get('gallery_images')
+        )
+        
+        db.session.add(product)
+        db.session.commit()
+        
+        return jsonify({
+            'message': 'Product created successfully',
+            'product': product.to_dict(),
+            'status': 'success'
+        }), 201
+        
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({
+            'message': 'Error creating product',
+            'error': str(e),
+            'status': 'error'
+        }), 500
+
+@products_bp.route('/admin/<int:product_id>', methods=['PUT'])
+@admin_required
+def admin_update_product(product_id):
+    """Update an existing product"""
+    try:
+        product = Product.query.get(product_id)
+        
+        if not product:
+            return jsonify({
+                'message': 'Product not found',
+                'status': 'error'
+            }), 404
+        
+        data = request.get_json()
+        
+        # Update fields if provided
+        if 'name' in data:
+            product.name = data['name']
+        
+        # Handle slug update if provided directly or regenerate from name
+        if 'slug' in data and data['slug']:
+            # User provided a custom slug/sku
+            new_slug = data['slug'].lower().replace(' ', '-')
+        elif 'name' in data and data['name']:
+            # Regenerate slug from name
+            new_slug = generate_slug(data['name'])
+        else:
+            new_slug = product.slug  # Keep existing slug
+            
+        # Check if slug needs to be updated and is unique
+        if new_slug != product.slug:
+            existing_product = Product.query.filter_by(slug=new_slug).filter(Product.id != product_id).first()
+            if existing_product:
+                counter = 1
+                while existing_product:
+                    numbered_slug = f"{new_slug}-{counter}"
+                    existing_product = Product.query.filter_by(slug=numbered_slug).filter(Product.id != product_id).first()
+                    counter += 1
+                new_slug = numbered_slug
+            product.slug = new_slug
+        
+        # Update other fields
+        updateable_fields = [
+            'description', 'short_description', 'price', 'original_price', 'cost_price',
+            'stock_quantity', 'low_stock_threshold', 'category', 'skin_type', 'ingredients',
+            'size', 'is_active', 'is_featured', 'is_bestseller', 'is_new', 'meta_title',
+            'meta_description', 'tags', 'primary_image', 'secondary_image', 'gallery_images'
+        ]
+        
+        for field in updateable_fields:
+            if field in data:
+                if field in ['price', 'original_price', 'cost_price'] and data[field] is not None:
+                    setattr(product, field, float(data[field]))
+                elif field in ['stock_quantity', 'low_stock_threshold'] and data[field] is not None:
+                    setattr(product, field, int(data[field]))
+                else:
+                    setattr(product, field, data[field])
+        
+        product.updated_at = datetime.utcnow()
+        db.session.commit()
+        
+        return jsonify({
+            'message': 'Product updated successfully',
+            'product': product.to_dict(),
+            'status': 'success'
+        })
+        
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({
+            'message': 'Error updating product',
+            'error': str(e),
+            'status': 'error'
+        }), 500
+
+@products_bp.route('/admin/<int:product_id>', methods=['DELETE'])
+@admin_required
+def admin_delete_product(product_id):
+    """Delete a product (soft delete by setting is_active to False)"""
+    try:
+        product = Product.query.get(product_id)
+        
+        if not product:
+            return jsonify({
+                'message': 'Product not found',
+                'status': 'error'
+            }), 404
+        
+        # Check if product has orders (you might want to prevent deletion)
+        # For now, we'll do a soft delete
+        product.is_active = False
+        product.updated_at = datetime.utcnow()
+        db.session.commit()
+        
+        return jsonify({
+            'message': 'Product deleted successfully',
+            'status': 'success'
+        })
+        
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({
+            'message': 'Error deleting product',
+            'error': str(e),
+            'status': 'error'
+        }), 500
+
+@products_bp.route('/admin/<int:product_id>/duplicate', methods=['POST'])
+@admin_required
+def admin_duplicate_product(product_id):
+    """Duplicate an existing product"""
+    try:
+        original_product = Product.query.get(product_id)
+        
+        if not original_product:
+            return jsonify({
+                'message': 'Product not found',
+                'status': 'error'
+            }), 404
+        
+        # Create a copy with modified name and slug
+        duplicate_name = f"{original_product.name} (Copy)"
+        duplicate_slug = generate_slug(duplicate_name)
+        
+        # Ensure unique slug
+        existing_product = Product.query.filter_by(slug=duplicate_slug).first()
+        if existing_product:
+            counter = 1
+            while existing_product:
+                new_slug = f"{duplicate_slug}-{counter}"
+                existing_product = Product.query.filter_by(slug=new_slug).first()
+                counter += 1
+            duplicate_slug = new_slug
+        
+        # Create duplicate product
+        duplicate_product = Product(
+            name=duplicate_name,
+            slug=duplicate_slug,
+            description=original_product.description,
+            short_description=original_product.short_description,
+            price=original_product.price,
+            original_price=original_product.original_price,
+            cost_price=original_product.cost_price,
+            stock_quantity=0,  # Start with 0 stock for duplicates
+            low_stock_threshold=original_product.low_stock_threshold,
+            category=original_product.category,
+            skin_type=original_product.skin_type,
+            ingredients=original_product.ingredients,
+            size=original_product.size,
+            is_active=False,  # Start as inactive for review
+            is_featured=False,
+            is_bestseller=False,
+            is_new=False,
+            meta_title=original_product.meta_title,
+            meta_description=original_product.meta_description,
+            tags=original_product.tags,
+            primary_image=original_product.primary_image,
+            secondary_image=original_product.secondary_image,
+            gallery_images=original_product.gallery_images
+        )
+        
+        db.session.add(duplicate_product)
+        db.session.commit()
+        
+        return jsonify({
+            'message': 'Product duplicated successfully',
+            'product': duplicate_product.to_dict(),
+            'status': 'success'
+        }), 201
+        
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({
+            'message': 'Error duplicating product',
+            'error': str(e),
+            'status': 'error'
+        }), 500
+
+@products_bp.route('/admin/<int:product_id>/toggle-status', methods=['POST'])
+@admin_required
+def admin_toggle_product_status(product_id):
+    """Toggle product active/inactive status"""
+    try:
+        product = Product.query.get(product_id)
+        
+        if not product:
+            return jsonify({
+                'message': 'Product not found',
+                'status': 'error'
+            }), 404
+        
+        product.is_active = not product.is_active
+        product.updated_at = datetime.utcnow()
+        db.session.commit()
+        
+        status_text = 'activated' if product.is_active else 'deactivated'
+        
+        return jsonify({
+            'message': f'Product {status_text} successfully',
+            'product': product.to_dict(),
+            'status': 'success'
+        })
+        
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({
+            'message': 'Error toggling product status',
             'error': str(e),
             'status': 'error'
         }), 500

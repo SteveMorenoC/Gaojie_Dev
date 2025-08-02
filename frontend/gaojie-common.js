@@ -3,6 +3,15 @@
 // Initialize common functionality
 document.addEventListener('DOMContentLoaded', function() {
     console.log('GAOJIE Skincare - Common utilities loaded');
+    
+    // Update all logo links to use backend route
+    const logoLinks = document.querySelectorAll('.logo-link');
+    logoLinks.forEach(link => {
+        // Only update if it's not already pointing to backend route
+        if (!link.href.includes('/main') && !link.href.includes('/home') && !link.href.includes('/logo')) {
+            link.href = '/main';
+        }
+    });
 });
 
 // Common utility functions for GAOJIE Skincare

@@ -99,6 +99,52 @@ def create_app(config_name=None):
             'cors_enabled': True
         })
     
+    # Create admin user endpoint (for development)
+    @app.route('/api/admin/create-admin', methods=['POST'])
+    def create_admin_user():
+        """Create an admin user (development only)"""
+        try:
+            data = request.get_json()
+            
+            # Check if admin user already exists
+            admin_user = User.query.filter_by(is_admin=True).first()
+            if admin_user:
+                return jsonify({
+                    'status': 'error',
+                    'message': 'Admin user already exists',
+                    'existing_admin': admin_user.email
+                }), 400
+            
+            # Create admin user
+            admin = User.create_user(
+                email=data.get('email', 'admin@gaojie.com'),
+                password=data.get('password', 'admin123'),
+                first_name=data.get('first_name', 'Admin'),
+                last_name=data.get('last_name', 'User')
+            )
+            
+            # Set as admin
+            admin.is_admin = True
+            admin.is_verified = True
+            db.session.commit()
+            
+            return jsonify({
+                'status': 'success',
+                'message': 'Admin user created successfully',
+                'admin_user': {
+                    'id': admin.id,
+                    'email': admin.email,
+                    'name': admin.full_name
+                }
+            })
+            
+        except Exception as e:
+            db.session.rollback()
+            return jsonify({
+                'status': 'error',
+                'message': f'Failed to create admin user: {str(e)}'
+            }), 500
+
     # Test endpoint to see if database works
     @app.route('/api/products/test')
     def test_products():
@@ -246,6 +292,96 @@ def create_app(config_name=None):
                 'status': 'error'
             }), 500
     
+    # ===== LOGO REDIRECT ROUTE =====
+    @app.route('/home')
+    @app.route('/main')
+    @app.route('/logo')
+    def logo_redirect():
+        """Handle logo clicks - redirect to main.html"""
+        from flask import send_from_directory
+        import os
+        frontend_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'frontend')
+        try:
+            return send_from_directory(frontend_dir, 'main.html')
+        except FileNotFoundError:
+            from flask import abort
+            abort(404)
+    
+    # ===== ADMIN ROUTES =====
+    @app.route('/admin')
+    @app.route('/admin/')
+    def admin_redirect():
+        """Redirect /admin to admin dashboard"""
+        from flask import send_from_directory
+        import os
+        frontend_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'frontend')
+        try:
+            return send_from_directory(os.path.join(frontend_dir, 'admin'), 'admin-dashboard.html')
+        except FileNotFoundError:
+            from flask import abort
+            abort(404)
+    
+    # Admin page routes
+    @app.route('/admin-dashboard')
+    def admin_dashboard():
+        """Serve admin dashboard"""
+        from flask import send_from_directory
+        import os
+        frontend_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'frontend')
+        try:
+            return send_from_directory(os.path.join(frontend_dir, 'admin'), 'admin-dashboard.html')
+        except FileNotFoundError:
+            from flask import abort
+            abort(404)
+    
+    @app.route('/admin-orders')
+    def admin_orders():
+        """Serve admin orders page"""
+        from flask import send_from_directory
+        import os
+        frontend_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'frontend')
+        try:
+            return send_from_directory(os.path.join(frontend_dir, 'admin'), 'admin-orders.html')
+        except FileNotFoundError:
+            from flask import abort
+            abort(404)
+    
+    @app.route('/admin-products')
+    def admin_products():
+        """Serve admin products page"""
+        from flask import send_from_directory
+        import os
+        frontend_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'frontend')
+        try:
+            return send_from_directory(os.path.join(frontend_dir, 'admin'), 'admin-products.html')
+        except FileNotFoundError:
+            from flask import abort
+            abort(404)
+    
+    @app.route('/admin-analytics')
+    def admin_analytics():
+        """Serve admin analytics page"""
+        from flask import send_from_directory
+        import os
+        frontend_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'frontend')
+        try:
+            return send_from_directory(os.path.join(frontend_dir, 'admin'), 'admin-analytics.html')
+        except FileNotFoundError:
+            from flask import abort
+            abort(404)
+    
+    @app.route('/admin-influencer-applications')
+    def admin_influencer_applications():
+        """Serve admin influencer applications page"""
+        from flask import send_from_directory
+        import os
+        frontend_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'frontend')
+        try:
+            return send_from_directory(os.path.join(frontend_dir, 'admin'), 'admin-influencer-applications.html')
+        except FileNotFoundError:
+            from flask import abort
+            abort(404)
+
     # ===== SERVE FRONTEND FILES =====
     @app.route('/<path:filename>')
     def serve_frontend(filename):

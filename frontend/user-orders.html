@@ -105,6 +105,7 @@
                     <div class="user-dropdown" style="display: none;">
                         <a href="user-orders.html" class="dropdown-item">My Orders</a>
                         <a href="#" class="dropdown-item" onclick="handleProfile()">My Profile</a>
+                        <span id="admin-link-placeholder"></span>
                         <a href="#" class="dropdown-item" onclick="handleLogout()">Logout</a>
                     </div>
                 </div>
@@ -416,6 +417,14 @@
                     const userNameEl = document.querySelector('#user-orders-menu .user-name');
                     if (userNameEl) {
                         userNameEl.textContent = `Hi, ${data.user.first_name}`;
+                    }
+                    
+                    // Add admin link if user is admin
+                    if (data.user.is_admin) {
+                        const adminPlaceholder = document.getElementById('admin-link-placeholder');
+                        if (adminPlaceholder) {
+                            adminPlaceholder.innerHTML = '<a href="/admin" class="dropdown-item">Admin Dashboard</a>';
+                        }
                     }
                     
                     // Add dropdown functionality

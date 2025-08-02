@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Influencer Applications - GAOJIE Admin</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="../css/admin.css">
+    <style>
+        /* Additional styles for influencer applications */
+        .applications-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 2rem 0 1rem 0;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .applications-filters {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .filter-select, .search-input {
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+        
+        .search-input {
+            min-width: 250px;
+        }
+        
+        .applications-info {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .applications-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .application-card {
+            background: white;
+            border: 1px solid #e5e5e5;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .application-card:hover {
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+            transform: translateY(-4px);
+        }
+        
+        .application-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+        
+        .application-info {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .application-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .application-email {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.25rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        
+        .application-date {
+            color: #888;
+            font-size: 0.8rem;
+        }
+        
+        .application-status {
+            padding: 0.4rem 0.8rem;
+            border-radius: 16px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+        
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .status-approved {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status-rejected {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .application-preview {
+            margin: 1rem 0;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .application-actions {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+        }
+        
+        .btn {
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-transform: none;
+        }
+        
+        .view-btn {
+            background: #333;
+            color: white;
+            flex: 1;
+        }
+        
+        .view-btn:hover {
+            background: #555;
+            transform: translateY(-1px);
+        }
+        
+        .approve-btn {
+            background: #28a745;
+            color: white;
+            min-width: 80px;
+        }
+        
+        .approve-btn:hover {
+            background: #218838;
+            transform: translateY(-1px);
+        }
+        
+        .reject-btn {
+            background: #dc3545;
+            color: white;
+            min-width: 80px;
+        }
+        
+        .reject-btn:hover {
+            background: #c82333;
+            transform: translateY(-1px);
+        }
+        
+        /* Pagination styles */
+        .pagination-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 2rem 0;
+            gap: 1rem;
+        }
+        
+        .pagination {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+        
+        .pagination-btn {
+            background: white;
+            border: 1px solid #ddd;
+            padding: 0.5rem 0.75rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        
+        .pagination-btn:hover:not(:disabled) {
+            background: #f8f9fa;
+            border-color: #333;
+        }
+        
+        .pagination-btn.active {
+            background: #333;
+            color: white;
+            border-color: #333;
+        }
+        
+        .pagination-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .pagination-info {
+            color: #666;
+            font-size: 0.9rem;
+            margin: 0 1rem;
+        }
+        
+        .pagination-ellipsis {
+            color: #999;
+            padding: 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        /* Modal styles */
+        .application-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+        
+        .application-modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 8px;
+            padding: 2rem;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e5e5e5;
+        }
+        
+        .modal-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #333;
+            margin: 0;
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-close:hover {
+            color: #333;
+        }
+        
+        .application-details {
+            display: grid;
+            gap: 1rem;
+        }
+        
+        .detail-group {
+            display: grid;
+            grid-template-columns: 150px 1fr;
+            gap: 1rem;
+            align-items: start;
+        }
+        
+        .detail-label {
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .detail-value {
+            color: #666;
+            word-break: break-word;
+        }
+        
+        .social-links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        
+        .social-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #007bff;
+            text-decoration: none;
+            padding: 0.5rem;
+            background: #f8f9fa;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+        
+        .social-link:hover {
+            background: #e9ecef;
+            color: #0056b3;
+            text-decoration: none;
+        }
+        
+        .social-icon {
+            flex-shrink: 0;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .social-url {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            min-width: 0;
+        }
+        
+        .guest-badge {
+            background: #ffc107;
+            color: #856404;
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin-left: 0.5rem;
+        }
+        
+        .loading-state {
+            text-align: center;
+            padding: 3rem;
+            color: #666;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: #666;
+        }
+        
+        .empty-state h3 {
+            margin-bottom: 1rem;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <!-- Announcement Bar -->
+    <div class="announcement-bar">
+        <div class="announcement-content">
+            <span class="announcement-text">Admin Panel - GAOJIE Skincare Management</span>
+        </div>
+    </div>
+
+    <!-- Main Header -->
+    <header class="header">
+        <div class="header-container">
+            <!-- Logo -->
+            <div class="logo">
+                <a href="/main" class="logo-link">GAOJIE</a>
+            </div>
+
+            <!-- Mobile Menu Toggle -->
+            <button id="mobile-menu-toggle" class="mobile-menu-toggle" aria-label="Toggle menu">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
+
+            <!-- Admin Navigation -->
+            <nav class="nav" id="main-nav">
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="/admin-dashboard" class="nav-link">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin-orders" class="nav-link">Orders</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin-products" class="nav-link">Products</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin-analytics" class="nav-link">Analytics</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin-influencer-applications" class="nav-link active">Influencer Apps</a>
+                    </li>
+                </ul>
+            </nav>
+
+            <!-- Header Actions -->
+            <div class="header-actions">
+                <a href="/main" class="admin-view-site">View Site</a>
+                
+                <!-- Admin User Menu -->
+                <div class="user-menu" id="admin-user-menu">
+                    <button class="user-btn" aria-label="Admin menu">
+                        <span class="user-name">Loading...</span>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </button>
+                    <div class="user-dropdown" style="display: none;">
+                        <a href="/main" class="dropdown-item">Main Site</a>
+                        <a href="#" class="dropdown-item" onclick="handleLogout()">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Admin Influencer Applications Content -->
+    <main class="admin-main">
+        <div class="admin-container">
+            <!-- Applications Header -->
+            <div class="admin-applications-header">
+                <div class="admin-page-title-section">
+                    <h1 class="admin-page-title">Influencer Applications</h1>
+                    <p class="admin-page-subtitle">Review and manage influencer partnership applications</p>
+                </div>
+            </div>
+
+            <!-- Applications Content -->
+            <div class="applications-content">
+                <!-- Applications Controls -->
+                <div class="applications-controls" id="applications-controls" style="display: none;">
+                    <div class="applications-filters">
+                        <div class="filter-group">
+                            <input type="text" class="search-input" id="search-input" placeholder="Search by name, email, or social media..." />
+                        </div>
+                        <div class="filter-group">
+                            <label for="status-filter">Status:</label>
+                            <select class="filter-select" id="status-filter">
+                                <option value="all">All Status</option>
+                                <option value="pending">Pending</option>
+                                <option value="approved">Approved</option>
+                                <option value="rejected">Rejected</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="followers-filter">Followers:</label>
+                            <select class="filter-select" id="followers-filter">
+                                <option value="all">All Ranges</option>
+                                <option value="1k-10k">1k-10k</option>
+                                <option value="10k-50k">10k-50k</option>
+                                <option value="50k-100k">50k-100k</option>
+                                <option value="100k+">100k+</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="user-type-filter">Type:</label>
+                            <select class="filter-select" id="user-type-filter">
+                                <option value="all">All Users</option>
+                                <option value="registered">Registered</option>
+                                <option value="guest">Guest</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="applications-info" id="applications-info">
+                        Showing 0 of 0 applications
+                    </div>
+                </div>
+
+                <!-- Loading State -->
+                <div class="loading-state" id="loading-state">
+                    <div class="admin-spinner"></div>
+                    <p>Loading applications...</p>
+                </div>
+
+                <!-- Applications Grid -->
+                <div class="applications-grid" id="applications-grid" style="display: none;">
+                    <!-- Applications will be loaded here -->
+                </div>
+
+                <!-- Pagination -->
+                <div class="pagination-container" id="pagination-container" style="display: none;">
+                    <div class="pagination-info" id="pagination-info">
+                        Showing 1-25 of 0 applications
+                    </div>
+                    <div class="pagination" id="pagination">
+                        <button class="pagination-btn" id="prev-btn" onclick="changePage(-1)" disabled>← Previous</button>
+                        <div class="pagination-numbers" id="pagination-numbers">
+                            <!-- Page numbers will be generated here -->
+                        </div>
+                        <button class="pagination-btn" id="next-btn" onclick="changePage(1)" disabled>Next →</button>
+                    </div>
+                </div>
+
+                <!-- Empty State -->
+                <div class="empty-state" id="empty-state" style="display: none;">
+                    <h3>No Applications Found</h3>
+                    <p>No influencer applications match your current filters.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Application Details Modal -->
+    <div class="application-modal" id="application-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Application Details</h2>
+                <button class="modal-close" onclick="closeApplicationModal()">&times;</button>
+            </div>
+            <div class="application-details" id="modal-application-details">
+                <!-- Application details will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <!-- Footer Quick Links -->
+            <div class="footer-content">
+                <!-- Shop -->
+                <div class="footer-column">
+                    <h4 class="footer-column-title">Shop</h4>
+                    <ul class="footer-links">
+                        <li><a href="/cleanser" class="footer-link">Cleanser</a></li>
+                        <li><a href="/moisturiser" class="footer-link">Moisturiser</a></li>
+                        <li><a href="/treatments" class="footer-link">Treatments</a></li>
+                        <li><a href="/lip-care" class="footer-link">Lip Care</a></li>
+                        <li><a href="/sets" class="footer-link">Sets</a></li>
+                        <li><a href="/new-arrivals" class="footer-link">New Arrivals</a></li>
+                    </ul>
+                </div>
+
+                <!-- About -->
+                <div class="footer-column">
+                    <h4 class="footer-column-title">About</h4>
+                    <ul class="footer-links">
+                        <li><a href="/about" class="footer-link">Our Story</a></li>
+                        <li><a href="/ingredients" class="footer-link">Ingredients</a></li>
+                        <li><a href="/sustainability" class="footer-link">Sustainability</a></li>
+                        <li><a href="/blog" class="footer-link">Journal</a></li>
+                        <li><a href="/reviews" class="footer-link">Reviews</a></li>
+                        <li><a href="/press" class="footer-link">Press</a></li>
+                    </ul>
+                </div>
+
+                <!-- Support -->
+                <div class="footer-column">
+                    <h4 class="footer-column-title">Support</h4>
+                    <ul class="footer-links">
+                        <li><a href="/contact" class="footer-link">Contact Us</a></li>
+                        <li><a href="/faq" class="footer-link">FAQ</a></li>
+                        <li><a href="/shipping" class="footer-link">Shipping Info</a></li>
+                        <li><a href="/returns" class="footer-link">Returns</a></li>
+                        <li><a href="/skincare-quiz" class="footer-link">Skincare Quiz</a></li>
+                        <li><a href="/track-order" class="footer-link">Track Order</a></li>
+                    </ul>
+                </div>
+
+                <!-- Newsletter -->
+                <div class="footer-newsletter">
+                    <span class="newsletter-incentive">Get 15% Off First Order</span>
+                    <h4 class="footer-column-title">Join Our Skincare Community</h4>
+                    <p class="newsletter-description">Be the first to know about new launches, exclusive offers, and expert skincare tips.</p>
+                    
+                    <ul class="newsletter-benefits">
+                        <li>Exclusive early access to new products</li>
+                        <li>Personalized skincare tips & routines</li>
+                        <li>Members-only discounts & promotions</li>
+                        <li>Free skincare consultation offers</li>
+                    </ul>
+                    
+                    <div class="newsletter-form">
+                        <input type="email" class="newsletter-input" placeholder="Enter your email for 15% off" aria-label="Email address">
+                        <button type="submit" class="newsletter-button">Get My 15% Discount</button>
+                    </div>
+                    <p class="newsletter-disclaimer">
+                        By subscribing, you agree to our <a href="/privacy" class="disclaimer-link">Privacy Policy</a>. Unsubscribe anytime.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Footer Bottom -->
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <p class="footer-copyright">© 2025 GAOJIE. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../gaojie-common.js"></script>
+    <script>
+        // Initialize admin influencer applications page
+        document.addEventListener('DOMContentLoaded', async function() {
+            console.log('Admin influencer applications page loaded');
+            
+            // Check if user is admin
+            try {
+                const response = await fetch('/api/auth/admin/check', { credentials: 'include' });
+                
+                if (response.status === 403) {
+                    if (window.GaojieUtils) GaojieUtils.showNotification('Access denied. Admin privileges required.', 'error');
+                    setTimeout(() => { window.location.href = '/main'; }, 2000);
+                    return;
+                }
+                
+                const data = await response.json();
+                
+                if (data.status === 'success' && data.is_admin) {
+                    const userNameEl = document.querySelector('#admin-user-menu .user-name');
+                    if (userNameEl) {
+                        userNameEl.textContent = `${data.user.first_name} (Admin)`;
+                    }
+                    
+                    // Load influencer applications
+                    loadInfluencerApplications();
+                } else {
+                    if (window.GaojieUtils) GaojieUtils.showNotification('Please log in as admin to access this page.', 'error');
+                    setTimeout(() => { window.location.href = '/login.html'; }, 2000);
+                }
+            } catch (error) {
+                console.error('Admin check failed:', error);
+                setTimeout(() => { window.location.href = '/main'; }, 2000);
+            }
+            
+            // Setup dropdown functionality
+            const userBtn = document.querySelector('#admin-user-menu .user-btn');
+            const dropdown = document.querySelector('#admin-user-menu .user-dropdown');
+            
+            if (userBtn && dropdown) {
+                userBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
+                });
+                
+                document.addEventListener('click', (e) => {
+                    if (!e.target.closest('#admin-user-menu')) {
+                        dropdown.style.display = 'none';
+                    }
+                });
+            }
+        });
+
+        // Global variables for pagination and filtering
+        let allApplications = [];
+        let filteredApplications = [];
+        let currentPage = 1;
+        const applicationsPerPage = 25;
+        
+        // Load influencer applications
+        async function loadInfluencerApplications() {
+            const loadingState = document.getElementById('loading-state');
+            const applicationsGrid = document.getElementById('applications-grid');
+            const applicationsControls = document.getElementById('applications-controls');
+            const paginationContainer = document.getElementById('pagination-container');
+            const emptyState = document.getElementById('empty-state');
+            
+            try {
+                // For now, we'll show sample data with more entries to demonstrate pagination
+                // In production, this would be: const response = await fetch('/api/admin/influencer-applications', { credentials: 'include' });
+                
+                // Generate sample data for demonstration (simulating 50+ applications)
+                const sampleApplications = generateSampleApplications(47);
+                
+                // Simulate loading delay
+                setTimeout(() => {
+                    loadingState.style.display = 'none';
+                    
+                    if (sampleApplications.length === 0) {
+                        emptyState.style.display = 'block';
+                    } else {
+                        allApplications = sampleApplications;
+                        filteredApplications = [...allApplications];
+                        applicationsControls.style.display = 'flex';
+                        applicationsGrid.style.display = 'grid';
+                        paginationContainer.style.display = 'flex';
+                        
+                        setupEventListeners();
+                        updateDisplayedApplications();
+                    }
+                }, 1000);
+                
+            } catch (error) {
+                console.error('Failed to load applications:', error);
+                loadingState.style.display = 'none';
+                emptyState.innerHTML = '<h3>Error Loading Applications</h3><p>Please try refreshing the page.</p>';
+                emptyState.style.display = 'block';
+            }
+        }
+        
+        // Generate sample applications for demonstration
+        function generateSampleApplications(count) {
+            const names = [
+                'Sarah Johnson', 'Mike Chen', 'Emma Rodriguez', 'James Wilson', 'Lisa Kim', 
+                'David Brown', 'Anna Thompson', 'Carlos Martinez', 'Sophie Lee', 'Ryan Davis',
+                'Mia Garcia', 'Alex Turner', 'Zoe Williams', 'Jack Anderson', 'Chloe Martin',
+                'Tyler Jones', 'Maya Patel', 'Noah Miller', 'Ava Taylor', 'Ethan Moore'
+            ];
+            const statuses = ['pending', 'approved', 'rejected'];
+            const followerRanges = ['1k-10k', '10k-50k', '50k-100k', '100k+'];
+            const platforms = ['instagram', 'tiktok', 'facebook'];
+            
+            const applications = [];
+            
+            for (let i = 1; i <= count; i++) {
+                const name = names[Math.floor(Math.random() * names.length)];
+                const isGuest = Math.random() > 0.7; // 30% guest users
+                const status = statuses[Math.floor(Math.random() * statuses.length)];
+                const followers = followerRanges[Math.floor(Math.random() * followerRanges.length)];
+                
+                const app = {
+                    id: i,
+                    fullName: isGuest ? 'Guest User' : name,
+                    email: isGuest ? `guest${i}@temp.com` : `${name.toLowerCase().replace(' ', '.')}@example.com`,
+                    phone: `08${Math.floor(Math.random() * 10)}-${Math.floor(Math.random() * 900) + 100}-${Math.floor(Math.random() * 9000) + 1000}`,
+                    lineId: `@${name.toLowerCase().replace(' ', '')}${i}`,
+                    instagram: Math.random() > 0.3 ? `https://instagram.com/${name.toLowerCase().replace(' ', '')}${i}` : '',
+                    tiktok: Math.random() > 0.5 ? `https://tiktok.com/@${name.toLowerCase().replace(' ', '')}${i}` : '',
+                    facebook: Math.random() > 0.6 ? `https://facebook.com/${name.toLowerCase().replace(' ', '')}${i}` : '',
+                    followers: followers,
+                    experience: `I have been creating beauty content for ${Math.floor(Math.random() * 5) + 1} years with a focus on skincare and product reviews.`,
+                    motivation: `I love skincare and would love to partner with GAOJIE because your products align with my values and audience interests.`,
+                    isGuest: isGuest,
+                    registeredUser: isGuest ? null : { first_name: name.split(' ')[0], last_name: name.split(' ')[1] },
+                    status: status,
+                    createdAt: new Date(Date.now() - Math.floor(Math.random() * 30) * 24 * 60 * 60 * 1000).toISOString()
+                };
+                applications.push(app);
+            }
+            
+            // Sort by creation date (newest first)
+            return applications.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        }
+
+        // Setup event listeners for search and filters
+        function setupEventListeners() {
+            const searchInput = document.getElementById('search-input');
+            const statusFilter = document.getElementById('status-filter');
+            const followersFilter = document.getElementById('followers-filter');
+            const userTypeFilter = document.getElementById('user-type-filter');
+            
+            // Debounced search
+            let searchTimeout;
+            searchInput.addEventListener('input', function() {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(() => {
+                    currentPage = 1;
+                    applyFilters();
+                }, 300);
+            });
+            
+            // Filter change handlers
+            [statusFilter, followersFilter, userTypeFilter].forEach(filter => {
+                filter.addEventListener('change', () => {
+                    currentPage = 1;
+                    applyFilters();
+                });
+            });
+        }
+        
+        // Apply filters to applications
+        function applyFilters() {
+            const searchTerm = document.getElementById('search-input').value.toLowerCase();
+            const statusFilter = document.getElementById('status-filter').value;
+            const followersFilter = document.getElementById('followers-filter').value;
+            const userTypeFilter = document.getElementById('user-type-filter').value;
+            
+            filteredApplications = allApplications.filter(app => {
+                // Search filter
+                const searchMatch = !searchTerm || 
+                    getDisplayName(app).toLowerCase().includes(searchTerm) ||
+                    app.email.toLowerCase().includes(searchTerm) ||
+                    app.instagram.toLowerCase().includes(searchTerm) ||
+                    app.tiktok.toLowerCase().includes(searchTerm) ||
+                    app.facebook.toLowerCase().includes(searchTerm);
+                
+                // Status filter
+                const statusMatch = statusFilter === 'all' || app.status === statusFilter;
+                
+                // Followers filter
+                const followersMatch = followersFilter === 'all' || app.followers === followersFilter;
+                
+                // User type filter
+                const userTypeMatch = userTypeFilter === 'all' || 
+                    (userTypeFilter === 'guest' && app.isGuest) ||
+                    (userTypeFilter === 'registered' && !app.isGuest);
+                
+                return searchMatch && statusMatch && followersMatch && userTypeMatch;
+            });
+            
+            updateDisplayedApplications();
+        }
+        
+        // Update displayed applications with pagination
+        function updateDisplayedApplications() {
+            const startIndex = (currentPage - 1) * applicationsPerPage;
+            const endIndex = startIndex + applicationsPerPage;
+            const pageApplications = filteredApplications.slice(startIndex, endIndex);
+            
+            renderApplications(pageApplications);
+            updatePaginationInfo();
+            updatePaginationControls();
+        }
+        
+        // Render applications
+        function renderApplications(applications) {
+            const grid = document.getElementById('applications-grid');
+            const emptyState = document.getElementById('empty-state');
+            
+            if (applications.length === 0) {
+                grid.style.display = 'none';
+                emptyState.style.display = 'block';
+                document.getElementById('pagination-container').style.display = 'none';
+                return;
+            }
+            
+            grid.style.display = 'grid';
+            emptyState.style.display = 'none';
+            document.getElementById('pagination-container').style.display = 'flex';
+            
+            grid.innerHTML = applications.map(app => `
+                <div class="application-card">
+                    <div class="application-header">
+                        <div class="application-info">
+                            <div class="application-name">
+                                ${getDisplayName(app)}
+                                ${app.isGuest ? '<span class="guest-badge">Guest</span>' : ''}
+                            </div>
+                            <div class="application-email">${app.email}</div>
+                            <div class="application-date">Applied: ${formatDate(app.createdAt)}</div>
+                        </div>
+                        <div class="application-status status-${app.status}">${app.status.toUpperCase()}</div>
+                    </div>
+                    <div class="application-actions">
+                        <button class="view-btn" onclick="viewApplication(${app.id})">View Details</button>
+                        ${app.status === 'pending' ? `
+                            <button class="approve-btn" onclick="updateApplicationStatus(${app.id}, 'approved')">Approve</button>
+                            <button class="reject-btn" onclick="updateApplicationStatus(${app.id}, 'rejected')">Reject</button>
+                        ` : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // Update pagination info
+        function updatePaginationInfo() {
+            const applicationsInfo = document.getElementById('applications-info');
+            const paginationInfo = document.getElementById('pagination-info');
+            
+            const startIndex = (currentPage - 1) * applicationsPerPage + 1;
+            const endIndex = Math.min(currentPage * applicationsPerPage, filteredApplications.length);
+            
+            const infoText = `Showing ${startIndex}-${endIndex} of ${filteredApplications.length} applications`;
+            applicationsInfo.textContent = infoText;
+            paginationInfo.textContent = infoText;
+        }
+        
+        // Update pagination controls
+        function updatePaginationControls() {
+            const totalPages = Math.ceil(filteredApplications.length / applicationsPerPage);
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const paginationNumbers = document.getElementById('pagination-numbers');
+            
+            // Update prev/next buttons
+            prevBtn.disabled = currentPage === 1;
+            nextBtn.disabled = currentPage === totalPages || totalPages === 0;
+            
+            // Generate page numbers
+            let pagesHtml = '';
+            const maxVisiblePages = 5;
+            let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+            let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+            
+            // Adjust start page if we're near the end
+            if (endPage - startPage + 1 < maxVisiblePages) {
+                startPage = Math.max(1, endPage - maxVisiblePages + 1);
+            }
+            
+            // First page and ellipsis
+            if (startPage > 1) {
+                pagesHtml += `<button class="pagination-btn" onclick="goToPage(1)">1</button>`;
+                if (startPage > 2) {
+                    pagesHtml += `<span class="pagination-ellipsis">...</span>`;
+                }
+            }
+            
+            // Page numbers
+            for (let i = startPage; i <= endPage; i++) {
+                pagesHtml += `<button class="pagination-btn ${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>`;
+            }
+            
+            // Last page and ellipsis
+            if (endPage < totalPages) {
+                if (endPage < totalPages - 1) {
+                    pagesHtml += `<span class="pagination-ellipsis">...</span>`;
+                }
+                pagesHtml += `<button class="pagination-btn" onclick="goToPage(${totalPages})">${totalPages}</button>`;
+            }
+            
+            paginationNumbers.innerHTML = pagesHtml;
+        }
+        
+        // Pagination functions
+        function changePage(direction) {
+            const totalPages = Math.ceil(filteredApplications.length / applicationsPerPage);
+            const newPage = currentPage + direction;
+            
+            if (newPage >= 1 && newPage <= totalPages) {
+                currentPage = newPage;
+                updateDisplayedApplications();
+            }
+        }
+        
+        function goToPage(page) {
+            const totalPages = Math.ceil(filteredApplications.length / applicationsPerPage);
+            
+            if (page >= 1 && page <= totalPages) {
+                currentPage = page;
+                updateDisplayedApplications();
+            }
+        }
+
+        // Get display name for application
+        function getDisplayName(app) {
+            if (app.isGuest) {
+                return 'Guest User';
+            } else if (app.registeredUser) {
+                return `${app.registeredUser.first_name} ${app.registeredUser.last_name}`;
+            } else {
+                return app.fullName;
+            }
+        }
+
+        // Format date
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        // View application details
+        function viewApplication(applicationId) {
+            const application = allApplications.find(app => app.id === applicationId);
+            if (!application) return;
+            
+            showApplicationModal(application);
+        }
+
+        // Show application modal
+        function showApplicationModal(application) {
+            const modal = document.getElementById('application-modal');
+            const details = document.getElementById('modal-application-details');
+            
+            details.innerHTML = `
+                <div class="detail-group">
+                    <div class="detail-label">Name:</div>
+                    <div class="detail-value">
+                        ${getDisplayName(application)}
+                        ${application.isGuest ? '<span class="guest-badge">Guest User</span>' : ''}
+                    </div>
+                </div>
+                
+                <div class="detail-group">
+                    <div class="detail-label">Email:</div>
+                    <div class="detail-value">${application.email}</div>
+                </div>
+                
+                <div class="detail-group">
+                    <div class="detail-label">Phone:</div>
+                    <div class="detail-value">${application.phone}</div>
+                </div>
+                
+                <div class="detail-group">
+                    <div class="detail-label">Line ID:</div>
+                    <div class="detail-value">${application.lineId}</div>
+                </div>
+                
+                <div class="detail-group">
+                    <div class="detail-label">Followers:</div>
+                    <div class="detail-value">${application.followers}</div>
+                </div>
+                
+                <div class="detail-group">
+                    <div class="detail-label">Social Media:</div>
+                    <div class="detail-value">
+                        <div class="social-links">
+                            ${application.instagram ? `
+                                <a href="${application.instagram}" target="_blank" class="social-link">
+                                    <div class="social-icon">📷</div>
+                                    <div class="social-url">${application.instagram}</div>
+                                </a>
+                            ` : ''}
+                            ${application.tiktok ? `
+                                <a href="${application.tiktok}" target="_blank" class="social-link">
+                                    <div class="social-icon">🎵</div>
+                                    <div class="social-url">${application.tiktok}</div>
+                                </a>
+                            ` : ''}
+                            ${application.facebook ? `
+                                <a href="${application.facebook}" target="_blank" class="social-link">
+                                    <div class="social-icon">👥</div>
+                                    <div class="social-url">${application.facebook}</div>
+                                </a>
+                            ` : ''}
+                            ${!application.instagram && !application.tiktok && !application.facebook ? '<p>No social media links provided</p>' : ''}
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="detail-group">
+                    <div class="detail-label">Experience:</div>
+                    <div class="detail-value">${application.experience}</div>
+                </div>
+                
+                <div class="detail-group">
+                    <div class="detail-label">Motivation:</div>
+                    <div class="detail-value">${application.motivation}</div>
+                </div>
+                
+                <div class="detail-group">
+                    <div class="detail-label">Applied:</div>
+                    <div class="detail-value">${formatDate(application.createdAt)}</div>
+                </div>
+                
+                <div class="detail-group">
+                    <div class="detail-label">Status:</div>
+                    <div class="detail-value">
+                        <span class="application-status">${application.status}</span>
+                    </div>
+                </div>
+            `;
+            
+            modal.classList.add('show');
+        }
+
+        // Close application modal
+        function closeApplicationModal() {
+            const modal = document.getElementById('application-modal');
+            modal.classList.remove('show');
+        }
+
+        // Update application status
+        function updateApplicationStatus(applicationId, status) {
+            if (confirm(`Are you sure you want to ${status} this application?`)) {
+                // In production, this would make an API call
+                console.log(`Updating application ${applicationId} to ${status}`);
+                
+                // Update the application in our local data
+                const application = allApplications.find(app => app.id === applicationId);
+                if (application) {
+                    application.status = status;
+                    
+                    // Update the filtered applications as well
+                    const filteredApp = filteredApplications.find(app => app.id === applicationId);
+                    if (filteredApp) {
+                        filteredApp.status = status;
+                    }
+                    
+                    // Re-render the current page
+                    updateDisplayedApplications();
+                    
+                    if (window.GaojieUtils) {
+                        GaojieUtils.showNotification(`Application ${status} successfully!`, 'success');
+                    }
+                }
+            }
+        }
+
+        // Handle logout function
+        window.handleLogout = async function() {
+            try {
+                await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
+                if (window.GaojieUtils) GaojieUtils.showNotification('Logged out successfully', 'success');
+                setTimeout(() => { window.location.href = '/login.html'; }, 1000);
+            } catch (error) {
+                console.error('Logout failed:', error);
+            }
+        };
+
+        // Close modal when clicking outside
+        document.getElementById('application-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeApplicationModal();
+            }
+        });
+    </script>
+    <script src="../JS/admin-script.js"></script>
+</body>
+</html>

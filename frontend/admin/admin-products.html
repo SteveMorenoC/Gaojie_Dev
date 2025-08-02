@@ -45,15 +45,29 @@
                     <li class="nav-item">
                         <a href="/admin-analytics" class="nav-link">Analytics</a>
                     </li>
+                    <li class="nav-item">
+                        <a href="/admin-influencer-applications" class="nav-link">Influencer Apps</a>
+                    </li>
                 </ul>
             </nav>
 
             <!-- Header Actions -->
             <div class="header-actions">
-                <a href="/" class="admin-view-site">View Site</a>
-                <div class="admin-profile">
-                    <span class="admin-name">Admin</span>
-                    <button class="admin-logout">Logout</button>
+                <a href="/main" class="admin-view-site">View Site</a>
+                
+                <!-- Admin User Menu -->
+                <div class="user-menu" id="admin-user-menu">
+                    <button class="user-btn" aria-label="Admin menu">
+                        <span class="user-name">Loading...</span>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </button>
+                    <div class="user-dropdown" style="display: none;">
+                        <a href="/main" class="dropdown-item">Main Site</a>
+                        <a href="#" class="dropdown-item" onclick="handleLogout()">Logout</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -70,11 +84,11 @@
                 </div>
                 
                 <div class="admin-products-actions">
-                    <button class="admin-btn secondary" id="import-products">
+                    <button class="admin-btn secondary" id="refresh-products">
                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                            <path d="M14 6V3.33333C14 2.97971 13.8595 2.64057 13.6095 2.39052C13.3594 2.14048 13.0203 2 12.6667 2H3.33333C2.97971 2 2.64057 2.14048 2.39052 2.39052C2.14048 2.64057 2 2.97971 2 3.33333V6M4.66667 9.33333L8 6L11.3333 9.33333M8 6V14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M2.5 2V6H2.5M2.5 6H6M2.5 6L5.75 2.75C6.87 1.62 8.36 1 9.9 1C13.21 1 15.9 3.69 15.9 7C15.9 10.31 13.21 13 9.9 13C7.5 13 5.46 11.64 4.68 9.72" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
-                        Import Products
+                        Refresh
                     </button>
                     <button class="admin-btn primary" id="add-new-product">
                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -115,10 +129,9 @@
                         </select>
                         
                         <select class="admin-select" id="status-filter">
+                            <option value="active">Active Only</option>
                             <option value="all">All Status</option>
-                            <option value="active">Active</option>
-                            <option value="inactive">Inactive</option>
-                            <option value="draft">Draft</option>
+                            <option value="inactive">Inactive Only</option>
                         </select>
                     </div>
                 </div>
@@ -126,278 +139,9 @@
 
             <!-- Products Grid -->
             <div class="admin-products-grid">
-                <!-- Product Card 1 -->
-                <div class="admin-product-card" data-category="cleanser" data-stock="low">
-                    <div class="admin-product-image-container">
-                        <img src="https://images.unsplash.com/photo-1571781926291-c477ebfd024b?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" 
-                             alt="Amino-Acid Cleanser" 
-                             class="admin-product-image">
-                        <div class="admin-product-badges">
-                            <span class="admin-product-badge bestseller">BESTSELLER</span>
-                            <span class="admin-stock-badge low-stock">LOW STOCK</span>
-                        </div>
-                        <div class="admin-product-overlay">
-                            <button class="admin-overlay-btn" onclick="editProduct('PRD001')" title="Edit Product">
-                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                    <path d="M12 4L4 12L1 13L2 10L10 2L12 4Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                            </button>
-                            <button class="admin-overlay-btn" onclick="duplicateProduct('PRD001')" title="Duplicate Product">
-                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                    <path d="M4 4V2C4 1.44772 4.44772 1 5 1H13C13.5523 1 14 1.44772 14 2V10C14 10.5523 13.5523 11 13 11H11M2 5H10C10.5523 5 11 5.44772 11 6V14C11 14.5523 10.5523 15 10 15H2C1.44772 15 1 14.5523 1 14V6C1 5.44772 1.44772 5 2 5Z" stroke="currentColor" stroke-width="1.5"/>
-                                </svg>
-                            </button>
-                            <button class="admin-overlay-btn danger" onclick="deleteProduct('PRD001')" title="Delete Product">
-                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                    <path d="M2 4H14M6 4V2C6 1.44772 6.44772 1 7 1H9C9.55228 1 10 1.44772 10 2V4M12.5 4L12 14C12 14.5523 11.5523 15 11 15H5C4.44772 15 4 14.5523 4 14L3.5 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="admin-product-info">
-                        <div class="admin-product-header">
-                            <h3 class="admin-product-name">Amino-Acid Cleanser</h3>
-                            <div class="admin-product-status active">Active</div>
-                        </div>
-                        <p class="admin-product-sku">SKU: PRD001</p>
-                        <p class="admin-product-category">Cleanser • 150ml</p>
-                        <div class="admin-product-pricing">
-                            <span class="admin-product-price">฿1,290</span>
-                            <span class="admin-product-cost">Cost: ฿645</span>
-                        </div>
-                        <div class="admin-product-stock">
-                            <span class="admin-stock-info warning">Stock: 3 units</span>
-                            <span class="admin-sales-info">89 sold this month</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product Card 2 -->
-                <div class="admin-product-card" data-category="moisturiser" data-stock="in-stock">
-                    <div class="admin-product-image-container">
-                        <img src="https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" 
-                             alt="Hydrating Moisturiser" 
-                             class="admin-product-image">
-                        <div class="admin-product-badges">
-                            <span class="admin-product-badge new">NEW</span>
-                        </div>
-                        <div class="admin-product-overlay">
-                            <button class="admin-overlay-btn" onclick="editProduct('PRD002')" title="Edit Product">
-                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                    <path d="M12 4L4 12L1 13L2 10L10 2L12 4Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                            </button>
-                            <button class="admin-overlay-btn" onclick="duplicateProduct('PRD002')" title="Duplicate Product">
-                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                    <path d="M4 4V2C4 1.44772 4.44772 1 5 1H13C13.5523 1 14 1.44772 14 2V10C14 10.5523 13.5523 11 13 11H11M2 5H10C10.5523 5 11 5.44772 11 6V14C11 14.5523 10.5523 15 10 15H2C1.44772 15 1 14.5523 1 14V6C1 5.44772 1.44772 5 2 5Z" stroke="currentColor" stroke-width="1.5"/>
-                                </svg>
-                            </button>
-                            <button class="admin-overlay-btn danger" onclick="deleteProduct('PRD002')" title="Delete Product">
-                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                    <path d="M2 4H14M6 4V2C6 1.44772 6.44772 1 7 1H9C9.55228 1 10 1.44772 10 2V4M12.5 4L12 14C12 14.5523 11.5523 15 11 15H5C4.44772 15 4 14.5523 4 14L3.5 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="admin-product-info">
-                        <div class="admin-product-header">
-                            <h3 class="admin-product-name">Hydrating Moisturiser</h3>
-                            <div class="admin-product-status active">Active</div>
-                        </div>
-                        <p class="admin-product-sku">SKU: PRD002</p>
-                        <p class="admin-product-category">Moisturiser • 50ml</p>
-                        <div class="admin-product-pricing">
-                            <span class="admin-product-price">฿1,590</span>
-                            <span class="admin-product-cost">Cost: ฿795</span>
-                        </div>
-                        <div class="admin-product-stock">
-                            <span class="admin-stock-info good">Stock: 45 units</span>
-                            <span class="admin-sales-info">67 sold this month</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product Card 3 -->
-                <div class="admin-product-card" data-category="serum" data-stock="low">
-                    <div class="admin-product-image-container">
-                        <img src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" 
-                             alt="Retinol Serum" 
-                             class="admin-product-image">
-                        <div class="admin-product-badges">
-                            <span class="admin-product-badge limited">LIMITED</span>
-                            <span class="admin-stock-badge low-stock">LOW STOCK</span>
-                        </div>
-                        <div class="admin-product-overlay">
-                            <button class="admin-overlay-btn" onclick="editProduct('PRD003')" title="Edit Product">
-                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                    <path d="M12 4L4 12L1 13L2 10L10 2L12 4Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                            </button>
-                            <button class="admin-overlay-btn" onclick="duplicateProduct('PRD003')" title="Duplicate Product">
-                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                    <path d="M4 4V2C4 1.44772 4.44772 1 5 1H13C13.5523 1 14 1.44772 14 2V10C14 10.5523 13.5523 11 13 11H11M2 5H10C10.5523 5 11 5.44772 11 6V14C11 14.5523 10.5523 15 10 15H2C1.44772 15 1 14.5523 1 14V6C1 5.44772 1.44772 5 2 5Z" stroke="currentColor" stroke-width="1.5"/>
-                                </svg>
-                            </button>
-                            <button class="admin-overlay-btn danger" onclick="deleteProduct('PRD003')" title="Delete Product">
-                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                    <path d="M2 4H14M6 4V2C6 1.44772 6.44772 1 7 1H9C9.55228 1 10 1.44772 10 2V4M12.5 4L12 14C12 14.5523 11.5523 15 11 15H5C4.44772 15 4 14.5523 4 14L3.5 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="admin-product-info">
-                        <div class="admin-product-header">
-                            <h3 class="admin-product-name">Retinol Renewal Serum</h3>
-                            <div class="admin-product-status active">Active</div>
-                        </div>
-                        <p class="admin-product-sku">SKU: PRD003</p>
-                        <p class="admin-product-category">Serum • 30ml</p>
-                        <div class="admin-product-pricing">
-                            <span class="admin-product-price">฿2,190</span>
-                            <span class="admin-product-cost">Cost: ฿1,095</span>
-                        </div>
-                        <div class="admin-product-stock">
-                            <span class="admin-stock-info warning">Stock: 8 units</span>
-                            <span class="admin-sales-info">31 sold this month</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product Card 4 -->
-                <div class="admin-product-card" data-category="serum" data-stock="in-stock">
-                    <div class="admin-product-image-container">
-                        <img src="https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" 
-                             alt="Vitamin C Serum" 
-                             class="admin-product-image">
-                        <div class="admin-product-badges">
-                            <span class="admin-product-badge promotion">SALE</span>
-                        </div>
-                        <div class="admin-product-overlay">
-                            <button class="admin-overlay-btn" onclick="editProduct('PRD004')" title="Edit Product">
-                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                    <path d="M12 4L4 12L1 13L2 10L10 2L12 4Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                            </button>
-                            <button class="admin-overlay-btn" onclick="duplicateProduct('PRD004')" title="Duplicate Product">
-                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                    <path d="M4 4V2C4 1.44772 4.44772 1 5 1H13C13.5523 1 14 1.44772 14 2V10C14 10.5523 13.5523 11 13 11H11M2 5H10C10.5523 5 11 5.44772 11 6V14C11 14.5523 10.5523 15 10 15H2C1.44772 15 1 14.5523 1 14V6C1 5.44772 1.44772 5 2 5Z" stroke="currentColor" stroke-width="1.5"/>
-                                </svg>
-                            </button>
-                            <button class="admin-overlay-btn danger" onclick="deleteProduct('PRD004')" title="Delete Product">
-                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                    <path d="M2 4H14M6 4V2C6 1.44772 6.44772 1 7 1H9C9.55228 1 10 1.44772 10 2V4M12.5 4L12 14C12 14.5523 11.5523 15 11 15H5C4.44772 15 4 14.5523 4 14L3.5 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="admin-product-info">
-                        <div class="admin-product-header">
-                            <h3 class="admin-product-name">Vitamin C Serum</h3>
-                            <div class="admin-product-status active">Active</div>
-                        </div>
-                        <p class="admin-product-sku">SKU: PRD004</p>
-                        <p class="admin-product-category">Serum • 30ml</p>
-                        <div class="admin-product-pricing">
-                            <span class="admin-product-price">฿1,890</span>
-                            <span class="admin-product-price-original">฿2,290</span>
-                            <span class="admin-product-cost">Cost: ฿945</span>
-                        </div>
-                        <div class="admin-product-stock">
-                            <span class="admin-stock-info good">Stock: 28 units</span>
-                            <span class="admin-sales-info">52 sold this month</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product Card 5 -->
-                <div class="admin-product-card" data-category="sets" data-stock="in-stock">
-                    <div class="admin-product-image-container">
-                        <img src="https://images.unsplash.com/photo-1616401784845-180882ba9ba8?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" 
-                             alt="Complete Skincare Set" 
-                             class="admin-product-image">
-                        <div class="admin-product-badges">
-                            <span class="admin-product-badge bundle">BUNDLE</span>
-                        </div>
-                        <div class="admin-product-overlay">
-                            <button class="admin-overlay-btn" onclick="editProduct('PRD005')" title="Edit Product">
-                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                    <path d="M12 4L4 12L1 13L2 10L10 2L12 4Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                            </button>
-                            <button class="admin-overlay-btn" onclick="duplicateProduct('PRD005')" title="Duplicate Product">
-                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                    <path d="M4 4V2C4 1.44772 4.44772 1 5 1H13C13.5523 1 14 1.44772 14 2V10C14 10.5523 13.5523 11 13 11H11M2 5H10C10.5523 5 11 5.44772 11 6V14C11 14.5523 10.5523 15 10 15H2C1.44772 15 1 14.5523 1 14V6C1 5.44772 1.44772 5 2 5Z" stroke="currentColor" stroke-width="1.5"/>
-                                </svg>
-                            </button>
-                            <button class="admin-overlay-btn danger" onclick="deleteProduct('PRD005')" title="Delete Product">
-                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                    <path d="M2 4H14M6 4V2C6 1.44772 6.44772 1 7 1H9C9.55228 1 10 1.44772 10 2V4M12.5 4L12 14C12 14.5523 11.5523 15 11 15H5C4.44772 15 4 14.5523 4 14L3.5 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="admin-product-info">
-                        <div class="admin-product-header">
-                            <h3 class="admin-product-name">Complete Skincare Set</h3>
-                            <div class="admin-product-status active">Active</div>
-                        </div>
-                        <p class="admin-product-sku">SKU: PRD005</p>
-                        <p class="admin-product-category">Set • 3 Products</p>
-                        <div class="admin-product-pricing">
-                            <span class="admin-product-price">฿3,590</span>
-                            <span class="admin-product-cost">Cost: ฿1,795</span>
-                        </div>
-                        <div class="admin-product-stock">
-                            <span class="admin-stock-info good">Stock: 15 units</span>
-                            <span class="admin-sales-info">24 sold this month</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product Card 6 -->
-                <div class="admin-product-card" data-category="cleanser" data-stock="out-of-stock">
-                    <div class="admin-product-image-container">
-                        <img src="https://images.unsplash.com/photo-1556228578-8c89e6adf883?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" 
-                             alt="Travel Cleanser" 
-                             class="admin-product-image">
-                        <div class="admin-product-badges">
-                            <span class="admin-product-badge travel">TRAVEL SIZE</span>
-                            <span class="admin-stock-badge out-of-stock">OUT OF STOCK</span>
-                        </div>
-                        <div class="admin-product-overlay">
-                            <button class="admin-overlay-btn" onclick="editProduct('PRD006')" title="Edit Product">
-                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                    <path d="M12 4L4 12L1 13L2 10L10 2L12 4Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                            </button>
-                            <button class="admin-overlay-btn" onclick="duplicateProduct('PRD006')" title="Duplicate Product">
-                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                    <path d="M4 4V2C4 1.44772 4.44772 1 5 1H13C13.5523 1 14 1.44772 14 2V10C14 10.5523 13.5523 11 13 11H11M2 5H10C10.5523 5 11 5.44772 11 6V14C11 14.5523 10.5523 15 10 15H2C1.44772 15 1 14.5523 1 14V6C1 5.44772 1.44772 5 2 5Z" stroke="currentColor" stroke-width="1.5"/>
-                                </svg>
-                            </button>
-                            <button class="admin-overlay-btn danger" onclick="deleteProduct('PRD006')" title="Delete Product">
-                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                    <path d="M2 4H14M6 4V2C6 1.44772 6.44772 1 7 1H9C9.55228 1 10 1.44772 10 2V4M12.5 4L12 14C12 14.5523 11.5523 15 11 15H5C4.44772 15 4 14.5523 4 14L3.5 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="admin-product-info">
-                        <div class="admin-product-header">
-                            <h3 class="admin-product-name">Travel Cleanser</h3>
-                            <div class="admin-product-status inactive">Inactive</div>
-                        </div>
-                        <p class="admin-product-sku">SKU: PRD006</p>
-                        <p class="admin-product-category">Cleanser • 50ml</p>
-                        <div class="admin-product-pricing">
-                            <span class="admin-product-price">฿590</span>
-                            <span class="admin-product-cost">Cost: ฿295</span>
-                        </div>
-                        <div class="admin-product-stock">
-                            <span class="admin-stock-info critical">Stock: 0 units</span>
-                            <span class="admin-sales-info">18 sold this month</span>
-                        </div>
-                    </div>
+                <!-- Products will be loaded dynamically here -->
+                <div class="admin-loading-state">
+                    <p>Loading products...</p>
                 </div>
             </div>
 
@@ -410,7 +154,7 @@
     </main>
 
     <!-- Add/Edit Product Modal -->
-    <div class="admin-modal" id="product-modal" style="display: flex;">
+    <div class="admin-modal" id="product-modal" style="display: none;">
         <div class="admin-modal-content" style="max-width: 900px;">
             <div class="admin-modal-header">
                 <h3 class="admin-modal-title" id="modal-title">Add New Product</h3>
@@ -429,20 +173,21 @@
                         
                         <div class="admin-form-row">
                             <div class="admin-form-group">
-                                <label class="admin-form-label">Product Name *</label>
-                                <input type="text" class="admin-form-input" id="product-name" placeholder="Enter product name" required>
+                                <label class="admin-form-label">Product Name</label>
+                                <input type="text" class="admin-form-input" id="product-name" placeholder="Enter product name">
                             </div>
                             
                             <div class="admin-form-group">
-                                <label class="admin-form-label">SKU *</label>
-                                <input type="text" class="admin-form-input" id="product-sku" placeholder="PRD001" required>
+                                <label class="admin-form-label">SKU</label>
+                                <input type="text" class="admin-form-input" id="product-sku" placeholder="Enter SKU (optional)">
+                                <small class="admin-form-help">SKU is optional - leave blank if not needed</small>
                             </div>
                         </div>
     
                         <div class="admin-form-row">
                             <div class="admin-form-group">
-                                <label class="admin-form-label">Category *</label>
-                                <select class="admin-form-select" id="product-category" required>
+                                <label class="admin-form-label">Category</label>
+                                <select class="admin-form-select" id="product-category">
                                     <option value="">Select Category</option>
                                     <option value="cleanser">Cleanser</option>
                                     <option value="moisturiser">Moisturiser</option>
@@ -509,8 +254,8 @@
                         
                         <div class="admin-form-row">
                             <div class="admin-form-group">
-                                <label class="admin-form-label">Selling Price (฿) *</label>
-                                <input type="number" class="admin-form-input" id="product-price" placeholder="0.00" step="0.01" required>
+                                <label class="admin-form-label">Selling Price (฿)</label>
+                                <input type="number" class="admin-form-input" id="product-price" placeholder="0.00" step="0.01">
                             </div>
                             
                             <div class="admin-form-group">
@@ -521,8 +266,8 @@
     
                         <div class="admin-form-row">
                             <div class="admin-form-group">
-                                <label class="admin-form-label">Stock Quantity *</label>
-                                <input type="number" class="admin-form-input" id="product-stock" placeholder="0" min="0" required>
+                                <label class="admin-form-label">Stock Quantity</label>
+                                <input type="number" class="admin-form-input" id="product-stock" placeholder="0" min="0">
                             </div>
                             
                             <div class="admin-form-group">
@@ -666,6 +411,612 @@
         </div>
     </footer>
 
+    <script src="../gaojie-common.js"></script>
+    <script>
+        // Global variables
+        let currentProducts = [];
+        let currentEditingProduct = null;
+        
+        // Initialize admin products page
+        document.addEventListener('DOMContentLoaded', async function() {
+            try {
+                const response = await fetch('/api/auth/admin/check', { credentials: 'include' });
+                if (response.status === 403) {
+                    if (window.GaojieUtils) GaojieUtils.showNotification('Access denied. Admin privileges required.', 'error');
+                    setTimeout(() => { window.location.href = '/main'; }, 2000);
+                    return;
+                }
+                const data = await response.json();
+                if (data.status === 'success' && data.is_admin) {
+                    const userNameEl = document.querySelector('#admin-user-menu .user-name');
+                    if (userNameEl) userNameEl.textContent = `${data.user.first_name} (Admin)`;
+                    
+                    // Load products from backend
+                    await loadProducts();
+                    setupEventListeners();
+                } else {
+                    setTimeout(() => { window.location.href = '/login.html'; }, 2000);
+                }
+            } catch (error) {
+                setTimeout(() => { window.location.href = '/main'; }, 2000);
+            }
+            
+            // Setup dropdown
+            const userBtn = document.querySelector('#admin-user-menu .user-btn');
+            const dropdown = document.querySelector('#admin-user-menu .user-dropdown');
+            if (userBtn && dropdown) {
+                userBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
+                });
+                document.addEventListener('click', (e) => {
+                    if (!e.target.closest('#admin-user-menu')) dropdown.style.display = 'none';
+                });
+            }
+        });
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Add New Product button
+            document.getElementById('add-new-product').addEventListener('click', openAddProductModal);
+            
+            // Refresh button
+            document.getElementById('refresh-products').addEventListener('click', async function() {
+                if (window.GaojieUtils) GaojieUtils.showNotification('Refreshing products...', 'info');
+                await loadProducts();
+                if (window.GaojieUtils) GaojieUtils.showNotification('Products refreshed!', 'success');
+            });
+            
+            // Search functionality
+            document.getElementById('products-search').addEventListener('input', debounce(handleSearch, 300));
+            
+            // Filter functionality  
+            document.getElementById('stock-filter').addEventListener('change', handleFilters);
+            document.getElementById('status-filter').addEventListener('change', async function() {
+                console.log('Status filter changed:', this.value);
+                await loadProductsWithStatus(this.value);
+            });
+            
+            // Category tabs
+            document.querySelectorAll('.admin-filter-tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    document.querySelectorAll('.admin-filter-tab').forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    handleFilters();
+                });
+            });
+        }
+
+        // Load products with specific status
+        async function loadProductsWithStatus(status) {
+            try {
+                // Show loading state
+                const grid = document.querySelector('.admin-products-grid');
+                grid.innerHTML = '<div class="admin-loading-state"><p>Loading products...</p></div>';
+                
+                const response = await fetch(`/api/products/admin?status=${status}`, { credentials: 'include' });
+                const data = await response.json();
+                
+                console.log(`API Response for status ${status}:`, data);
+                
+                if (data.status === 'success') {
+                    currentProducts = data.products;
+                    updateCategoryCounts(data.category_counts);
+                    renderProducts(currentProducts);
+                    
+                    console.log(`Loaded ${currentProducts.length} products with status: ${status}`);
+                } else {
+                    console.error('Failed to load products:', data.message);
+                    grid.innerHTML = '<div class="admin-empty-state"><h3>Failed to Load Products</h3><p>Please refresh the page and try again.</p></div>';
+                    if (window.GaojieUtils) GaojieUtils.showNotification(data.message || 'Failed to load products', 'error');
+                }
+            } catch (error) {
+                console.error('Error loading products:', error);
+                const grid = document.querySelector('.admin-products-grid');
+                grid.innerHTML = '<div class="admin-empty-state"><h3>Error Loading Products</h3><p>Please check your connection and try again.</p></div>';
+                if (window.GaojieUtils) GaojieUtils.showNotification('Error loading products', 'error');
+            }
+        }
+
+        // Load products from backend (respects current status filter)
+        async function loadProducts() {
+            const statusFilter = document.getElementById('status-filter');
+            const currentStatus = statusFilter ? statusFilter.value : 'active';
+            await loadProductsWithStatus(currentStatus);
+        }
+
+        // Update category counts in tabs
+        function updateCategoryCounts(categoryCounts) {
+            document.querySelectorAll('.admin-filter-tab').forEach(tab => {
+                const category = tab.dataset.category;
+                const countEl = tab.querySelector('.admin-tab-count');
+                if (countEl) {
+                    if (category === 'all') {
+                        countEl.textContent = currentProducts.length;
+                    } else {
+                        countEl.textContent = categoryCounts[category] || 0;
+                    }
+                }
+            });
+        }
+
+        // Helper function to calculate category counts from current products
+        function getCategoryCounts(products) {
+            const counts = {};
+            products.forEach(product => {
+                if (product.category) {
+                    counts[product.category] = (counts[product.category] || 0) + 1;
+                }
+            });
+            return counts;
+        }
+
+        // Render products in the grid
+        function renderProducts(products) {
+            const grid = document.querySelector('.admin-products-grid');
+            
+            if (products.length === 0) {
+                grid.innerHTML = '<div class="admin-empty-state"><h3>No products found</h3><p>Try adjusting your filters or add a new product.</p></div>';
+                return;
+            }
+            
+            grid.innerHTML = products.map(product => createProductCard(product)).join('');
+        }
+
+        // Create product card HTML
+        function createProductCard(product) {
+            const stockClass = getStockClass(product);
+            const stockBadge = getStockBadge(product);
+            const statusClass = product.is_active ? 'active' : 'inactive';
+            const statusText = product.is_active ? 'Active' : 'Inactive';
+            
+            return `
+                <div class="admin-product-card" data-category="${product.category}" data-stock="${stockClass}">
+                    <div class="admin-product-image-container">
+                        <img src="${product.primary_image || 'https://via.placeholder.com/300x300/f0f0f0/333333?text=' + encodeURIComponent(product.name)}" 
+                             alt="${product.name}" 
+                             class="admin-product-image">
+                        <div class="admin-product-badges">
+                            ${product.is_bestseller ? '<span class="admin-product-badge bestseller">BESTSELLER</span>' : ''}
+                            ${product.is_new ? '<span class="admin-product-badge new">NEW</span>' : ''}
+                            ${product.is_featured ? '<span class="admin-product-badge featured">FEATURED</span>' : ''}
+                            ${stockBadge}
+                        </div>
+                        <div class="admin-product-overlay">
+                            <button class="admin-overlay-btn" onclick="editProduct(${product.id})" title="Edit Product">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M12 4L4 12L1 13L2 10L10 2L12 4Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                            <button class="admin-overlay-btn" onclick="duplicateProduct(${product.id})" title="Duplicate Product">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M4 4V2C4 1.44772 4.44772 1 5 1H13C13.5523 1 14 1.44772 14 2V10C14 10.5523 13.5523 11 13 11H11M2 5H10C10.5523 5 11 5.44772 11 6V14C11 14.5523 10.5523 15 10 15H2C1.44772 15 1 14.5523 1 14V6C1 5.44772 1.44772 5 2 5Z" stroke="currentColor" stroke-width="1.5"/>
+                                </svg>
+                            </button>
+                            <button class="admin-overlay-btn danger" onclick="deleteProduct(${product.id})" title="Delete Product">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M2 4H14M6 4V2C6 1.44772 6.44772 1 7 1H9C9.55228 1 10 1.44772 10 2V4M12.5 4L12 14C12 14.5523 11.5523 15 11 15H5C4.44772 15 4 14.5523 4 14L3.5 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="admin-product-info">
+                        <div class="admin-product-header">
+                            <h3 class="admin-product-name">${product.name}</h3>
+                            <div class="admin-product-status ${statusClass}">${statusText}</div>
+                        </div>
+                        <p class="admin-product-sku">SKU: ${product.slug.toUpperCase()}</p>
+                        <p class="admin-product-category">${product.category.charAt(0).toUpperCase() + product.category.slice(1)} ${product.size ? '• ' + product.size : ''}</p>
+                        <div class="admin-product-pricing">
+                            <span class="admin-product-price">฿${product.price.toLocaleString()}</span>
+                            ${product.original_price ? `<span class="admin-product-price-original">฿${product.original_price.toLocaleString()}</span>` : ''}
+                            ${product.cost_price ? `<span class="admin-product-cost">Cost: ฿${product.cost_price.toLocaleString()}</span>` : ''}
+                        </div>
+                        <div class="admin-product-stock">
+                            <span class="admin-stock-info ${getStockStatusClass(product)}">Stock: ${product.stock_quantity} units</span>
+                            <span class="admin-sales-info">${product.sales_count} sold total</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Helper functions for stock status
+        function getStockClass(product) {
+            if (product.stock_quantity === 0) return 'out-of-stock';
+            if (product.stock_quantity <= product.low_stock_threshold) return 'low-stock';
+            return 'in-stock';
+        }
+
+        function getStockBadge(product) {
+            if (product.stock_quantity === 0) return '<span class="admin-stock-badge out-of-stock">OUT OF STOCK</span>';
+            if (product.stock_quantity <= product.low_stock_threshold) return '<span class="admin-stock-badge low-stock">LOW STOCK</span>';
+            return '';
+        }
+
+        function getStockStatusClass(product) {
+            if (product.stock_quantity === 0) return 'critical';
+            if (product.stock_quantity <= product.low_stock_threshold) return 'warning';
+            return 'good';
+        }
+
+        // Modal functions
+        function openAddProductModal() {
+            currentEditingProduct = null;
+            document.getElementById('modal-title').textContent = 'Add New Product';
+            resetProductForm();
+            document.getElementById('product-modal').style.display = 'flex';
+        }
+
+        function closeProductModal() {
+            document.getElementById('product-modal').style.display = 'none';
+            currentEditingProduct = null;
+            resetProductForm();
+        }
+
+        function resetProductForm() {
+            const form = document.getElementById('product-form');
+            form.reset();
+            
+            // Ensure all fields are cleared
+            const fields = [
+                'product-name', 'product-sku', 'product-category', 'product-size',
+                'product-price', 'product-cost', 'product-stock', 'product-low-stock',
+                'product-description', 'product-meta-description', 'product-tags'
+            ];
+            
+            fields.forEach(fieldId => {
+                const field = document.getElementById(fieldId);
+                if (field) {
+                    field.value = '';
+                }
+            });
+        }
+
+        // Product CRUD operations
+        async function editProduct(productId) {
+            try {
+                // Show loading feedback
+                if (window.GaojieUtils) GaojieUtils.showNotification('Loading product details...', 'info');
+                
+                const response = await fetch(`/api/products/admin/${productId}`, { credentials: 'include' });
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    currentEditingProduct = data.product;
+                    
+                    // Reset form first
+                    resetProductForm();
+                    
+                    // Show modal first
+                    document.getElementById('modal-title').textContent = `Edit Product: ${data.product.name}`;
+                    document.getElementById('product-modal').style.display = 'flex';
+                    
+                    // THEN populate after modal is visible
+                    setTimeout(() => {
+                        populateEditForm(data.product);
+                    }, 50);
+                    
+                    if (window.GaojieUtils) GaojieUtils.hideNotification();
+                } else {
+                    console.error('Error response:', data);
+                    if (window.GaojieUtils) GaojieUtils.showNotification(data.message || 'Failed to load product details', 'error');
+                }
+            } catch (error) {
+                console.error('Error loading product:', error);
+                if (window.GaojieUtils) GaojieUtils.showNotification('Error loading product', 'error');
+            }
+        }
+
+        async function duplicateProduct(productId) {
+            // Find the product for confirmation
+            const product = currentProducts.find(p => p.id === productId);
+            const productName = product ? product.name : 'this product';
+            
+            if (!confirm(`Duplicate "${productName}"? This will create an inactive copy that you can edit.`)) return;
+            
+            try {
+                // Show loading feedback
+                if (window.GaojieUtils) GaojieUtils.showNotification('Duplicating product...', 'info');
+                
+                const response = await fetch(`/api/products/admin/${productId}/duplicate`, {
+                    method: 'POST',
+                    credentials: 'include'
+                });
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    if (window.GaojieUtils) GaojieUtils.showNotification(
+                        `"${productName}" duplicated successfully! The copy is created as inactive - edit it to activate.`, 
+                        'success'
+                    );
+                    
+                    // Reload products list to show the duplicate
+                    await loadProducts();
+                } else {
+                    console.error('Duplicate error:', data);
+                    if (window.GaojieUtils) GaojieUtils.showNotification(data.message || 'Failed to duplicate product', 'error');
+                }
+            } catch (error) {
+                console.error('Error duplicating product:', error);
+                if (window.GaojieUtils) GaojieUtils.showNotification('Error duplicating product. Please try again.', 'error');
+            }
+        }
+
+        async function deleteProduct(productId) {
+            // Find the product name for confirmation
+            const product = currentProducts.find(p => p.id === productId);
+            const productName = product ? product.name : 'this product';
+            
+            if (!confirm(`Are you sure you want to delete "${productName}"? This will deactivate it from the store.`)) return;
+            
+            try {
+                // Show loading feedback
+                if (window.GaojieUtils) GaojieUtils.showNotification('Deleting product...', 'info');
+                
+                const response = await fetch(`/api/products/admin/${productId}`, {
+                    method: 'DELETE',
+                    credentials: 'include'
+                });
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    if (window.GaojieUtils) GaojieUtils.showNotification(`"${productName}" deleted successfully`, 'success');
+                    
+                    // Remove the product from current list immediately
+                    currentProducts = currentProducts.filter(p => p.id !== productId);
+                    
+                    // Re-render the filtered list
+                    renderProducts(currentProducts);
+                    
+                    // Update category counts
+                    updateCategoryCounts(getCategoryCounts(currentProducts));
+                    
+                } else {
+                    console.error('Delete error:', data);
+                    if (window.GaojieUtils) GaojieUtils.showNotification(data.message || 'Failed to delete product', 'error');
+                }
+            } catch (error) {
+                console.error('Error deleting product:', error);
+                if (window.GaojieUtils) GaojieUtils.showNotification('Error deleting product. Please try again.', 'error');
+            }
+        }
+
+        async function saveProduct() {
+            const form = document.getElementById('product-form');
+            
+            // Convert form data to JSON
+            const productData = {};
+            
+            // Get all form inputs with proper field mapping
+            const fieldMappings = {
+                'product-name': 'name',
+                'product-sku': 'slug',
+                'product-category': 'category',
+                'product-size': 'size',
+                'product-price': 'price',
+                'product-cost': 'cost_price',
+                'product-stock': 'stock_quantity',
+                'product-low-stock': 'low_stock_threshold',
+                'product-description': 'description',
+                'product-meta-description': 'meta_description',
+                'product-tags': 'tags'
+            };
+            
+            // Extract data from form fields
+            Object.entries(fieldMappings).forEach(([fieldId, apiField]) => {
+                const field = document.getElementById(fieldId);
+                if (field && field.value.trim() !== '') {
+                    if (apiField === 'price' || apiField === 'cost_price') {
+                        productData[apiField] = parseFloat(field.value) || 0;
+                    } else if (apiField === 'stock_quantity' || apiField === 'low_stock_threshold') {
+                        productData[apiField] = parseInt(field.value) || 0;
+                    } else {
+                        productData[apiField] = field.value.trim();
+                    }
+                }
+            });
+            
+            // Ensure stock_quantity has a default value of 0 if not provided
+            if (!productData.stock_quantity && productData.stock_quantity !== 0) {
+                productData.stock_quantity = 0;
+            }
+            
+            try {
+                const isEditing = currentEditingProduct !== null;
+                const url = isEditing ? `/api/products/admin/${currentEditingProduct.id}` : '/api/products/admin';
+                const method = isEditing ? 'PUT' : 'POST';
+                
+                // Show loading feedback
+                if (window.GaojieUtils) GaojieUtils.showNotification(`${isEditing ? 'Updating' : 'Creating'} product...`, 'info');
+                
+                console.log('Sending product data:', productData);
+                
+                const response = await fetch(url, {
+                    method: method,
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    credentials: 'include',
+                    body: JSON.stringify(productData)
+                });
+                
+                const data = await response.json();
+                console.log('Response:', data);
+                
+                if (data.status === 'success') {
+                    if (window.GaojieUtils) GaojieUtils.showNotification(
+                        `Product ${isEditing ? 'updated' : 'created'} successfully!`, 
+                        'success'
+                    );
+                    closeProductModal();
+                    
+                    // Force a complete reload of products to ensure consistency
+                    await loadProducts();
+                    
+                } else {
+                    console.error('Save error:', data);
+                    if (window.GaojieUtils) GaojieUtils.showNotification(data.message || 'Failed to save product', 'error');
+                }
+            } catch (error) {
+                console.error('Error saving product:', error);
+                if (window.GaojieUtils) GaojieUtils.showNotification('Error saving product. Please try again.', 'error');
+            }
+        }
+
+        function saveProductDraft() {
+            // For now, just save as inactive
+            const activeCheckbox = document.querySelector('#product-active');
+            if (activeCheckbox) activeCheckbox.checked = false;
+            saveProduct();
+        }
+
+        // Populate edit form with product data - DIRECT ASSIGNMENT
+        function populateEditForm(product) {
+            console.log('🔥 POPULATING FORM WITH:', product);
+            
+            try {
+                // Get all form fields
+                const nameField = document.getElementById('product-name');
+                const skuField = document.getElementById('product-sku');
+                const categoryField = document.getElementById('product-category');
+                const sizeField = document.getElementById('product-size');
+                const priceField = document.getElementById('product-price');
+                const costField = document.getElementById('product-cost');
+                const stockField = document.getElementById('product-stock');
+                const lowStockField = document.getElementById('product-low-stock');
+                const descField = document.getElementById('product-description');
+                const metaDescField = document.getElementById('product-meta-description');
+                const tagsField = document.getElementById('product-tags');
+                
+                // Populate all fields with proper fallbacks
+                if (nameField) {
+                    nameField.value = product.name || '';
+                    console.log('Name field populated:', nameField.value);
+                }
+                if (skuField) {
+                    skuField.value = product.slug || '';
+                    console.log('SKU field populated:', skuField.value);
+                }
+                if (categoryField) {
+                    categoryField.value = product.category || '';
+                    console.log('Category field populated:', categoryField.value);
+                }
+                if (sizeField) {
+                    sizeField.value = product.size || '';
+                    console.log('Size field populated:', sizeField.value);
+                }
+                if (priceField) {
+                    priceField.value = product.price || '';
+                    console.log('Price field populated:', priceField.value);
+                }
+                if (costField) {
+                    costField.value = product.cost_price || '';
+                    console.log('Cost field populated:', costField.value);
+                }
+                if (stockField) {
+                    stockField.value = product.stock_quantity !== undefined ? product.stock_quantity : 0;
+                    console.log('Stock field populated:', stockField.value);
+                }
+                if (lowStockField) {
+                    lowStockField.value = product.low_stock_threshold !== undefined ? product.low_stock_threshold : 10;
+                    console.log('Low stock field populated:', lowStockField.value);
+                }
+                if (descField) {
+                    descField.value = product.description || '';
+                    console.log('Description field populated:', descField.value);
+                }
+                if (metaDescField) {
+                    metaDescField.value = product.meta_description || '';
+                    console.log('Meta description field populated:', metaDescField.value);
+                }
+                if (tagsField) {
+                    tagsField.value = product.tags || '';
+                    console.log('Tags field populated:', tagsField.value);
+                }
+                
+                console.log('✅ FORM POPULATED SUCCESSFULLY - ALL FIELDS UPDATED');
+            } catch (error) {
+                console.error('❌ ERROR POPULATING FORM:', error);
+            }
+        }
+
+        // Filter and search functions
+        function handleSearch(event) {
+            const searchTerm = event.target.value.toLowerCase();
+            filterProducts();
+        }
+
+        function handleFilters() {
+            filterProducts();
+        }
+
+        function filterProducts() {
+            const searchTerm = document.getElementById('products-search').value.toLowerCase();
+            const stockFilter = document.getElementById('stock-filter').value;
+            const statusFilter = document.getElementById('status-filter').value;
+            const activeCategory = document.querySelector('.admin-filter-tab.active').dataset.category;
+            
+            let filteredProducts = currentProducts.filter(product => {
+                // Search filter
+                const matchesSearch = !searchTerm || 
+                    product.name.toLowerCase().includes(searchTerm) ||
+                    product.slug.toLowerCase().includes(searchTerm) ||
+                    (product.tags && product.tags.toLowerCase().includes(searchTerm));
+                
+                // Category filter
+                const matchesCategory = activeCategory === 'all' || product.category === activeCategory;
+                
+                // Stock filter
+                let matchesStock = true;
+                if (stockFilter !== 'all') {
+                    const stockClass = getStockClass(product);
+                    matchesStock = stockClass === stockFilter;
+                }
+                
+                // Status filter
+                let matchesStatus = true;
+                if (statusFilter !== 'all') {
+                    matchesStatus = (statusFilter === 'active' && product.is_active) || 
+                                   (statusFilter === 'inactive' && !product.is_active);
+                }
+                
+                return matchesSearch && matchesCategory && matchesStock && matchesStatus;
+            });
+            
+            renderProducts(filteredProducts);
+        }
+
+        // Utility function for debouncing
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        // Logout function
+        window.handleLogout = async function() {
+            try {
+                await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
+                if (window.GaojieUtils) GaojieUtils.showNotification('Logged out successfully', 'success');
+                setTimeout(() => { window.location.href = '/login.html'; }, 1000);
+            } catch (error) { console.error('Logout failed:', error); }
+        };
+
+        // Make functions globally available
+        window.editProduct = editProduct;
+        window.duplicateProduct = duplicateProduct;
+        window.deleteProduct = deleteProduct;
+        window.saveProduct = saveProduct;
+        window.saveProductDraft = saveProductDraft;
+        window.closeProductModal = closeProductModal;
+    </script>
     <script src="script.js"></script>
     <script src="../JS/admin-script.js"></script>
 </body>

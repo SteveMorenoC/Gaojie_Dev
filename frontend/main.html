@@ -646,6 +646,7 @@
                                     <div class="user-dropdown" style="display: none;">
                                         <a href="user-orders.html" class="dropdown-item">My Orders</a>
                                         <a href="#" class="dropdown-item" onclick="handleProfile()">My Profile</a>
+                                        ${data.user.is_admin ? '<a href="/admin" class="dropdown-item">Admin Dashboard</a>' : ''}
                                         <a href="#" class="dropdown-item" onclick="handleLogout()">Logout</a>
                                     </div>
                                 `;

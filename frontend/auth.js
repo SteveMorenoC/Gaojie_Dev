@@ -379,6 +379,7 @@ class AuthManager {
                     <div class="user-dropdown" style="display: none;">
                         <a href="user-orders.html" class="dropdown-item">My Orders</a>
                         <a href="#" class="dropdown-item" data-action="profile">My Profile</a>
+                        ${this.currentUser.is_admin ? '<a href="/admin" class="dropdown-item">Admin Dashboard</a>' : ''}
                         <a href="#" class="dropdown-item" data-action="logout">Logout</a>
                     </div>
                 `;

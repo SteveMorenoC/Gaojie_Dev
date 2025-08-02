@@ -45,15 +45,29 @@
                     <li class="nav-item">
                         <a href="/admin-analytics" class="nav-link">Analytics</a>
                     </li>
+                    <li class="nav-item">
+                        <a href="/admin-influencer-applications" class="nav-link">Influencer Apps</a>
+                    </li>
                 </ul>
             </nav>
 
             <!-- Header Actions -->
             <div class="header-actions">
-                <a href="/" class="admin-view-site">View Site</a>
-                <div class="admin-profile">
-                    <span class="admin-name">Admin</span>
-                    <button class="admin-logout">Logout</button>
+                <a href="/main" class="admin-view-site">View Site</a>
+                
+                <!-- Admin User Menu -->
+                <div class="user-menu" id="admin-user-menu">
+                    <button class="user-btn" aria-label="Admin menu">
+                        <span class="user-name">Loading...</span>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </button>
+                    <div class="user-dropdown" style="display: none;">
+                        <a href="/main" class="dropdown-item">Main Site</a>
+                        <a href="#" class="dropdown-item" onclick="handleLogout()">Logout</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -468,6 +482,73 @@
         </div>
     </footer>
 
+    <script src="../gaojie-common.js"></script>
+    <script>
+        // Initialize admin orders page
+        document.addEventListener('DOMContentLoaded', async function() {
+            console.log('Admin orders page loaded');
+            
+            // Check if user is admin (same logic as dashboard)
+            try {
+                const response = await fetch('/api/auth/admin/check', { credentials: 'include' });
+                
+                if (response.status === 403) {
+                    if (window.GaojieUtils && GaojieUtils.showNotification) {
+                        GaojieUtils.showNotification('Access denied. Admin privileges required.', 'error');
+                    }
+                    setTimeout(() => { window.location.href = '/main'; }, 2000);
+                    return;
+                }
+                
+                const data = await response.json();
+                
+                if (data.status === 'success' && data.is_admin) {
+                    const userNameEl = document.querySelector('#admin-user-menu .user-name');
+                    if (userNameEl) {
+                        userNameEl.textContent = `${data.user.first_name} (Admin)`;
+                    }
+                } else {
+                    if (window.GaojieUtils && GaojieUtils.showNotification) {
+                        GaojieUtils.showNotification('Please log in as admin to access this page.', 'error');
+                    }
+                    setTimeout(() => { window.location.href = '/login.html'; }, 2000);
+                }
+            } catch (error) {
+                console.error('Admin check failed:', error);
+                setTimeout(() => { window.location.href = '/main'; }, 2000);
+            }
+            
+            // Setup dropdown functionality
+            const userBtn = document.querySelector('#admin-user-menu .user-btn');
+            const dropdown = document.querySelector('#admin-user-menu .user-dropdown');
+            
+            if (userBtn && dropdown) {
+                userBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
+                });
+                
+                document.addEventListener('click', (e) => {
+                    if (!e.target.closest('#admin-user-menu')) {
+                        dropdown.style.display = 'none';
+                    }
+                });
+            }
+        });
+
+        // Handle logout function
+        window.handleLogout = async function() {
+            try {
+                await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
+                if (window.GaojieUtils && GaojieUtils.showNotification) {
+                    GaojieUtils.showNotification('Logged out successfully', 'success');
+                }
+                setTimeout(() => { window.location.href = '/login.html'; }, 1000);
+            } catch (error) {
+                console.error('Logout failed:', error);
+            }
+        };
+    </script>
     <script src="script.js"></script>
     <script src="../JS/admin-script.js"></script>
 </body>

@@ -400,7 +400,7 @@ def check_auth():
             return jsonify({
                 'status': 'success',
                 'authenticated': True,
-                'user': current_user.to_dict(),
+                'user': current_user.to_dict(include_sensitive=True),  # Include admin status
                 'session_id': session.get('_id', 'unknown')[:8] + '...' if session.get('_id') else None
             })
         else:
@@ -447,3 +447,72 @@ def debug_auth():
             'status': 'error',
             'message': f'Debug failed: {str(e)}'
         }), 500
+
+@auth_bp.route('/admin/check', methods=['GET'])
+def check_admin():
+    """Check if current user is admin - handles both session and Flask-Login"""
+    try:
+        # Check session-based auth first (what the frontend uses)
+        if 'user_id' in session:
+            user = User.query.get(session['user_id'])
+            if user and user.is_admin:
+                return jsonify({
+                    'status': 'success',
+                    'is_admin': True,
+                    'user': user.to_dict()
+                })
+            elif user:
+                return jsonify({
+                    'status': 'error',
+                    'message': 'Access denied. Admin privileges required.',
+                    'is_admin': False
+                }), 403
+        
+        # Check Flask-Login as fallback
+        if current_user.is_authenticated and current_user.is_admin:
+            return jsonify({
+                'status': 'success',
+                'is_admin': True,
+                'user': current_user.to_dict()
+            })
+        elif current_user.is_authenticated:
+            return jsonify({
+                'status': 'error',
+                'message': 'Access denied. Admin privileges required.',
+                'is_admin': False
+            }), 403
+        
+        # No authentication found
+        return jsonify({
+            'status': 'error',
+            'message': 'Authentication required',
+            'is_admin': False
+        }), 401
+        
+    except Exception as e:
+        return jsonify({
+            'status': 'error',
+            'message': 'Failed to check admin status',
+            'error': str(e)
+        }), 500
+
+def admin_required(f):
+    """Decorator to require admin privileges"""
+    from functools import wraps
+    
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if not current_user.is_authenticated:
+            return jsonify({
+                'status': 'error',
+                'message': 'Authentication required'
+            }), 401
+        
+        if not current_user.is_admin:
+            return jsonify({
+                'status': 'error',
+                'message': 'Admin privileges required'
+            }), 403
+        
+        return f(*args, **kwargs)
+    return decorated_function
