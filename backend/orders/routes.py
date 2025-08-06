@@ -250,6 +250,9 @@ def create_guest_order():
         db.session.add(order)
         db.session.flush()  # Get order ID
         
+        # Generate tracking number
+        order.tracking_number = Order.generate_tracking_number(order.order_number)
+        
         # Create order items
         for cart_item in cart_items:
             product = Product.query.get(cart_item['id'])
@@ -406,6 +409,9 @@ def create_authenticated_order():
         db.session.add(order)
         db.session.flush()  # Get order ID
         
+        # Generate tracking number
+        order.tracking_number = Order.generate_tracking_number(order.order_number)
+        
         # Create order items
         for cart_item in cart_items:
             product = Product.query.get(cart_item['id'])
@@ -475,7 +481,7 @@ def get_order(order_number):
         
         return jsonify({
             'status': 'success',
-            'order': order.to_dict(include_items=True)
+            'order': order.to_dict(include_items=True, include_customer=True)
         })
         
     except Exception as e:

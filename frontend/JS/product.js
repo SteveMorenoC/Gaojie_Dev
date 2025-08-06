@@ -1,22 +1,51 @@
 // Product Page JavaScript - Conversion Optimized
+// This script provides UI functionality and works with the dynamic product loading system in product.html
+
+// Product state (will be populated by the dynamic loading system)
+let productState = {
+    selectedVariant: '150ml',
+    selectedPrice: 1290,
+    quantity: 1,
+    images: [
+        'https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=600&h=600&fit=crop&crop=center',
+        'https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=600&h=600&fit=crop&crop=center',
+        'https://images.unsplash.com/photo-1570194065650-d99fb4bedf0a?w=600&h=600&fit=crop&crop=center',
+        'https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?w=600&h=600&fit=crop&crop=center'
+    ]
+};
+
 document.addEventListener('DOMContentLoaded', function() {
-    // Product state
-    let productState = {
-        selectedVariant: '150ml',
-        selectedPrice: 1290,
-        quantity: 1,
-        images: [
-            'https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=600&h=600&fit=crop&crop=center',
-            'https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=600&h=600&fit=crop&crop=center',
-            'https://images.unsplash.com/photo-1570194065650-d99fb4bedf0a?w=600&h=600&fit=crop&crop=center',
-            'https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?w=600&h=600&fit=crop&crop=center'
-        ]
-    };
 
-    // Initialize all functionality
-    initProductPage();
+// Function to update product state with loaded product data
+function updateProductState(product) {
+    if (product) {
+        productState.selectedPrice = product.price || productState.selectedPrice;
+        
+        // Update images array with product images
+        productState.images = [];
+        if (product.primary_image) {
+            productState.images.push(product.primary_image);
+        }
+        if (product.secondary_image) {
+            productState.images.push(product.secondary_image);
+        }
+        if (product.gallery_images_list && product.gallery_images_list.length > 0) {
+            productState.images.push(...product.gallery_images_list);
+        }
+        
+        // Fallback images if none available
+        if (productState.images.length === 0) {
+            productState.images = [
+                'https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=600&h=600&fit=crop&crop=center',
+                'https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=600&h=600&fit=crop&crop=center'
+            ];
+        }
+        
+        console.log('✅ Product state updated with:', product.name);
+    }
+}
 
-    function initProductPage() {
+function initProductPage() {
         setupImageGallery();
         setupVariantSelection();
         setupQuantityControls();
@@ -199,24 +228,57 @@ document.addEventListener('DOMContentLoaded', function() {
                 `;
                 this.disabled = true;
 
-                // Simulate add to cart
+                // Actually add to cart using unified system
                 setTimeout(() => {
-                    // Add to cart logic would go here
-                    updateCartCount();
-                    showNotification(`Added ${productState.quantity}x ${productState.selectedVariant} to cart!`, 'success');
+                    try {
+                        // Get current product data from global variable or page
+                        const productToAdd = {
+                            id: window.currentProduct ? window.currentProduct.id : `product-${Date.now()}`,
+                            name: window.currentProduct ? window.currentProduct.name : document.querySelector('.product-page-title')?.textContent || 'Product',
+                            price: window.currentProduct ? window.currentProduct.price : productState.selectedPrice,
+                            primary_image: window.currentProduct ? window.currentProduct.primary_image : document.getElementById('main-product-image')?.src,
+                            slug: window.currentProduct ? window.currentProduct.slug : 'product'
+                        };
+
+                        // Add multiple quantities if selected
+                        for (let i = 0; i < productState.quantity; i++) {
+                            if (window.GaojieUtils) {
+                                GaojieUtils.addToCart(productToAdd);
+                            }
+                        }
+
+                        // Show success notification with variant info
+                        const message = productState.quantity > 1 
+                            ? `Added ${productState.quantity}x ${productToAdd.name} (${productState.selectedVariant}) to cart!`
+                            : `Added ${productToAdd.name} (${productState.selectedVariant}) to cart!`;
+                        
+                        if (window.GaojieUtils) {
+                            GaojieUtils.showNotification(message, 'success');
+                        } else {
+                            showNotification(message, 'success');
+                        }
+
+                        // Track conversion event with dynamic data
+                        trackEvent('Product Added to Cart', {
+                            product: productToAdd.name,
+                            variant: productState.selectedVariant,
+                            quantity: productState.quantity,
+                            price: productState.selectedPrice
+                        });
+                        
+                    } catch (error) {
+                        console.error('Error adding to cart:', error);
+                        if (window.GaojieUtils) {
+                            GaojieUtils.showNotification('Error adding to cart', 'error');
+                        } else {
+                            showNotification('Error adding to cart', 'error');
+                        }
+                    }
                     
                     // Reset button
                     this.innerHTML = originalText;
                     this.disabled = false;
-
-                    // Track conversion event
-                    trackEvent('Product Added to Cart', {
-                        product: 'Amino-Acid Cleanser',
-                        variant: productState.selectedVariant,
-                        quantity: productState.quantity,
-                        price: productState.selectedPrice
-                    });
-                }, 1000);
+                }, 800);
             });
         }
 
@@ -227,41 +289,64 @@ document.addEventListener('DOMContentLoaded', function() {
                 this.textContent = 'Processing...';
                 this.disabled = true;
 
-                // Simulate buy now (would redirect to checkout)
+                // Amazon-style Buy Now: Add to cart + redirect to checkout
                 setTimeout(() => {
-                    showNotification('Redirecting to checkout...', 'success');
-                    
-                    // Track conversion event
-                    trackEvent('Buy Now Clicked', {
-                        product: 'Amino-Acid Cleanser',
-                        variant: productState.selectedVariant,
-                        quantity: productState.quantity,
-                        price: productState.selectedPrice
-                    });
+                    try {
+                        // First, add the product to cart (same as add-to-cart functionality)
+                        const productToAdd = {
+                            id: window.currentProduct ? window.currentProduct.id : `product-${Date.now()}`,
+                            name: window.currentProduct ? window.currentProduct.name : document.querySelector('.product-page-title')?.textContent || 'Product',
+                            price: window.currentProduct ? window.currentProduct.price : productState.selectedPrice,
+                            primary_image: window.currentProduct ? window.currentProduct.primary_image : document.getElementById('main-product-image')?.src,
+                            slug: window.currentProduct ? window.currentProduct.slug : 'product'
+                        };
 
-                    // Would redirect to checkout in real implementation
-                    setTimeout(() => {
-                        window.location.href = 'checkout.html';
-                    }, 1000);
-                }, 800);
+                        // Add multiple quantities if selected
+                        for (let i = 0; i < productState.quantity; i++) {
+                            if (window.GaojieUtils) {
+                                GaojieUtils.addToCart(productToAdd);
+                            }
+                        }
+
+                        // Show notification and redirect immediately
+                        const message = `Added to cart! Redirecting to checkout...`;
+                        if (window.GaojieUtils) {
+                            GaojieUtils.showNotification(message, 'success');
+                        } else {
+                            showNotification(message, 'success');
+                        }
+                        
+                        // Track conversion event with dynamic data
+                        trackEvent('Buy Now Clicked', {
+                            product: productToAdd.name,
+                            variant: productState.selectedVariant,
+                            quantity: productState.quantity,
+                            price: productState.selectedPrice
+                        });
+
+                        // Redirect to checkout after brief delay
+                        setTimeout(() => {
+                            window.location.href = '/checkout';
+                        }, 1000);
+                        
+                    } catch (error) {
+                        console.error('Error with buy now:', error);
+                        if (window.GaojieUtils) {
+                            GaojieUtils.showNotification('Error processing purchase', 'error');
+                        } else {
+                            showNotification('Error processing purchase', 'error');
+                        }
+                        
+                        // Reset button on error
+                        this.textContent = originalText;
+                        this.disabled = false;
+                    }
+                }, 500);
             });
         }
     }
 
-    function updateCartCount() {
-        const cartCount = document.querySelector('.bag-count');
-        if (cartCount) {
-            const currentCount = parseInt(cartCount.textContent) || 0;
-            const newCount = currentCount + productState.quantity;
-            cartCount.textContent = newCount;
-            
-            // Add animation
-            cartCount.style.transform = 'scale(1.3)';
-            setTimeout(() => {
-                cartCount.style.transform = 'scale(1)';
-            }, 200);
-        }
-    }
+    // updateCartCount function removed - now using unified GaojieUtils.updateCartCount()
 
     // Image Modal
     function setupImageModal() {
@@ -326,8 +411,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 this.disabled = true;
 
                 setTimeout(() => {
-                    updateCartCount();
-                    showNotification(`${productName} added to cart!`, 'success');
+                    // For quick-add buttons, we'll just redirect to the product page
+                    // This provides better UX than trying to add unknown products to cart
+                    if (window.GaojieUtils) {
+                        GaojieUtils.showNotification(`Redirecting to ${productName}...`, 'info');
+                    } else {
+                        showNotification(`Redirecting to ${productName}...`, 'info');
+                    }
                     
                     // Reset button with checkmark
                     this.textContent = '✓ Added';
@@ -337,8 +427,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     }, 2000);
 
                     // Track event
-                    trackEvent('Related Product Added', { product: productName });
-                }, 800);
+                    trackEvent('Related Product Clicked', { product: productName });
+                }, 300);
             });
         });
     }
@@ -561,14 +651,9 @@ document.addEventListener('DOMContentLoaded', function() {
             hasAddedToCart = true;
         });
 
-        // Show retention message before page unload
-        window.addEventListener('beforeunload', function(e) {
-            if (hasAddedToCart) {
-                e.preventDefault();
-                e.returnValue = 'You have items in your cart. Are you sure you want to leave?';
-                trackEvent('Cart Abandonment Warning Shown');
-            }
-        });
+        // Removed annoying beforeunload alert - better UX without interrupting user
+        // Instead, we could track cart abandonment in analytics
+        // trackEvent('Cart Abandonment Warning Shown') when needed
     }
 
     // Performance Optimization
@@ -796,6 +881,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+
     // Error handling
     window.addEventListener('error', function(e) {
         trackEvent('JavaScript Error', {
@@ -804,4 +890,13 @@ document.addEventListener('DOMContentLoaded', function() {
             line: e.lineno
         });
     });
-});
+
+    // Initialize immediately - the product.html will update state later if needed
+    initProductPage();
+    console.log('Product.js initialized');
+    
+    // Make functions globally available for product.html integration
+    window.updateProductState = updateProductState;
+    window.initProductPage = initProductPage;
+    
+}); // End of DOMContentLoaded

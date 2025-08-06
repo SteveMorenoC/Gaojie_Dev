@@ -85,12 +85,12 @@
                 </div>
 
                 <!-- Shopping Bag -->
-                <a href="cart.html" class="bag-btn" aria-label="Shopping bag">
+                <a href="/cart" class="bag-btn" aria-label="Shopping bag">
                     <svg class="bag-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
                         <path d="M3.5 7H16.5L15.5 16H4.5L3.5 7Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
                         <path d="M7 7V5C7 3.89543 7.89543 3 9 3H11C12.1046 3 13 3.89543 13 5V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
-                    <span class="bag-count">1</span>
+                    <span class="bag-count">0</span>
                 </a>
                 
                 <!-- Auth Buttons -->
@@ -138,15 +138,15 @@
     </section>
 
     <!-- Products Section -->
-    <section class="products-section">
-        <div class="products-container">
-            <div class="section-header">
-                <h2 class="section-title">Featured Products</h2>
+    <section class="products-section" id="homepage-products-section">
+        <div class="products-container" id="homepage-products-container">
+            <div class="section-header" id="homepage-products-header">
+                <h2 class="section-title" id="homepage-products-title">Featured Products</h2>
             </div>
             
-            <div class="products-grid">
+            <div class="products-grid" id="homepage-products-grid">
                 <!-- Product 1 -->
-                <div class="product-card">
+                <div class="product-card" id="homepage-product-card-1">
                     <div class="product-image-container">
                         <div class="product-badges-promo">
                             <span class="badge badge-bestseller">BESTSELLER</span>
@@ -170,7 +170,7 @@
                 </div>
 
                 <!-- Product 2 -->
-                <div class="product-card">
+                <div class="product-card" id="homepage-product-card-2">
                     <div class="product-image-container">
                         <div class="product-badges-promo">
                             <span class="badge badge-new">NEW</span>
@@ -194,7 +194,7 @@
                 </div>
 
                 <!-- Product 3 -->
-                <div class="product-card">
+                <div class="product-card" id="homepage-product-card-3">
                     <div class="product-image-container">
                         <div class="product-badges-promo">
                             <span class="badge badge-limited">LIMITED TIME</span>
@@ -218,7 +218,7 @@
                 </div>
 
                 <!-- Product 4 -->
-                <div class="product-card">
+                <div class="product-card" id="homepage-product-card-4">
                     <div class="product-image-container">
                         <div class="product-badges-promo">
                             <span class="badge badge-promotion">PROMOTION</span>
@@ -735,6 +735,172 @@
                     });
                 }
             }, 1000);
+        });
+    </script>
+    
+    <script>
+        // Load featured products dynamically
+        async function loadFeaturedProducts() {
+            try {
+                console.log('🏠 Loading featured products for homepage...');
+                
+                // Fetch ALL featured products (no limit)
+                const response = await fetch('/api/products/featured?limit=50');
+                const data = await response.json();
+                
+                if (data.status === 'success' && data.products && data.products.length > 0) {
+                    console.log(`✅ Loaded ${data.products.length} featured products`);
+                    updateHomepageProducts(data.products);
+                } else {
+                    console.log('ℹ️ No featured products found, keeping static content');
+                }
+            } catch (error) {
+                console.error('❌ Error loading featured products:', error);
+                // Keep static content as fallback
+            }
+        }
+        
+        // Update homepage products section with dynamic data
+        function updateHomepageProducts(featuredProducts) {
+            const productsContainer = document.getElementById('homepage-products-container');
+            if (!productsContainer) {
+                console.warn('⚠️ Homepage products container not found');
+                return;
+            }
+            
+            // Clear existing grids (keep the header)
+            const existingGrids = productsContainer.querySelectorAll('.products-grid');
+            existingGrids.forEach(grid => grid.remove());
+            
+            if (featuredProducts.length === 0) {
+                console.log('No featured products to display');
+                return;
+            }
+            
+            // Create grids for every 4 products
+            const productsPerGrid = 4;
+            const totalGrids = Math.ceil(featuredProducts.length / productsPerGrid);
+            
+            console.log(`📊 Creating ${totalGrids} grids for ${featuredProducts.length} featured products`);
+            
+            for (let gridIndex = 0; gridIndex < totalGrids; gridIndex++) {
+                const startIndex = gridIndex * productsPerGrid;
+                const endIndex = Math.min(startIndex + productsPerGrid, featuredProducts.length);
+                const gridProducts = featuredProducts.slice(startIndex, endIndex);
+                
+                // Create a new products grid
+                const productsGrid = document.createElement('div');
+                productsGrid.className = 'products-grid';
+                productsGrid.id = `homepage-products-grid-${gridIndex + 1}`;
+                
+                // Add margin to subsequent grids for spacing
+                if (gridIndex > 0) {
+                    productsGrid.style.marginTop = '3rem';
+                }
+                
+                // Create product cards for this grid
+                gridProducts.forEach((product, productIndex) => {
+                    const overallIndex = startIndex + productIndex + 1;
+                    const productCard = createHomepageProductCard(product, overallIndex);
+                    productsGrid.appendChild(productCard);
+                });
+                
+                // Append grid to container
+                productsContainer.appendChild(productsGrid);
+                
+                console.log(`✅ Created grid ${gridIndex + 1} with ${gridProducts.length} products`);
+            }
+            
+            console.log('✅ Homepage products updated with all featured products');
+        }
+        
+        // Create a product card element for homepage
+        function createHomepageProductCard(product, cardNumber) {
+            const cardDiv = document.createElement('div');
+            cardDiv.className = 'product-card';
+            cardDiv.id = `homepage-product-card-${cardNumber}`;
+            
+            // Get badges HTML
+            const badgesHtml = createProductBadges(product);
+            
+            // Get price HTML
+            const priceHtml = createProductPrice(product);
+            
+            cardDiv.innerHTML = `
+                <div class="product-image-container">
+                    ${badgesHtml}
+                    <div class="product-images">
+                        <img src="${product.primary_image || 'https://via.placeholder.com/400x400/f0f0f0/333333?text=' + encodeURIComponent(product.name)}" 
+                             alt="${product.name}" 
+                             class="product-image primary">
+                        ${product.secondary_image ? 
+                            `<img src="${product.secondary_image}" alt="${product.name} secondary" class="product-image secondary">` : 
+                            ''}
+                    </div>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title main-title">${product.name}</h3>
+                    <p class="product-description">${product.short_description || product.description?.substring(0, 80) + '...' || 'Premium skincare product'}</p>
+                    <div class="product-price">
+                        ${priceHtml}
+                    </div>
+                </div>
+            `;
+            
+            // Add click handler to navigate to product page
+            cardDiv.addEventListener('click', () => {
+                window.location.href = `/product/${product.slug}`;
+            });
+            
+            return cardDiv;
+        }
+        
+        // Create badges HTML for product
+        function createProductBadges(product) {
+            let badgesHtml = '';
+            
+            // Promotional badges
+            const promoBadges = [];
+            if (product.is_new) promoBadges.push('<span class="badge badge-new">NEW</span>');
+            if (product.is_bestseller) promoBadges.push('<span class="badge badge-bestseller">BESTSELLER</span>');
+            if (product.original_price && product.price < product.original_price) {
+                promoBadges.push('<span class="badge badge-promotion">PROMOTION</span>');
+            }
+            
+            if (promoBadges.length > 0) {
+                badgesHtml += `<div class="product-badges-promo">${promoBadges.join('')}</div>`;
+            }
+            
+            // Category badges (from product badges if available)
+            if (product.badges && product.badges.length > 0) {
+                const categoryBadges = product.badges
+                    .filter(badge => badge.is_category)
+                    .map(badge => `<span class="badge" style="background-color: ${badge.background_color}; color: ${badge.text_color};">${badge.name}</span>`)
+                    .join('');
+                
+                if (categoryBadges) {
+                    badgesHtml += `<div class="product-badges-category">${categoryBadges}</div>`;
+                }
+            }
+            
+            return badgesHtml;
+        }
+        
+        // Create price HTML for product
+        function createProductPrice(product) {
+            let priceHtml = `<span class="price">฿${product.price?.toLocaleString() || '0'}</span>`;
+            
+            if (product.original_price && product.original_price > product.price) {
+                priceHtml += `<span class="original-price">฿${product.original_price.toLocaleString()}</span>`;
+            }
+            
+            return priceHtml;
+        }
+        
+        // Load featured products when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load featured products after a small delay to not block initial page render
+            setTimeout(loadFeaturedProducts, 100);
         });
     </script>
 </body>

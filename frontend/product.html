@@ -43,14 +43,14 @@
                     </button>
                 </form>
 
-                <button class="bag-btn">
+                <a href="/cart" class="bag-btn" aria-label="Shopping bag">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" class="bag-icon">
                         <path d="M6 2L3 6V20C3 21.1 3.9 22 5 22H19C20.1 22 21 21.1 21 20V6L18 2H6Z" stroke="currentColor" stroke-width="2"/>
                         <path d="M3 6H21" stroke="currentColor" stroke-width="2"/>
                         <path d="M16 10C16 12.21 14.21 14 12 14C9.79 14 8 12.21 8 10" stroke="currentColor" stroke-width="2"/>
                     </svg>
-                    <span class="bag-count">2</span>
-                </button>
+                    <span class="bag-count">0</span>
+                </a>
                 
                 <!-- Auth Buttons -->
                 <div class="auth-buttons">
@@ -102,10 +102,6 @@
                 <div class="product-info">
                     <div class="product-header">
                         <h1 class="product-page-title">Amino-Acid Cleanser</h1>
-                        <div class="product-rating">
-                            <div class="stars">★★★★★</div>
-                            <span class="rating-count">(127 reviews)</span>
-                        </div>
                     </div>
 
                     <div class="product-price">
@@ -116,7 +112,7 @@
 
                     <div class="product-benefits">
                         <h3>Key Benefits</h3>
-                        <ul>
+                        <ul id="product-benefits-list">
                             <li>Gentle amino acid formula</li>
                             <li>Deep cleansing without stripping</li>
                             <li>Suitable for sensitive skin</li>
@@ -164,10 +160,10 @@
                         </div>
                     </div>
 
-                    <div class="urgency-indicator">
+                    <div class="urgency-indicator" style="display: none;">
                         <div class="stock-level">
                             <span class="stock-dot"></span>
-                            <span>Only 12 left in stock</span>
+                            <span>Loading stock info...</span>
                         </div>
                         <div class="shipping-info">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
@@ -211,7 +207,6 @@
                     <button class="tab-btn active" data-tab="description">Description</button>
                     <button class="tab-btn" data-tab="ingredients">Ingredients</button>
                     <button class="tab-btn" data-tab="usage">How to Use</button>
-                    <button class="tab-btn" data-tab="reviews">Reviews (127)</button>
                 </div>
 
                 <div class="tab-content">
@@ -219,13 +214,15 @@
                         <h3>Product Description</h3>
                         <p id="product-description-content">Our gentle amino acid cleanser is formulated with a unique blend of natural amino acids that effectively remove impurities while maintaining your skin's natural moisture barrier. Perfect for daily use on all skin types, including sensitive skin.</p>
                         
-                        <h4>What makes it special:</h4>
-                        <ul>
-                            <li><strong>Amino Acid Technology:</strong> Gentle cleansing that won't strip your skin</li>
-                            <li><strong>pH Balanced:</strong> Maintains your skin's natural pH level</li>
-                            <li><strong>Sulfate-Free:</strong> No harsh sulfates that can cause irritation</li>
-                            <li><strong>Dermatologically Tested:</strong> Safe for sensitive skin</li>
-                        </ul>
+                        <div id="product-more-details">
+                            <h4>What makes it special:</h4>
+                            <ul>
+                                <li><strong>Amino Acid Technology:</strong> Gentle cleansing that won't strip your skin</li>
+                                <li><strong>pH Balanced:</strong> Maintains your skin's natural pH level</li>
+                                <li><strong>Sulfate-Free:</strong> No harsh sulfates that can cause irritation</li>
+                                <li><strong>Dermatologically Tested:</strong> Safe for sensitive skin</li>
+                            </ul>
+                        </div>
                     </div>
 
                     <div class="tab-panel" id="ingredients">
@@ -254,85 +251,6 @@
                             </ol>
                             <p><strong>Best used:</strong> Morning and evening as part of your skincare routine.</p>
                         </div>
-                    </div>
-
-                    <div class="tab-panel" id="reviews">
-                        <div class="reviews-summary">
-                            <div class="rating-breakdown">
-                                <div class="overall-rating">
-                                    <span class="rating-number">4.8</span>
-                                    <div class="stars">★★★★★</div>
-                                    <span class="total-reviews">Based on 127 reviews</span>
-                                </div>
-                                <div class="rating-bars">
-                                    <div class="rating-bar">
-                                        <span>5★</span>
-                                        <div class="bar"><div class="fill" style="width: 85%"></div></div>
-                                        <span>85%</span>
-                                    </div>
-                                    <div class="rating-bar">
-                                        <span>4★</span>
-                                        <div class="bar"><div class="fill" style="width: 12%"></div></div>
-                                        <span>12%</span>
-                                    </div>
-                                    <div class="rating-bar">
-                                        <span>3★</span>
-                                        <div class="bar"><div class="fill" style="width: 2%"></div></div>
-                                        <span>2%</span>
-                                    </div>
-                                    <div class="rating-bar">
-                                        <span>2★</span>
-                                        <div class="bar"><div class="fill" style="width: 1%"></div></div>
-                                        <span>1%</span>
-                                    </div>
-                                    <div class="rating-bar">
-                                        <span>1★</span>
-                                        <div class="bar"><div class="fill" style="width: 0%"></div></div>
-                                        <span>0%</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="reviews-list">
-                            <div class="review">
-                                <div class="review-header">
-                                    <span class="reviewer-name">Sarah K.</span>
-                                    <div class="review-rating">★★★★★</div>
-                                    <span class="review-date">2 weeks ago</span>
-                                </div>
-                                <p class="review-text">"This cleanser is amazing! It's so gentle but really effective. My skin feels clean but never tight or dry. Perfect for my sensitive skin."</p>
-                                <div class="review-helpful">
-                                    <button class="helpful-btn">👍 Helpful (12)</button>
-                                </div>
-                            </div>
-
-                            <div class="review">
-                                <div class="review-header">
-                                    <span class="reviewer-name">Maria L.</span>
-                                    <div class="review-rating">★★★★★</div>
-                                    <span class="review-date">1 month ago</span>
-                                </div>
-                                <p class="review-text">"I've been using this for 3 months now and my skin has never looked better. The texture is perfect and it doesn't leave any residue."</p>
-                                <div class="review-helpful">
-                                    <button class="helpful-btn">👍 Helpful (8)</button>
-                                </div>
-                            </div>
-
-                            <div class="review">
-                                <div class="review-header">
-                                    <span class="reviewer-name">Jennifer T.</span>
-                                    <div class="review-rating">★★★★☆</div>
-                                    <span class="review-date">2 months ago</span>
-                                </div>
-                                <p class="review-text">"Good cleanser overall. Takes a bit more product than expected to get a good lather, but the results are worth it."</p>
-                                <div class="review-helpful">
-                                    <button class="helpful-btn">👍 Helpful (5)</button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <button class="load-more-reviews">Load More Reviews</button>
                     </div>
                 </div>
             </div>
@@ -392,24 +310,7 @@
             <div class="related-products">
                 <h2>Complete Your Routine</h2>
                 <div class="related-grid">
-                    <div class="related-item">
-                        <img src="https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=280&h=280&fit=crop&crop=center" alt="Vitamin C Serum">
-                        <h4>Vitamin C Serum</h4>
-                        <p>฿1,590</p>
-                        <button class="quick-add">Quick Add</button>
-                    </div>
-                    <div class="related-item">
-                        <img src="https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?w=280&h=280&fit=crop&crop=center" alt="Hydrating Moisturizer">
-                        <h4>Hydrating Moisturizer</h4>
-                        <p>฿1,790</p>
-                        <button class="quick-add">Quick Add</button>
-                    </div>
-                    <div class="related-item">
-                        <img src="https://images.unsplash.com/photo-1570194065650-d99fb4bedf0a?w=280&h=280&fit=crop&crop=center" alt="Gentle Toner">
-                        <h4>Gentle Toner</h4>
-                        <p>฿990</p>
-                        <button class="quick-add">Quick Add</button>
-                    </div>
+                    <!-- Related products will be loaded dynamically -->
                 </div>
             </div>
         </div>
@@ -476,7 +377,6 @@
                         <li><a href="/science" class="footer-link">Our Science</a></li>
                         <li><a href="/ingredients" class="footer-link">Ingredients</a></li>
                         <li><a href="/sustainability" class="footer-link">Sustainability</a></li>
-                        <li><a href="/reviews" class="footer-link">Reviews</a></li>
                         <li><a href="/blog" class="footer-link">Skincare Blog</a></li>
                     </ul>
                 </div>
@@ -529,11 +429,12 @@
 
     <script src="/gaojie-common.js"></script>
     <script src="/auth.js"></script>
+    <script src="/JS/cart.js"></script>
     <script src="/JS/product.js"></script>
     
     <script>
         // Dynamic Product Page Script
-        let currentProduct = null;
+        window.currentProduct = null;  // Make it globally accessible
         
         // Get product slug from URL
         function getProductSlug() {
@@ -551,9 +452,16 @@
                 const data = await response.json();
                 
                 if (data.status === 'success' && data.product) {
-                    currentProduct = data.product;
-                    updateProductDisplay(currentProduct);
-                    console.log(`✅ Loaded product: ${currentProduct.name}`);
+                    window.currentProduct = data.product;
+                    updateProductDisplay(window.currentProduct);
+                    
+                    // Update product state for product.js functionality
+                    if (window.updateProductState) {
+                        window.updateProductState(window.currentProduct);
+                        console.log('Product state updated for cart functionality');
+                    }
+                    
+                    console.log(`✅ Loaded product: ${window.currentProduct.name}`);
                 } else {
                     console.error('❌ Product not found');
                     showProductNotFound();
@@ -598,12 +506,78 @@
             // Update tab content with product data
             updateProductTabContent(product);
             
+            // Update benefits and more details sections
+            updateProductBenefits(product);
+            updateProductMoreDetails(product);
+            
+            // Update the visual gallery with product gallery items
+            updateProductGallery(product);
+            
+            // Update product video from database
+            updateProductVideo(product);
+            
+            // Load and display related products
+            loadRelatedProducts(product.id);
+            
             // Add badges if available
             const badgesContainer = document.querySelector('.image-badges');
             if (badgesContainer && product.badges && product.badges.length > 0) {
                 badgesContainer.innerHTML = product.badges.map(badge => 
                     `<span class="badge" style="background-color: ${badge.background_color}; color: ${badge.text_color};">${badge.name}</span>`
                 ).join('');
+            }
+            
+            // Update urgency indicator dynamically
+            updateUrgencyIndicator(product);
+        }
+        
+        // Update urgency indicator based on product data
+        function updateUrgencyIndicator(product) {
+            const urgencyContainer = document.querySelector('.urgency-indicator');
+            const stockLevelSpan = document.querySelector('.stock-level span:last-child');
+            
+            if (!urgencyContainer || !stockLevelSpan) {
+                console.warn('Urgency indicator elements not found');
+                return;
+            }
+            
+            // Check if we should show urgency (from backend logic)
+            if (product.should_show_urgency && product.urgency_display_data) {
+                const urgencyData = product.urgency_display_data;
+                
+                // Show the urgency indicator
+                urgencyContainer.style.display = 'block';
+                
+                // Update the stock message
+                stockLevelSpan.textContent = urgencyData.message;
+                
+                // Add visual urgency styling based on stock level
+                const stockLevel = urgencyData.stock_count;
+                const stockDot = document.querySelector('.stock-dot');
+                
+                if (stockDot) {
+                    // Color coding: red for very low (≤5), orange for low (≤10), yellow for moderate (≤20)
+                    if (stockLevel <= 5) {
+                        stockDot.style.backgroundColor = '#ef4444'; // red
+                        stockLevelSpan.style.color = '#ef4444';
+                        stockLevelSpan.style.fontWeight = 'bold';
+                    } else if (stockLevel <= 10) {
+                        stockDot.style.backgroundColor = '#f97316'; // orange  
+                        stockLevelSpan.style.color = '#f97316';
+                        stockLevelSpan.style.fontWeight = '600';
+                    } else {
+                        stockDot.style.backgroundColor = '#eab308'; // yellow
+                        stockLevelSpan.style.color = '#eab308'; 
+                        stockLevelSpan.style.fontWeight = '500';
+                    }
+                }
+                
+                console.log(`✅ Urgency indicator shown: ${urgencyData.message} (${urgencyData.is_override ? 'Manual' : 'Automatic'})`);
+                
+            } else {
+                // Hide urgency indicator if not needed
+                urgencyContainer.style.display = 'none';
+                console.log('ℹ️ Urgency indicator hidden (not needed)');
             }
         }
         
@@ -651,6 +625,8 @@
             // Clear existing thumbnails
             thumbnailContainer.innerHTML = '';
             
+            let hasActiveThumb = false;
+            
             // Add primary image thumbnail
             if (product.primary_image) {
                 const primaryThumb = document.createElement('img');
@@ -660,6 +636,7 @@
                 primaryThumb.id = 'thumbnail-primary';
                 primaryThumb.onclick = () => switchMainImage(product.primary_image);
                 thumbnailContainer.appendChild(primaryThumb);
+                hasActiveThumb = true;
             }
             
             // Add secondary image thumbnail if available
@@ -667,11 +644,30 @@
                 const secondaryThumb = document.createElement('img');
                 secondaryThumb.src = product.secondary_image;
                 secondaryThumb.alt = `${product.name} - Secondary view`;
-                secondaryThumb.className = 'thumbnail';
+                secondaryThumb.className = hasActiveThumb ? 'thumbnail' : 'thumbnail active';
                 secondaryThumb.id = 'thumbnail-secondary';
                 secondaryThumb.onclick = () => switchMainImage(product.secondary_image);
                 thumbnailContainer.appendChild(secondaryThumb);
+                if (!hasActiveThumb) hasActiveThumb = true;
             }
+            
+            // Add gallery images (additional thumbnails from slots 3,4,5)
+            if (product.gallery_images_list && product.gallery_images_list.length > 0) {
+                product.gallery_images_list.forEach((imageUrl, index) => {
+                    if (imageUrl) {
+                        const galleryThumb = document.createElement('img');
+                        galleryThumb.src = imageUrl;
+                        galleryThumb.alt = `${product.name} - View ${index + 3}`;
+                        galleryThumb.className = hasActiveThumb ? 'thumbnail' : 'thumbnail active';
+                        galleryThumb.id = `thumbnail-gallery-${index}`;
+                        galleryThumb.onclick = () => switchMainImage(imageUrl);
+                        thumbnailContainer.appendChild(galleryThumb);
+                        if (!hasActiveThumb) hasActiveThumb = true;
+                    }
+                });
+            }
+            
+            console.log(`✅ Updated product thumbnails: ${thumbnailContainer.children.length} thumbnails`);
         }
         
         // Switch main product image when thumbnail is clicked
@@ -728,19 +724,22 @@
             // Update ingredients tab
             const ingredientsContent = document.getElementById('product-ingredients-content');
             if (ingredientsContent && product.ingredients) {
-                // Format ingredients as a list if it's plain text, or use as HTML if it's already formatted
+                // Format ingredients as flowing text, not a list
                 let ingredientsHtml;
                 if (product.ingredients.includes('<') || product.ingredients.includes('\n')) {
                     // Assume it's formatted HTML or has line breaks
-                    ingredientsHtml = product.ingredients.replace(/\n/g, '<br>');
-                } else {
-                    // Assume it's a comma-separated list
-                    const ingredientsList = product.ingredients.split(',').map(ing => ing.trim());
                     ingredientsHtml = `
-                        <p><strong>Ingredients:</strong></p>
-                        <ul>
-                            ${ingredientsList.map(ing => `<li>${ing}</li>`).join('')}
-                        </ul>
+                        <p><strong>Key Ingredients:</strong></p>
+                        <p>${product.ingredients.replace(/\n/g, '<br>')}</p>
+                    `;
+                } else {
+                    // Format as flowing text with proper punctuation
+                    const cleanedIngredients = product.ingredients.trim();
+                    const needsPeriod = !cleanedIngredients.endsWith('.') && !cleanedIngredients.endsWith(',');
+                    ingredientsHtml = `
+                        <p><strong>Key Ingredients:</strong></p>
+                        <p>${cleanedIngredients}${needsPeriod ? '.' : ''}</p>
+                        <p><em>Full INCI list available on packaging.</em></p>
                     `;
                 }
                 ingredientsContent.innerHTML = ingredientsHtml;
@@ -759,6 +758,325 @@
                     usageHtml = `<p>${product.usage_instructions}</p>`;
                 }
                 usageContent.innerHTML = usageHtml;
+            }
+        }
+        
+        // Update product benefits section
+        function updateProductBenefits(product) {
+            const benefitsList = document.getElementById('product-benefits-list');
+            if (benefitsList && product.benefits) {
+                // Split benefits by comma and create list items
+                const benefits = product.benefits.split(',').map(benefit => benefit.trim()).filter(benefit => benefit);
+                if (benefits.length > 0) {
+                    benefitsList.innerHTML = benefits.map(benefit => `<li>${benefit}</li>`).join('');
+                }
+            }
+        }
+        
+        // Update product more details section
+        function updateProductMoreDetails(product) {
+            const moreDetailsContent = document.getElementById('product-more-details');
+            if (moreDetailsContent && product.more_details) {
+                // If more_details contains structured data, use it; otherwise create a simple paragraph
+                let detailsHtml;
+                if (product.more_details.includes('<') || product.more_details.includes('\n')) {
+                    // Assume it's formatted HTML or has line breaks
+                    detailsHtml = `
+                        <h4>What makes it special:</h4>
+                        <div>${product.more_details.replace(/\n/g, '<br>')}</div>
+                    `;
+                } else {
+                    // Simple text - wrap in paragraph
+                    detailsHtml = `
+                        <h4>What makes it special:</h4>
+                        <p>${product.more_details}</p>
+                    `;
+                }
+                moreDetailsContent.innerHTML = detailsHtml;
+            }
+        }
+        
+        // Update the visual gallery grid with dynamic content
+        function updateProductGallery(product) {
+            const galleryGrid = document.querySelector('.gallery-grid');
+            if (!galleryGrid) return;
+            
+            // Check if product has gallery items
+            if (product.gallery_items_list && product.gallery_items_list.length > 0) {
+                console.log('🖼️ Updating gallery with product gallery items:', product.gallery_items_list);
+                
+                // Clear existing gallery items
+                galleryGrid.innerHTML = '';
+                
+                // Populate with product's gallery items
+                product.gallery_items_list.forEach((item, index) => {
+                    const galleryItem = document.createElement('div');
+                    galleryItem.className = 'gallery-item';
+                    
+                    galleryItem.innerHTML = `
+                        <img src="${item.image || 'https://via.placeholder.com/350x250/f0f0f0/333333?text=Gallery+Image'}" 
+                             alt="${item.title || `Gallery image ${index + 1}`}" 
+                             loading="lazy">
+                        <div class="gallery-caption">
+                            <h4>${item.title || 'Feature Title'}</h4>
+                            <p>${item.description || 'Feature description'}</p>
+                        </div>
+                    `;
+                    
+                    galleryGrid.appendChild(galleryItem);
+                });
+                
+                console.log(`✅ Gallery updated with ${product.gallery_items_list.length} items`);
+            } else {
+                console.log('ℹ️ No gallery items found, keeping default gallery content');
+            }
+        }
+        
+        // Update product video from product data
+        function updateProductVideo(product) {
+            const videoContainer = document.querySelector('.product-video');
+            const videoElement = document.querySelector('.product-video video');
+            const videoCaption = document.querySelector('.product-video .video-caption');
+            
+            if (!videoContainer || !videoElement) {
+                console.log('⚠️ Video container not found');
+                return;
+            }
+            
+            // Check if product has a video URL
+            if (product.video_url && product.video_url.trim()) {
+                console.log('🎥 Updating product video:', product.video_url);
+                
+                // Parse different video URL formats
+                const videoInfo = parseVideoUrl(product.video_url);
+                
+                if (videoInfo) {
+                    // Show the video container
+                    videoContainer.style.display = 'block';
+                    
+                    if (videoInfo.type === 'direct') {
+                        // Direct video file (MP4, WebM, etc.)
+                        videoElement.querySelector('source').src = product.video_url;
+                        videoElement.load(); // Reload video with new source
+                        
+                        // Update caption if available from gallery items
+                        updateVideoCaption(product, videoCaption);
+                        
+                    } else if (videoInfo.type === 'youtube') {
+                        // Replace video element with YouTube embed
+                        replaceWithYouTubeEmbed(videoContainer, videoInfo.id, product);
+                        
+                    } else if (videoInfo.type === 'vimeo') {
+                        // Replace video element with Vimeo embed
+                        replaceWithVimeoEmbed(videoContainer, videoInfo.id, product);
+                    }
+                    
+                    console.log('✅ Product video updated successfully');
+                } else {
+                    console.log('⚠️ Invalid video URL format:', product.video_url);
+                    hideVideoContainer(videoContainer);
+                }
+            } else {
+                console.log('ℹ️ No video URL found, hiding video section');
+                hideVideoContainer(videoContainer);
+            }
+        }
+        
+        // Parse video URL to determine type and extract ID
+        function parseVideoUrl(url) {
+            if (!url) return null;
+            
+            // YouTube patterns
+            const youtubeRegex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/;
+            const youtubeMatch = url.match(youtubeRegex);
+            if (youtubeMatch) {
+                return { type: 'youtube', id: youtubeMatch[1] };
+            }
+            
+            // Vimeo patterns
+            const vimeoRegex = /(?:vimeo\.com\/)(\d+)/;
+            const vimeoMatch = url.match(vimeoRegex);
+            if (vimeoMatch) {
+                return { type: 'vimeo', id: vimeoMatch[1] };
+            }
+            
+            // Direct video file patterns
+            if (url.match(/\.(mp4|webm|ogg|mov)(\?.*)?$/i)) {
+                return { type: 'direct', url: url };
+            }
+            
+            return null;
+        }
+        
+        // Replace video element with YouTube embed
+        function replaceWithYouTubeEmbed(container, videoId, product) {
+            const embedHtml = `
+                <div class="video-embed youtube-embed">
+                    <iframe 
+                        src="https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}&controls=1&modestbranding=1&rel=0"
+                        frameborder="0" 
+                        allow="autoplay; encrypted-media" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
+                <div class="video-caption">
+                    <h4>${getVideoTitle(product) || 'Product Video'}</h4>
+                    <p>${getVideoDescription(product) || 'Watch our product in action'}</p>
+                </div>
+            `;
+            container.innerHTML = embedHtml;
+        }
+        
+        // Replace video element with Vimeo embed
+        function replaceWithVimeoEmbed(container, videoId, product) {
+            const embedHtml = `
+                <div class="video-embed vimeo-embed">
+                    <iframe 
+                        src="https://player.vimeo.com/video/${videoId}?autoplay=1&muted=1&loop=1&background=1"
+                        frameborder="0" 
+                        allow="autoplay; fullscreen; picture-in-picture" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
+                <div class="video-caption">
+                    <h4>${getVideoTitle(product) || 'Product Video'}</h4>
+                    <p>${getVideoDescription(product) || 'Watch our product in action'}</p>
+                </div>
+            `;
+            container.innerHTML = embedHtml;
+        }
+        
+        // Update video caption from product or gallery data
+        function updateVideoCaption(product, captionElement) {
+            if (!captionElement) return;
+            
+            const title = getVideoTitle(product);
+            const description = getVideoDescription(product);
+            
+            if (title || description) {
+                captionElement.querySelector('h4').textContent = title || 'Product Video';
+                captionElement.querySelector('p').textContent = description || 'Watch our product in action';
+            }
+        }
+        
+        // Get video title from gallery items or use default
+        function getVideoTitle(product) {
+            // Look for video title in gallery items
+            if (product.gallery_items_list && product.gallery_items_list.length > 0) {
+                const videoItem = product.gallery_items_list.find(item => 
+                    item.type === 'video' || 
+                    item.title && item.title.toLowerCase().includes('video')
+                );
+                if (videoItem && videoItem.title) {
+                    return videoItem.title;
+                }
+            }
+            
+            // Default based on product name
+            return `Watch: ${product.name} in Action`;
+        }
+        
+        // Get video description from gallery items or use default
+        function getVideoDescription(product) {
+            // Look for video description in gallery items
+            if (product.gallery_items_list && product.gallery_items_list.length > 0) {
+                const videoItem = product.gallery_items_list.find(item => 
+                    item.type === 'video' || 
+                    item.title && item.title.toLowerCase().includes('video')
+                );
+                if (videoItem && videoItem.description) {
+                    return videoItem.description;
+                }
+            }
+            
+            // Default description
+            return `See how ${product.name.toLowerCase()} works for your skin`;
+        }
+        
+        // Hide video container when no video is available
+        function hideVideoContainer(container) {
+            container.style.display = 'none';
+        }
+        
+        // Load and display related products
+        async function loadRelatedProducts(productId) {
+            try {
+                console.log(`🔗 Loading related products for product ID: ${productId}`);
+                
+                const response = await fetch(`/api/products/related/${productId}?limit=4`);
+                const data = await response.json();
+                
+                if (data.status === 'success' && data.products && data.products.length > 0) {
+                    displayRelatedProducts(data.products);
+                    console.log(`✅ Loaded ${data.products.length} related products`);
+                } else {
+                    console.log('ℹ️ No related products found');
+                    hideRelatedProductsSection();
+                }
+            } catch (error) {
+                console.error('❌ Error loading related products:', error);
+                hideRelatedProductsSection();
+            }
+        }
+        
+        // Display related products in the grid
+        function displayRelatedProducts(products) {
+            const relatedGrid = document.querySelector('.related-grid');
+            if (!relatedGrid) return;
+            
+            relatedGrid.innerHTML = products.map(product => `
+                <div class="related-item" onclick="window.location.href='/product/${product.slug}'" style="cursor: pointer;">
+                    <img src="${product.primary_image || 'https://via.placeholder.com/280x280/f0f0f0/333333?text=' + encodeURIComponent(product.name)}" 
+                         alt="${product.name}"
+                         class="dynamic-loaded"
+                         style="opacity: 1 !important; transition: none !important; transform: none !important; visibility: visible !important;"
+                         loading="eager">
+                    <h4>${product.name}</h4>
+                    <p>฿${product.price.toLocaleString()}</p>
+                    <button class="quick-add" onclick="event.stopPropagation(); window.location.href='/product/${product.slug}'">
+                        View Product
+                    </button>
+                </div>
+            `).join('');
+            
+            console.log(`✅ Displayed ${products.length} related products`);
+            
+            // Override any IntersectionObserver interference with our dynamic images
+            setTimeout(() => {
+                const dynamicImages = document.querySelectorAll('.related-item img.dynamic-loaded');
+                dynamicImages.forEach(img => {
+                    // Remove any observers that might be affecting our images
+                    if (img._observer) {
+                        img._observer.unobserve(img);
+                    }
+                    // Force visibility and disable transitions
+                    img.style.setProperty('opacity', '1', 'important');
+                    img.style.setProperty('visibility', 'visible', 'important');
+                    img.style.setProperty('display', 'block', 'important');
+                    img.style.setProperty('transition', 'none', 'important');
+                    img.style.setProperty('transform', 'none', 'important');
+                    
+                    // Add a continuous monitoring to prevent any script from changing opacity
+                    const observer = new MutationObserver((mutations) => {
+                        mutations.forEach((mutation) => {
+                            if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
+                                const computedOpacity = window.getComputedStyle(img).opacity;
+                                if (parseFloat(computedOpacity) < 1) {
+                                    img.style.setProperty('opacity', '1', 'important');
+                                }
+                            }
+                        });
+                    });
+                    observer.observe(img, { attributes: true, attributeFilter: ['style'] });
+                });
+            }, 50);
+        }
+        
+        // Hide related products section if no products found
+        function hideRelatedProductsSection() {
+            const relatedSection = document.querySelector('.related-products');
+            if (relatedSection) {
+                relatedSection.style.display = 'none';
             }
         }
         

@@ -56,6 +56,9 @@ class Order(db.Model):
     # Payment status: pending, processing, completed, failed, refunded
     payment_reference = db.Column(db.String(100))  # Omise charge ID
     
+    # Shipping Tracking
+    tracking_number = db.Column(db.String(50), unique=True)  # Generated tracking number
+    
     # Special Instructions
     order_notes = db.Column(db.Text)
     admin_notes = db.Column(db.Text)  # Internal notes
@@ -68,6 +71,7 @@ class Order(db.Model):
     
     # Relationships
     order_items = db.relationship('OrderItem', backref='order', lazy=True, cascade='all, delete-orphan')
+    # customer relationship is defined in User model with backref
     
     def __repr__(self):
         return f'<Order {self.order_number}>'
@@ -85,6 +89,39 @@ class Order(db.Model):
             order_number = f"GJ{timestamp}{unique_id}"
         
         return order_number
+    
+    @classmethod
+    def generate_tracking_number(cls, order_number):
+        """Generate a tracking number based on order number"""
+        if not order_number:
+            timestamp = datetime.now().strftime('%Y%m%d')
+            unique_id = str(uuid.uuid4())[:4].upper()
+            return f"TH{timestamp}{unique_id}"
+        
+        # Extract date and unique parts from order number (format: GJ20250805ABCD1234)
+        if len(order_number) >= 14 and order_number.startswith('GJ'):
+            date_part = order_number[2:10]  # 20250805
+            unique_part = order_number[10:14]  # First 4 chars of unique part
+            tracking_number = f"TH{date_part}{unique_part}"
+        else:
+            # Fallback for different order number formats
+            timestamp = datetime.now().strftime('%Y%m%d')
+            unique_id = str(uuid.uuid4())[:4].upper()
+            tracking_number = f"TH{timestamp}{unique_id}"
+        
+        # Ensure uniqueness
+        while cls.query.filter_by(tracking_number=tracking_number).first():
+            unique_id = str(uuid.uuid4())[:4].upper()
+            tracking_number = f"TH{tracking_number[:10]}{unique_id}"
+        
+        return tracking_number
+    
+    def generate_and_set_tracking_number(self):
+        """Generate and set tracking number for this order"""
+        if not self.tracking_number:
+            self.tracking_number = self.generate_tracking_number(self.order_number)
+            db.session.commit()
+        return self.tracking_number
     
     @property
     def item_count(self):
@@ -197,6 +234,7 @@ class Order(db.Model):
             'payment_status_display': self.payment_status_display,
             'payment_method': self.payment_method,
             'payment_reference': self.payment_reference,
+            'tracking_number': self.tracking_number,
             
             # Financial data
             'subtotal': float(self.subtotal),

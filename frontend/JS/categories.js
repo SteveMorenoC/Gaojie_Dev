@@ -10,7 +10,7 @@ class CategoryPage {
             priceMax: 3000
         };
         this.currentSort = 'featured';
-        this.cart = JSON.parse(localStorage.getItem('gaojie-cart') || '[]');
+        this.cart = JSON.parse(localStorage.getItem('gaojie_cart') || '[]');
         this.isFiltersOpen = false;
         this.products = [];
         this.filteredProducts = [];
@@ -456,7 +456,7 @@ class CategoryPage {
             });
         }
 
-        localStorage.setItem('gaojie-cart', JSON.stringify(this.cart));
+        localStorage.setItem('gaojie_cart', JSON.stringify(this.cart));
         this.updateCartCount();
         
         // Button animation

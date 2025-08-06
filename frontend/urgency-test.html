@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Urgency Indicator Test - GAOJIE</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 1000px; margin: 40px auto; padding: 20px; }
+        .test-section { margin: 30px 0; padding: 20px; border: 1px solid #ddd; border-radius: 8px; }
+        .scenario { margin: 20px 0; padding: 15px; background: #f8f9fa; border-radius: 6px; }
+        .urgency-indicator { margin: 10px 0; padding: 12px; border-radius: 6px; border: 1px solid #ddd; }
+        .stock-level { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+        .stock-dot { width: 8px; height: 8px; border-radius: 50%; background: #10b981; }
+        .shipping-info { display: flex; align-items: center; gap: 8px; font-size: 14px; color: #666; }
+        .hidden { display: none !important; }
+        button { padding: 8px 16px; margin: 5px; border: none; border-radius: 4px; cursor: pointer; background: #007bff; color: white; }
+        .result { margin: 10px 0; padding: 10px; background: #e3f2fd; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <h1>🚨 Urgency Indicator System Test</h1>
+    <p>This demonstrates the dynamic urgency indicator with both automatic and manual override modes.</p>
+    
+    <div class="test-section">
+        <h2>Test Scenarios</h2>
+        
+        <div class="scenario">
+            <h3>Scenario 1: High Stock (No Urgency)</h3>
+            <button onclick="testScenario(1)">Test High Stock (50 items)</button>
+            <div class="urgency-indicator" id="urgency-1" style="display: none;">
+                <div class="stock-level">
+                    <span class="stock-dot"></span>
+                    <span class="stock-message">Loading...</span>
+                </div>
+                <div class="shipping-info">
+                    <span>✓ Free shipping • Arrives by Jan 28</span>
+                </div>
+            </div>
+            <div class="result" id="result-1"></div>
+        </div>
+        
+        <div class="scenario">
+            <h3>Scenario 2: Low Stock (Automatic Urgency)</h3>
+            <button onclick="testScenario(2)">Test Low Stock (8 items)</button>
+            <div class="urgency-indicator" id="urgency-2" style="display: none;">
+                <div class="stock-level">
+                    <span class="stock-dot"></span>
+                    <span class="stock-message">Loading...</span>
+                </div>
+                <div class="shipping-info">
+                    <span>✓ Free shipping • Arrives by Jan 28</span>
+                </div>
+            </div>
+            <div class="result" id="result-2"></div>
+        </div>
+        
+        <div class="scenario">
+            <h3>Scenario 3: Very Low Stock (Critical Urgency)</h3>
+            <button onclick="testScenario(3)">Test Very Low Stock (3 items)</button>
+            <div class="urgency-indicator" id="urgency-3" style="display: none;">
+                <div class="stock-level">
+                    <span class="stock-dot"></span>
+                    <span class="stock-message">Loading...</span>
+                </div>
+                <div class="shipping-info">
+                    <span>✓ Free shipping • Arrives by Jan 28</span>
+                </div>
+            </div>
+            <div class="result" id="result-3"></div>
+        </div>
+        
+        <div class="scenario">
+            <h3>Scenario 4: Manual Override (Marketing Mode)</h3>
+            <button onclick="testScenario(4)">Test Manual Override (Fake "2 left")</button>
+            <div class="urgency-indicator" id="urgency-4" style="display: none;">
+                <div class="stock-level">
+                    <span class="stock-dot"></span>
+                    <span class="stock-message">Loading...</span>
+                </div>
+                <div class="shipping-info">
+                    <span>✓ Free shipping • Arrives by Jan 28</span>
+                </div>
+            </div>
+            <div class="result" id="result-4"></div>
+        </div>
+        
+        <div class="scenario">
+            <h3>Scenario 5: Custom Marketing Message</h3>
+            <button onclick="testScenario(5)">Test Custom Message</button>
+            <div class="urgency-indicator" id="urgency-5" style="display: none;">
+                <div class="stock-level">
+                    <span class="stock-dot"></span>
+                    <span class="stock-message">Loading...</span>
+                </div>
+                <div class="shipping-info">
+                    <span>✓ Free shipping • Arrives by Jan 28</span>
+                </div>
+            </div>
+            <div class="result" id="result-5"></div>
+        </div>
+    </div>
+
+    <script>
+        // Mock product data for different scenarios
+        const scenarios = {
+            1: {
+                // High stock - no urgency
+                stock_quantity: 50,
+                low_stock_threshold: 10,
+                track_inventory: true,
+                show_urgency_override: false,
+                should_show_urgency: false,
+                urgency_display_data: null
+            },
+            2: {
+                // Low stock - automatic urgency
+                stock_quantity: 8,
+                low_stock_threshold: 10,
+                track_inventory: true,
+                show_urgency_override: false,
+                should_show_urgency: true,
+                urgency_display_data: {
+                    message: "Only 8 left in stock",
+                    stock_count: 8,
+                    is_override: false
+                }
+            },
+            3: {
+                // Very low stock - critical urgency
+                stock_quantity: 3,
+                low_stock_threshold: 10,
+                track_inventory: true,
+                show_urgency_override: false,
+                should_show_urgency: true,
+                urgency_display_data: {
+                    message: "Only 3 left in stock",
+                    stock_count: 3,
+                    is_override: false
+                }
+            },
+            4: {
+                // Manual override - marketing mode
+                stock_quantity: 100, // Actually have plenty
+                low_stock_threshold: 10,
+                track_inventory: true,
+                show_urgency_override: true,
+                urgency_stock_display: 2,
+                should_show_urgency: true,
+                urgency_display_data: {
+                    message: "Only 2 left in stock",
+                    stock_count: 2,
+                    is_override: true
+                }
+            },
+            5: {
+                // Custom marketing message
+                stock_quantity: 100,
+                low_stock_threshold: 10,
+                track_inventory: true,
+                show_urgency_override: true,
+                urgency_message: "🔥 Flash Sale - Limited Time Only!",
+                urgency_stock_display: 7,
+                should_show_urgency: true,
+                urgency_display_data: {
+                    message: "🔥 Flash Sale - Limited Time Only!",
+                    stock_count: 7,
+                    is_override: true
+                }
+            }
+        };
+        
+        function testScenario(scenarioId) {
+            const product = scenarios[scenarioId];
+            const urgencyContainer = document.getElementById(`urgency-${scenarioId}`);
+            const stockMessageSpan = urgencyContainer.querySelector('.stock-message');
+            const stockDot = urgencyContainer.querySelector('.stock-dot');
+            const resultDiv = document.getElementById(`result-${scenarioId}`);
+            
+            // Simulate the same logic as the product page
+            updateUrgencyIndicator(product, urgencyContainer, stockMessageSpan, stockDot);
+            
+            // Show result
+            let resultText = `<strong>Test Results:</strong><br>`;
+            resultText += `Actual Stock: ${product.stock_quantity}<br>`;
+            resultText += `Should Show Urgency: ${product.should_show_urgency}<br>`;
+            
+            if (product.should_show_urgency) {
+                const data = product.urgency_display_data;
+                resultText += `Message: "${data.message}"<br>`;
+                resultText += `Display Stock: ${data.stock_count}<br>`;
+                resultText += `Mode: ${data.is_override ? 'Manual Override' : 'Automatic'}<br>`;
+            } else {
+                resultText += `Urgency Hidden (stock level sufficient)<br>`;
+            }
+            
+            resultDiv.innerHTML = resultText;
+        }
+        
+        function updateUrgencyIndicator(product, urgencyContainer, stockLevelSpan, stockDot) {
+            // Check if we should show urgency (from backend logic)
+            if (product.should_show_urgency && product.urgency_display_data) {
+                const urgencyData = product.urgency_display_data;
+                
+                // Show the urgency indicator
+                urgencyContainer.style.display = 'block';
+                
+                // Update the stock message
+                stockLevelSpan.textContent = urgencyData.message;
+                
+                // Add visual urgency styling based on stock level
+                const stockLevel = urgencyData.stock_count;
+                
+                if (stockDot) {
+                    // Color coding: red for very low (≤5), orange for low (≤10), yellow for moderate (≤20)
+                    if (stockLevel <= 5) {
+                        stockDot.style.backgroundColor = '#ef4444'; // red
+                        stockLevelSpan.style.color = '#ef4444';
+                        stockLevelSpan.style.fontWeight = 'bold';
+                    } else if (stockLevel <= 10) {
+                        stockDot.style.backgroundColor = '#f97316'; // orange  
+                        stockLevelSpan.style.color = '#f97316';
+                        stockLevelSpan.style.fontWeight = '600';
+                    } else {
+                        stockDot.style.backgroundColor = '#eab308'; // yellow
+                        stockLevelSpan.style.color = '#eab308'; 
+                        stockLevelSpan.style.fontWeight = '500';
+                    }
+                }
+                
+                console.log(`✅ Urgency indicator shown: ${urgencyData.message} (${urgencyData.is_override ? 'Manual' : 'Automatic'})`);
+                
+            } else {
+                // Hide urgency indicator if not needed
+                urgencyContainer.style.display = 'none';
+                console.log('ℹ️ Urgency indicator hidden (not needed)');
+            }
+        }
+    </script>
+</body>
+</html>

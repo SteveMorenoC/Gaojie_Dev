@@ -16,7 +16,7 @@
         
         .admin-image-slots {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            grid-template-columns: repeat(5, 1fr);
             gap: 1rem;
             margin-bottom: 1rem;
         }
@@ -192,6 +192,12 @@
         }
         
         /* Responsive */
+        @media (max-width: 1200px) {
+            .admin-image-slots {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
         @media (max-width: 768px) {
             .admin-image-slots {
                 grid-template-columns: repeat(2, 1fr);
@@ -347,6 +353,521 @@
             border-radius: 6px;
             min-width: 80px;
             transition: all 0.2s ease;
+        }
+        
+        /* Product Card Styles */
+        .admin-product-card {
+            position: relative;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .admin-product-card:hover {
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+            transform: translateY(-4px);
+        }
+        
+        /* Card Actions in top-right corner */
+        .admin-card-actions {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            z-index: 20;
+        }
+        
+        .admin-actions-btn {
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-radius: 10px;
+            padding: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .admin-actions-btn:hover {
+            background: white;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+            transform: scale(1.05);
+        }
+        
+        .admin-actions-btn svg {
+            width: 20px;
+            height: 20px;
+            color: #374151;
+        }
+        
+        /* Dropdown Menu Styles */
+        .admin-actions-dropdown {
+            position: relative;
+        }
+        
+        .admin-dropdown-toggle,
+        .admin-quick-edit {
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 6px;
+            padding: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(4px);
+        }
+        
+        .admin-dropdown-toggle:hover,
+        .admin-quick-edit:hover {
+            background: rgba(255, 255, 255, 1);
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .admin-dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 8px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            min-width: 200px;
+            z-index: 1000;
+            overflow: hidden;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px) scale(0.95);
+            transition: all 0.2s ease;
+            pointer-events: none;
+        }
+        
+        .admin-dropdown-menu.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) scale(1);
+            pointer-events: all;
+        }
+        
+        .admin-dropdown-item {
+            width: 100%;
+            border: none;
+            background: white;
+            padding: 10px 12px;
+            text-align: left;
+            font-size: 0.875rem;
+            color: #374151;
+            cursor: pointer;
+            transition: background-color 0.15s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .admin-dropdown-item:hover {
+            background-color: #f8fafc;
+        }
+        
+        .admin-dropdown-item.danger {
+            color: #dc2626;
+        }
+        
+        .admin-dropdown-item.danger:hover {
+            background-color: #fef2f2;
+        }
+        
+        .admin-dropdown-divider {
+            border: none;
+            border-top: 1px solid #e2e8f0;
+            margin: 4px 0;
+        }
+        
+        .admin-dropdown-item svg {
+            width: 14px;
+            height: 14px;
+            opacity: 0.7;
+        }
+        
+        /* Product Card Info Styles */
+        .admin-product-info {
+            padding: 1.5rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .admin-product-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.75rem;
+        }
+        
+        .admin-product-name {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #111827;
+            margin: 0;
+            line-height: 1.4;
+            flex: 1;
+            margin-right: 1rem;
+        }
+        
+        .admin-product-status {
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 4px 8px;
+            border-radius: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            flex-shrink: 0;
+        }
+        
+        .admin-product-status.active {
+            background: #dcfce7;
+            color: #166534;
+        }
+        
+        .admin-product-status.inactive {
+            background: #fef2f2;
+            color: #991b1b;
+        }
+        
+        .admin-product-sku {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin: 0 0 0.5rem 0;
+            font-family: monospace;
+        }
+        
+        .admin-product-category {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin: 0 0 1rem 0;
+        }
+        
+        .admin-product-pricing {
+            margin-bottom: 1rem;
+        }
+        
+        .admin-product-price {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #111827;
+        }
+        
+        .admin-product-price-original {
+            font-size: 1rem;
+            color: #9ca3af;
+            text-decoration: line-through;
+            margin-left: 0.5rem;
+        }
+        
+        .admin-product-cost {
+            display: block;
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-top: 0.25rem;
+        }
+        
+        .admin-product-stock {
+            margin-top: auto;
+        }
+        
+        .admin-stock-info {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+        
+        .admin-stock-info.in-stock {
+            color: #059669;
+        }
+        
+        .admin-stock-info.low-stock {
+            color: #d97706;
+        }
+        
+        .admin-stock-info.out-of-stock {
+            color: #dc2626;
+        }
+        
+        .admin-sales-info {
+            font-size: 0.75rem;
+            color: #6b7280;
+        }
+        
+        /* Gallery & Media Modal Styles */
+        .gallery-items-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .gallery-item-editor {
+            display: grid;
+            grid-template-columns: 150px 1fr;
+            gap: 1rem;
+            align-items: start;
+            padding: 1rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            background: white;
+        }
+        
+        .gallery-item-left {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .gallery-item-right {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .gallery-thumbnail-slot {
+            aspect-ratio: 4/3;
+            border: 2px dashed #cbd5e1;
+            border-radius: 8px;
+            background: #f8fafc;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .gallery-thumbnail-slot:hover {
+            border-color: #3b82f6;
+            background: #eff6ff;
+        }
+        
+        .gallery-thumbnail-slot.has-image {
+            border-style: solid;
+            border-color: #10b981;
+        }
+        
+        .gallery-thumbnail-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            padding: 1rem;
+            position: relative;
+        }
+        
+        .gallery-thumbnail-slot.has-image .gallery-thumbnail-content {
+            padding: 0;
+        }
+        
+        .gallery-thumbnail-slot img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        
+        .gallery-upload-icon {
+            color: #94a3b8;
+            margin-bottom: 0.5rem;
+        }
+        
+        .gallery-slot-label {
+            color: #6b7280;
+            font-size: 0.875rem;
+            text-align: center;
+        }
+        
+        .gallery-thumbnail-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+        
+        .gallery-thumbnail-slot:hover .gallery-thumbnail-overlay {
+            opacity: 1;
+        }
+        
+        .gallery-action-btn {
+            background: rgba(255,255,255,0.9);
+            border: none;
+            border-radius: 6px;
+            padding: 8px;
+            cursor: pointer;
+            color: #374151;
+            transition: all 0.2s ease;
+        }
+        
+        .gallery-action-btn:hover {
+            background: white;
+            transform: scale(1.1);
+        }
+        
+        .gallery-action-btn.danger {
+            color: #dc2626;
+        }
+        
+        .video-preview {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: #f8fafc;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .video-embed-container {
+            position: relative;
+            width: 100%;
+            height: 0;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            overflow: hidden;
+            border-radius: 8px;
+            background: #000;
+        }
+        
+        .video-embed-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .gallery-empty-state {
+            text-align: center;
+            padding: 2rem;
+            color: #6b7280;
+            font-style: italic;
+        }
+        
+        /* Gallery Items Container */
+        .gallery-items-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .gallery-item-card {
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            background: white;
+            transition: all 0.2s ease;
+        }
+        
+        .gallery-item-card:hover {
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .gallery-item-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+        
+        .gallery-item-number {
+            background: #3b82f6;
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .gallery-item-controls {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .gallery-item-content {
+            display: grid;
+            grid-template-columns: 150px 1fr;
+            gap: 1.5rem;
+            align-items: start;
+        }
+        
+        .gallery-item-image-upload {
+            position: relative;
+        }
+        
+        .gallery-item-preview {
+            width: 150px;
+            height: 100px;
+            border: 2px dashed #cbd5e1;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: #f8fafc;
+        }
+        
+        .gallery-item-preview:hover {
+            border-color: #3b82f6;
+            background: #eff6ff;
+        }
+        
+        .gallery-item-preview.has-image {
+            border-style: solid;
+            border-color: #10b981;
+            padding: 0;
+        }
+        
+        .gallery-item-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 6px;
+        }
+        
+        .gallery-item-upload-icon {
+            color: #94a3b8;
+        }
+        
+        .gallery-item-fields {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .gallery-actions {
+            display: flex;
+            gap: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e2e8f0;
         }
     </style>
 </head>
@@ -615,7 +1136,7 @@
                                 <div class="admin-slot-label">
                                     <span class="admin-slot-number">3</span>
                                     <div class="admin-slot-info">
-                                        <span class="admin-slot-title">Gallery Image 1</span>
+                                        <span class="admin-slot-title">Product Thumbnail 1</span>
                                         <span class="admin-slot-desc">Product detail page</span>
                                     </div>
                                 </div>
@@ -637,7 +1158,7 @@
                                 <div class="admin-slot-label">
                                     <span class="admin-slot-number">4</span>
                                     <div class="admin-slot-info">
-                                        <span class="admin-slot-title">Gallery Image 2</span>
+                                        <span class="admin-slot-title">Product Thumbnail 2</span>
                                         <span class="admin-slot-desc">Product detail page</span>
                                     </div>
                                 </div>
@@ -659,7 +1180,7 @@
                                 <div class="admin-slot-label">
                                     <span class="admin-slot-number">5</span>
                                     <div class="admin-slot-info">
-                                        <span class="admin-slot-title">Gallery Image 3</span>
+                                        <span class="admin-slot-title">Product Thumbnail 3</span>
                                         <span class="admin-slot-desc">Product detail page</span>
                                     </div>
                                 </div>
@@ -718,6 +1239,36 @@
                         </div>
                     </div>
     
+                    <!-- Product Content -->
+                    <div class="admin-form-section">
+                        <h4 class="admin-section-title">Product Content</h4>
+                        <p class="admin-section-description">Add detailed product information for the product page tabs</p>
+                        
+                        <div class="admin-form-group">
+                            <label class="admin-form-label">Key Ingredients</label>
+                            <textarea class="admin-form-textarea" id="product-ingredients" rows="4" placeholder="e.g., Water (Aqua), Hyaluronic Acid, Vitamin C, Ceramides, Glycerin, Niacinamide..."></textarea>
+                            <small class="admin-form-help">Enter ingredients as flowing text - will display as paragraph format on product page</small>
+                        </div>
+                        
+                        <div class="admin-form-group">
+                            <label class="admin-form-label">How to Use</label>
+                            <textarea class="admin-form-textarea" id="product-usage-instructions" rows="4" placeholder="Step-by-step instructions on how to use this product..."></textarea>
+                            <small class="admin-form-help">Provide clear usage instructions for customers</small>
+                        </div>
+                        
+                        <div class="admin-form-group">
+                            <label class="admin-form-label">Key Benefits</label>
+                            <textarea class="admin-form-textarea" id="product-benefits" rows="4" placeholder="e.g., Deeply hydrates skin, Reduces fine lines, Improves texture..."></textarea>
+                            <small class="admin-form-help">List the main benefits, separate multiple benefits with commas</small>
+                        </div>
+                        
+                        <div class="admin-form-group">
+                            <label class="admin-form-label">Additional Details</label>
+                            <textarea class="admin-form-textarea" id="product-more-details" rows="3" placeholder="Any additional product information..."></textarea>
+                            <small class="admin-form-help">Extra details to display in the 'What makes it special' section</small>
+                        </div>
+                    </div>
+    
                     <!-- SEO & Meta -->
                     <div class="admin-form-section">
                         <h4 class="admin-section-title">SEO & Meta Information</h4>
@@ -736,6 +1287,21 @@
                         <div class="admin-form-group">
                             <label class="admin-form-label">Product Tags</label>
                             <input type="text" class="admin-form-input" id="product-tags" placeholder="skincare, cleanser, gentle (comma separated)">
+                        </div>
+
+                        <!-- Product Visibility & Promotion -->
+                        <div class="admin-form-section">
+                            <h5 class="admin-subsection-title">Homepage & Promotion</h5>
+                            <div class="admin-form-group">
+                                <label class="admin-checkbox-wrapper">
+                                    <input type="checkbox" id="product-is-featured">
+                                    <span class="admin-checkbox-text">
+                                        <strong>Feature on Homepage</strong>
+                                        <small>Display this product in the "Featured Products" section on the homepage</small>
+                                        <small id="featured-count-info" style="color: #666; font-style: italic;"></small>
+                                    </span>
+                                </label>
+                            </div>
                         </div>
                     </div>
                 </form>
@@ -804,6 +1370,160 @@
                     <button type="submit" class="admin-btn primary">Create Badge</button>
                 </div>
             </form>
+        </div>
+    </div>
+
+    <!-- Gallery & Media Modal -->
+    <div class="admin-modal" id="gallery-modal" style="display: none;">
+        <div class="admin-modal-content" style="max-width: 1000px;">
+            <div class="admin-modal-header">
+                <h3 class="admin-modal-title" id="gallery-modal-title">Gallery & Media Management</h3>
+                <button class="admin-modal-close" onclick="closeGalleryModal()">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <path d="M15 5L5 15M5 5L15 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </div>
+            
+            <div class="admin-modal-body">
+                <!-- Visual Gallery Section -->
+                <div class="admin-form-section">
+                    <h4 class="admin-section-title">Visual Gallery (Product Page)</h4>
+                    <p class="admin-section-description">Upload 4 images for the product page gallery section. Each will have its own title and description on the product page.</p>
+                    
+                    <div class="gallery-items-list">
+                        <div class="gallery-item-editor" data-index="0">
+                            <div class="gallery-item-left">
+                                <div class="gallery-thumbnail-slot" onclick="selectGalleryImage(0)">
+                                    <div class="gallery-thumbnail-content">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" class="gallery-upload-icon">
+                                            <path d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15" stroke="currentColor" stroke-width="2"/>
+                                            <path d="M17 8L12 3L7 8" stroke="currentColor" stroke-width="2"/>
+                                            <path d="M12 3V15" stroke="currentColor" stroke-width="2"/>
+                                        </svg>
+                                        <span class="gallery-slot-label">Gallery 1</span>
+                                    </div>
+                                </div>
+                                <input type="file" id="gallery-file-0" accept="image/*" style="display: none;" onchange="handleGalleryImageUpload(0, this)">
+                            </div>
+                            <div class="gallery-item-right">
+                                <div class="admin-form-group">
+                                    <label class="admin-form-label">Title</label>
+                                    <input type="text" class="admin-form-input" id="gallery-title-0" placeholder="Feature title" onchange="updateGalleryText(0, 'title', this.value)">
+                                </div>
+                                <div class="admin-form-group">
+                                    <label class="admin-form-label">Description</label>
+                                    <textarea class="admin-form-textarea" id="gallery-description-0" rows="2" placeholder="Feature description" onchange="updateGalleryText(0, 'description', this.value)"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="gallery-item-editor" data-index="1">
+                            <div class="gallery-item-left">
+                                <div class="gallery-thumbnail-slot" onclick="selectGalleryImage(1)">
+                                    <div class="gallery-thumbnail-content">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" class="gallery-upload-icon">
+                                            <path d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15" stroke="currentColor" stroke-width="2"/>
+                                            <path d="M17 8L12 3L7 8" stroke="currentColor" stroke-width="2"/>
+                                            <path d="M12 3V15" stroke="currentColor" stroke-width="2"/>
+                                        </svg>
+                                        <span class="gallery-slot-label">Gallery 2</span>
+                                    </div>
+                                </div>
+                                <input type="file" id="gallery-file-1" accept="image/*" style="display: none;" onchange="handleGalleryImageUpload(1, this)">
+                            </div>
+                            <div class="gallery-item-right">
+                                <div class="admin-form-group">
+                                    <label class="admin-form-label">Title</label>
+                                    <input type="text" class="admin-form-input" id="gallery-title-1" placeholder="Feature title" onchange="updateGalleryText(1, 'title', this.value)">
+                                </div>
+                                <div class="admin-form-group">
+                                    <label class="admin-form-label">Description</label>
+                                    <textarea class="admin-form-textarea" id="gallery-description-1" rows="2" placeholder="Feature description" onchange="updateGalleryText(1, 'description', this.value)"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="gallery-item-editor" data-index="2">
+                            <div class="gallery-item-left">
+                                <div class="gallery-thumbnail-slot" onclick="selectGalleryImage(2)">
+                                    <div class="gallery-thumbnail-content">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" class="gallery-upload-icon">
+                                            <path d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15" stroke="currentColor" stroke-width="2"/>
+                                            <path d="M17 8L12 3L7 8" stroke="currentColor" stroke-width="2"/>
+                                            <path d="M12 3V15" stroke="currentColor" stroke-width="2"/>
+                                        </svg>
+                                        <span class="gallery-slot-label">Gallery 3</span>
+                                    </div>
+                                </div>
+                                <input type="file" id="gallery-file-2" accept="image/*" style="display: none;" onchange="handleGalleryImageUpload(2, this)">
+                            </div>
+                            <div class="gallery-item-right">
+                                <div class="admin-form-group">
+                                    <label class="admin-form-label">Title</label>
+                                    <input type="text" class="admin-form-input" id="gallery-title-2" placeholder="Feature title" onchange="updateGalleryText(2, 'title', this.value)">
+                                </div>
+                                <div class="admin-form-group">
+                                    <label class="admin-form-label">Description</label>
+                                    <textarea class="admin-form-textarea" id="gallery-description-2" rows="2" placeholder="Feature description" onchange="updateGalleryText(2, 'description', this.value)"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="gallery-item-editor" data-index="3">
+                            <div class="gallery-item-left">
+                                <div class="gallery-thumbnail-slot" onclick="selectGalleryImage(3)">
+                                    <div class="gallery-thumbnail-content">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" class="gallery-upload-icon">
+                                            <path d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15" stroke="currentColor" stroke-width="2"/>
+                                            <path d="M17 8L12 3L7 8" stroke="currentColor" stroke-width="2"/>
+                                            <path d="M12 3V15" stroke="currentColor" stroke-width="2"/>
+                                        </svg>
+                                        <span class="gallery-slot-label">Gallery 4</span>
+                                    </div>
+                                </div>
+                                <input type="file" id="gallery-file-3" accept="image/*" style="display: none;" onchange="handleGalleryImageUpload(3, this)">
+                            </div>
+                            <div class="gallery-item-right">
+                                <div class="admin-form-group">
+                                    <label class="admin-form-label">Title</label>
+                                    <input type="text" class="admin-form-input" id="gallery-title-3" placeholder="Feature title" onchange="updateGalleryText(3, 'title', this.value)">
+                                </div>
+                                <div class="admin-form-group">
+                                    <label class="admin-form-label">Description</label>
+                                    <textarea class="admin-form-textarea" id="gallery-description-3" rows="2" placeholder="Feature description" onchange="updateGalleryText(3, 'description', this.value)"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="gallery-actions">
+                        <button type="button" class="admin-btn secondary" onclick="clearAllGalleryImages()">Clear All Images</button>
+                    </div>
+                </div>
+                
+                <!-- Video Section -->
+                <div class="admin-form-section">
+                    <h4 class="admin-section-title">Product Video</h4>
+                    <p class="admin-section-description">Add a YouTube or Vimeo video to showcase your product</p>
+                    
+                    <div class="admin-form-group">
+                        <label class="admin-form-label">Video URL</label>
+                        <input type="url" class="admin-form-input" id="product-video-url" placeholder="https://youtube.com/watch?v=... or https://vimeo.com/...">
+                        <small class="admin-form-help">Paste a YouTube or Vimeo URL. The video will be embedded on the product page.</small>
+                    </div>
+                    
+                    <div class="video-preview" id="video-preview" style="display: none;">
+                        <h5>Preview:</h5>
+                        <div class="video-embed-container" id="video-embed"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="admin-modal-footer">
+                <button type="button" class="admin-btn secondary" onclick="closeGalleryModal()">Cancel</button>
+                <button type="button" class="admin-btn primary" onclick="saveGalleryChanges()">Save Changes</button>
+            </div>
         </div>
     </div>
 
@@ -1019,6 +1739,12 @@
             document.getElementById('status-filter').addEventListener('change', async function() {
                 console.log('Status filter changed:', this.value);
                 await loadProductsWithStatus(this.value);
+            });
+            
+            // Featured checkbox change listener
+            document.getElementById('product-is-featured').addEventListener('change', function() {
+                // Update count info when featured status changes
+                updateFeaturedCountInfo();
             });
             
             // Category tabs
@@ -1252,8 +1978,8 @@
                 const currentStatus = statusFilter ? statusFilter.value : 'active';
                 console.log(`📊 Loading products with status: ${currentStatus}`);
                 
-                // Make API call
-                const response = await fetch(`/api/products/admin?status=${currentStatus}`, { 
+                // Make API call - using debug endpoint temporarily
+                const response = await fetch(`/api/products/admin/debug?status=${currentStatus}`, { 
                     credentials: 'include',
                     headers: {
                         'Content-Type': 'application/json'
@@ -1347,6 +2073,48 @@
             
             return `
                 <div class="admin-product-card" data-category="${product.category}" data-stock="${stockClass}">
+                    <!-- Card Actions Dropdown in Top Right -->
+                    <div class="admin-card-actions">
+                        <div class="admin-actions-dropdown">
+                            <button class="admin-actions-btn" onclick="toggleActionDropdown(${product.id})" title="Product Actions">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                    <circle cx="10" cy="4" r="2" fill="currentColor"/>
+                                    <circle cx="10" cy="10" r="2" fill="currentColor"/>
+                                    <circle cx="10" cy="16" r="2" fill="currentColor"/>
+                                </svg>
+                            </button>
+                            <div class="admin-dropdown-menu" id="dropdown-${product.id}">
+                                <button class="admin-dropdown-item" onclick="editProduct(${product.id}); closeAllDropdowns()">
+                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                        <path d="M12 4L4 12L1 13L2 10L10 2L12 4Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                    Edit Product
+                                </button>
+                                <button class="admin-dropdown-item" onclick="openGalleryModal(${product.id}); closeAllDropdowns()">
+                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                        <path d="M2 3C2 2.44772 2.44772 2 3 2H13C13.5523 2 14 2.44772 14 3V13C14 13.5523 13.5523 14 13 14H3C2.44772 14 2 13.5523 2 13V3Z" stroke="currentColor" stroke-width="1.5"/>
+                                        <path d="M6 8L8 10L12 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                    Gallery & Media
+                                </button>
+                                <button class="admin-dropdown-item" onclick="duplicateProduct(${product.id}); closeAllDropdowns()">
+                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                        <path d="M4 4V2C4 1.44772 4.44772 1 5 1H13C13.5523 1 14 1.44772 14 2V10C14 10.5523 13.5523 11 13 11H11M2 5H10C10.5523 5 11 5.44772 11 6V14C11 14.5523 10.5523 15 10 15H2C1.44772 15 1 14.5523 1 14V6C1 5.44772 1.44772 5 2 5Z" stroke="currentColor" stroke-width="1.5"/>
+                                    </svg>
+                                    Duplicate
+                                </button>
+                                <hr class="admin-dropdown-divider">
+                                <button class="admin-dropdown-item danger" onclick="deleteProduct(${product.id}); closeAllDropdowns()">
+                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                        <path d="M2 4H14M6 4V2C6 1.44772 6.44772 1 7 1H9C9.55228 1 10 1.44772 10 2V4M12.5 4L12 14C12 14.5523 11.5523 15 11 15H5C4.44772 15 4 14.5523 4 14L3.5 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                    Delete
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product Image -->
                     <div class="admin-product-image-container">
                         <img src="${product.primary_image || 'https://via.placeholder.com/300x300/f0f0f0/333333?text=' + encodeURIComponent(product.name)}" 
                              alt="${product.name}" 
@@ -1357,24 +2125,9 @@
                             ${product.is_featured ? '<span class="admin-product-badge featured">FEATURED</span>' : ''}
                             ${stockBadge}
                         </div>
-                        <div class="admin-product-overlay">
-                            <button class="admin-overlay-btn" onclick="editProduct(${product.id})" title="Edit Product">
-                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                    <path d="M12 4L4 12L1 13L2 10L10 2L12 4Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                            </button>
-                            <button class="admin-overlay-btn" onclick="duplicateProduct(${product.id})" title="Duplicate Product">
-                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                    <path d="M4 4V2C4 1.44772 4.44772 1 5 1H13C13.5523 1 14 1.44772 14 2V10C14 10.5523 13.5523 11 13 11H11M2 5H10C10.5523 5 11 5.44772 11 6V14C11 14.5523 10.5523 15 10 15H2C1.44772 15 1 14.5523 1 14V6C1 5.44772 1.44772 5 2 5Z" stroke="currentColor" stroke-width="1.5"/>
-                                </svg>
-                            </button>
-                            <button class="admin-overlay-btn danger" onclick="deleteProduct(${product.id})" title="Delete Product">
-                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                    <path d="M2 4H14M6 4V2C6 1.44772 6.44772 1 7 1H9C9.55228 1 10 1.44772 10 2V4M12.5 4L12 14C12 14.5523 11.5523 15 11 15H5C4.44772 15 4 14.5523 4 14L3.5 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                            </button>
-                        </div>
                     </div>
+
+                    <!-- Product Info -->
                     <div class="admin-product-info">
                         <div class="admin-product-header">
                             <h3 class="admin-product-name">${product.name}</h3>
@@ -1415,12 +2168,40 @@
             return 'good';
         }
 
+        // Update featured products count display
+        async function updateFeaturedCountInfo() {
+            try {
+                const response = await fetch('/api/products/featured?limit=100', { credentials: 'include' });
+                const data = await response.json();
+                
+                const countInfo = document.getElementById('featured-count-info');
+                if (data.status === 'success' && countInfo) {
+                    const count = data.products.length;
+                    if (count === 0) {
+                        countInfo.textContent = 'No products currently featured on homepage';
+                    } else if (count <= 4) {
+                        countInfo.textContent = `${count} product${count > 1 ? 's' : ''} currently featured (${4 - count} more can fit in first grid)`;
+                    } else {
+                        const grids = Math.ceil(count / 4);
+                        countInfo.textContent = `${count} products currently featured (displayed across ${grids} grid${grids > 1 ? 's' : ''})`;
+                    }
+                }
+            } catch (error) {
+                console.error('Error fetching featured products count:', error);
+                const countInfo = document.getElementById('featured-count-info');
+                if (countInfo) {
+                    countInfo.textContent = 'Unable to load featured products count';
+                }
+            }
+        }
+
         // Modal functions
         function openAddProductModal() {
             currentEditingProduct = null;
             document.getElementById('modal-title').textContent = 'Add New Product';
             resetProductForm();
             document.getElementById('product-modal').style.display = 'flex';
+            updateFeaturedCountInfo();
         }
 
         function closeProductModal() {
@@ -1439,6 +2220,12 @@
                 'product-price', 'product-cost', 'product-stock', 'product-low-stock',
                 'product-description', 'product-meta-description', 'product-tags'
             ];
+            
+            // Clear checkbox fields
+            const isFeaturedCheckbox = document.getElementById('product-is-featured');
+            if (isFeaturedCheckbox) {
+                isFeaturedCheckbox.checked = false;
+            }
             
             fields.forEach(fieldId => {
                 const field = document.getElementById(fieldId);
@@ -1472,6 +2259,9 @@
                     // Show modal first
                     document.getElementById('modal-title').textContent = `Edit Product: ${data.product.name}`;
                     document.getElementById('product-modal').style.display = 'flex';
+                    
+                    // Update featured count info
+                    updateFeaturedCountInfo();
                     
                     // THEN populate after modal is visible
                     setTimeout(() => {
@@ -1609,6 +2399,10 @@
                 'product-cost': 'cost_price',
                 'product-stock': 'stock_quantity',
                 'product-low-stock': 'low_stock_threshold',
+                'product-ingredients': 'ingredients',
+                'product-usage-instructions': 'usage_instructions',
+                'product-benefits': 'benefits',
+                'product-more-details': 'more_details',
                 'product-description': 'description',
                 'product-meta-description': 'meta_description',
                 'product-tags': 'tags'
@@ -1627,6 +2421,12 @@
                     }
                 }
             });
+
+            // Handle checkbox fields
+            const isFeaturedCheckbox = document.getElementById('product-is-featured');
+            if (isFeaturedCheckbox) {
+                productData['is_featured'] = isFeaturedCheckbox.checked;
+            }
             
             // Ensure stock_quantity has a default value
             if (productData.stock_quantity === undefined) {
@@ -1728,6 +2528,10 @@
                         { id: 'product-cost', key: 'cost_price', label: 'Cost Price' },
                         { id: 'product-stock', key: 'stock_quantity', label: 'Stock' },
                         { id: 'product-low-stock', key: 'low_stock_threshold', label: 'Low Stock Threshold' },
+                        { id: 'product-ingredients', key: 'ingredients', label: 'Ingredients' },
+                        { id: 'product-usage-instructions', key: 'usage_instructions', label: 'Usage Instructions' },
+                        { id: 'product-benefits', key: 'benefits', label: 'Benefits' },
+                        { id: 'product-more-details', key: 'more_details', label: 'More Details' },
                         { id: 'product-description', key: 'description', label: 'Description' },
                         { id: 'product-meta-description', key: 'meta_description', label: 'Meta Description' },
                         { id: 'product-tags', key: 'tags', label: 'Tags' }
@@ -1825,6 +2629,20 @@
                         
                     } catch (badgeError) {
                         console.error('❌ Error populating badges:', badgeError);
+                    }
+                    
+                    // Populate checkbox fields
+                    try {
+                        console.log('☑️ Populating checkboxes...');
+                        const isFeaturedCheckbox = document.getElementById('product-is-featured');
+                        if (isFeaturedCheckbox) {
+                            isFeaturedCheckbox.checked = product.is_featured || false;
+                            console.log(`✅ Featured checkbox set to: ${product.is_featured}`);
+                        } else {
+                            console.warn('⚠️ Featured checkbox not found');
+                        }
+                    } catch (checkboxError) {
+                        console.error('❌ Error populating checkboxes:', checkboxError);
                     }
                     
                     if (successCount > 0) {
@@ -2089,6 +2907,305 @@
             renderBadgeList();
         }
         
+        // ===== DROPDOWN MENU FUNCTIONS =====
+        function toggleActionDropdown(productId) {
+            const dropdown = document.getElementById(`dropdown-${productId}`);
+            
+            if (dropdown) {
+                const isVisible = dropdown.classList.contains('show');
+                
+                // Close all dropdowns first
+                closeAllDropdowns();
+                
+                // If this dropdown wasn't visible before, show it
+                if (!isVisible) {
+                    dropdown.classList.add('show');
+                }
+            }
+        }
+        
+        function closeAllDropdowns() {
+            const dropdowns = document.querySelectorAll('.admin-dropdown-menu');
+            dropdowns.forEach(dropdown => {
+                dropdown.classList.remove('show');
+            });
+        }
+        
+        function openGalleryModal(productId) {
+            console.log(`🖼️ Opening gallery modal for product ${productId}`);
+            
+            // Set current product ID
+            currentGalleryProductId = productId;
+            
+            // Load product data to populate gallery
+            loadProductForGallery(productId);
+            
+            // Show modal
+            document.getElementById('gallery-modal').style.display = 'flex';
+        }
+        
+        async function loadProductForGallery(productId) {
+            try {
+                const response = await fetch(`/api/products/admin/${productId}`, { credentials: 'include' });
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    const product = data.product;
+                    
+                    // Update modal title
+                    document.getElementById('gallery-modal-title').textContent = `Gallery & Media - ${product.name}`;
+                    
+                    // Load gallery images 
+                    loadGalleryImages(product.gallery_items_list || []);
+                    
+                    // Load video URL if exists
+                    const videoInput = document.getElementById('product-video-url');
+                    if (product.video_url) {
+                        videoInput.value = product.video_url;
+                        previewVideo(product.video_url);
+                    } else {
+                        videoInput.value = '';
+                        hideVideoPreview();
+                    }
+                    
+                    console.log('✅ Product loaded for gallery management');
+                } else {
+                    console.error('❌ Failed to load product for gallery');
+                    if (window.GaojieUtils) {
+                        GaojieUtils.showNotification('Failed to load product data', 'error');
+                    }
+                }
+            } catch (error) {
+                console.error('❌ Error loading product for gallery:', error);
+                if (window.GaojieUtils) {
+                    GaojieUtils.showNotification('Error loading product data', 'error');
+                }
+            }
+        }
+        
+        function closeGalleryModal() {
+            document.getElementById('gallery-modal').style.display = 'none';
+            currentGalleryProductId = null;
+        }
+        
+        function loadGalleryImages(items) {
+            // Initialize gallery items array
+            currentGalleryItems = [
+                { image: '', title: '', description: '' },
+                { image: '', title: '', description: '' },
+                { image: '', title: '', description: '' },
+                { image: '', title: '', description: '' }
+            ];
+            
+            // Load existing items if they exist
+            if (items && items.length > 0) {
+                for (let i = 0; i < Math.min(items.length, 4); i++) {
+                    if (items[i]) {
+                        currentGalleryItems[i] = {
+                            image: items[i].image || '',
+                            title: items[i].title || '',
+                            description: items[i].description || ''
+                        };
+                    }
+                }
+            }
+            
+            renderGalleryEditor();
+        }
+        
+        function renderGalleryEditor() {
+            // Update each gallery item editor
+            for (let i = 0; i < 4; i++) {
+                const editor = document.querySelector(`.gallery-item-editor[data-index="${i}"]`);
+                if (editor) {
+                    const slot = editor.querySelector('.gallery-thumbnail-slot');
+                    const content = slot.querySelector('.gallery-thumbnail-content');
+                    const titleInput = document.getElementById(`gallery-title-${i}`);
+                    const descriptionInput = document.getElementById(`gallery-description-${i}`);
+                    const item = currentGalleryItems[i];
+                    
+                    // Update image
+                    if (item.image) {
+                        content.innerHTML = `<img src="${item.image}" alt="Gallery ${i + 1}">`;
+                        slot.classList.add('has-image');
+                    } else {
+                        content.innerHTML = `
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" class="gallery-upload-icon">
+                                <path d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15" stroke="currentColor" stroke-width="2"/>
+                                <path d="M17 8L12 3L7 8" stroke="currentColor" stroke-width="2"/>
+                                <path d="M12 3V15" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                            <span class="gallery-slot-label">Gallery ${i + 1}</span>
+                        `;
+                        slot.classList.remove('has-image');
+                    }
+                    
+                    // Update text fields
+                    if (titleInput) titleInput.value = item.title;
+                    if (descriptionInput) descriptionInput.value = item.description;
+                }
+            }
+        }
+        
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!event.target.closest('.admin-actions-dropdown')) {
+                closeAllDropdowns();
+            }
+        });
+        
+        // ===== GALLERY & MEDIA FUNCTIONS =====
+        let currentGalleryProductId = null;
+        let currentGalleryItems = [
+            { image: '', title: '', description: '' },
+            { image: '', title: '', description: '' },
+            { image: '', title: '', description: '' },
+            { image: '', title: '', description: '' }
+        ]; // Array of 4 gallery items
+        
+        function selectGalleryImage(index) {
+            document.getElementById(`gallery-file-${index}`).click();
+        }
+        
+        function handleGalleryImageUpload(index, input) {
+            const file = input.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    currentGalleryItems[index].image = e.target.result;
+                    renderGalleryEditor();
+                    console.log(`🖼️ Gallery image ${index + 1} uploaded`);
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+        
+        function updateGalleryText(index, field, value) {
+            if (currentGalleryItems[index]) {
+                currentGalleryItems[index][field] = value;
+                console.log(`📝 Updated gallery ${index + 1} ${field}: ${value}`);
+            }
+        }
+        
+        function clearAllGalleryImages() {
+            if (confirm('Clear all gallery data?')) {
+                currentGalleryItems = [
+                    { image: '', title: '', description: '' },
+                    { image: '', title: '', description: '' },
+                    { image: '', title: '', description: '' },
+                    { image: '', title: '', description: '' }
+                ];
+                renderGalleryEditor();
+                console.log('🧹 All gallery data cleared');
+            }
+        }
+        
+        function previewVideo(url) {
+            const preview = document.getElementById('video-preview');
+            const embed = document.getElementById('video-embed');
+            
+            if (!url) {
+                hideVideoPreview();
+                return;
+            }
+            
+            let embedUrl = '';
+            
+            // YouTube URL handling
+            if (url.includes('youtube.com') || url.includes('youtu.be')) {
+                let videoId = '';
+                if (url.includes('youtu.be/')) {
+                    videoId = url.split('youtu.be/')[1].split('?')[0];
+                } else if (url.includes('watch?v=')) {
+                    videoId = url.split('watch?v=')[1].split('&')[0];
+                }
+                if (videoId) {
+                    embedUrl = `https://www.youtube.com/embed/${videoId}`;
+                }
+            }
+            // Vimeo URL handling
+            else if (url.includes('vimeo.com')) {
+                const videoId = url.split('vimeo.com/')[1].split('?')[0];
+                if (videoId) {
+                    embedUrl = `https://player.vimeo.com/video/${videoId}`;
+                }
+            }
+            
+            if (embedUrl) {
+                embed.innerHTML = `<iframe src="${embedUrl}" frameborder="0" allowfullscreen></iframe>`;
+                preview.style.display = 'block';
+            } else {
+                hideVideoPreview();
+            }
+        }
+        
+        function hideVideoPreview() {
+            document.getElementById('video-preview').style.display = 'none';
+            document.getElementById('video-embed').innerHTML = '';
+        }
+        
+        async function saveGalleryChanges() {
+            if (!currentGalleryProductId) return;
+            
+            try {
+                console.log('💾 Saving gallery changes...');
+                
+                const videoUrl = document.getElementById('product-video-url').value.trim();
+                
+                // Use the current gallery items (filter out empty ones)
+                const galleryItems = currentGalleryItems.filter(item => item.image.trim() !== '');
+                
+                const updateData = {
+                    gallery_items: galleryItems,
+                    video_url: videoUrl || null
+                };
+                
+                if (window.GaojieUtils) {
+                    GaojieUtils.showNotification('Saving gallery changes...', 'info');
+                }
+                
+                const response = await fetch(`/api/products/admin/${currentGalleryProductId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    credentials: 'include',
+                    body: JSON.stringify(updateData)
+                });
+                
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    console.log('✅ Gallery changes saved successfully');
+                    if (window.GaojieUtils) {
+                        GaojieUtils.showNotification('Gallery changes saved successfully!', 'success');
+                    }
+                    closeGalleryModal();
+                } else {
+                    console.error('❌ Failed to save gallery changes:', data.message);
+                    if (window.GaojieUtils) {
+                        GaojieUtils.showNotification(data.message || 'Failed to save changes', 'error');
+                    }
+                }
+            } catch (error) {
+                console.error('❌ Error saving gallery changes:', error);
+                if (window.GaojieUtils) {
+                    GaojieUtils.showNotification('Error saving changes', 'error');
+                }
+            }
+        }
+        
+        // Setup video URL input handler
+        document.addEventListener('DOMContentLoaded', function() {
+            // Video URL input handler
+            const videoInput = document.getElementById('product-video-url');
+            if (videoInput) {
+                videoInput.addEventListener('input', function(e) {
+                    previewVideo(e.target.value);
+                });
+            }
+        });
+        
         // Make functions globally available
         window.editProduct = editProduct;
         window.duplicateProduct = duplicateProduct;
@@ -2106,6 +3223,16 @@
         window.toggleBadge = toggleBadge;
         window.updateBadgePreview = updateBadgePreview;
         window.createBadge = createBadge;
+        window.toggleActionDropdown = toggleActionDropdown;
+        window.closeAllDropdowns = closeAllDropdowns;
+        window.openGalleryModal = openGalleryModal;
+        window.closeGalleryModal = closeGalleryModal;
+        window.saveGalleryChanges = saveGalleryChanges;
+        window.selectGalleryImage = selectGalleryImage;
+        window.handleGalleryImageUpload = handleGalleryImageUpload;
+        window.updateGalleryText = updateGalleryText;
+        window.clearAllGalleryImages = clearAllGalleryImages;
+        window.previewVideo = previewVideo;
         
         console.log('✅ ADMIN PRODUCTS - CUSTOM JAVASCRIPT LOADED SUCCESSFULLY');
         console.log('🔧 Available functions:', {

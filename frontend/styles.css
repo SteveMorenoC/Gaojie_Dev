@@ -2076,15 +2076,6 @@
     gap: var(--spacing-xs);
 }
 
-.stars {
-    color: #fbbf24;
-    font-size: var(--font-size-sm);
-}
-
-.review-count {
-    font-size: 0.75rem;
-    color: var(--color-secondary);
-}
 
 /* Item Actions */
 .item-actions {
@@ -3601,29 +3592,6 @@
         line-height: 1.2;
     }
 
-    .product-rating {
-        display: flex;
-        align-items: center;
-        gap: var(--spacing-sm);
-        margin-bottom: var(--spacing-md);
-    }
-
-    .stars {
-        color: #fbbf24;
-        font-size: var(--font-size-lg);
-        letter-spacing: 2px;
-    }
-
-    .rating-count {
-        color: var(--color-secondary);
-        font-size: var(--font-size-sm);
-        text-decoration: underline;
-        cursor: pointer;
-    }
-
-    .rating-count:hover {
-        color: var(--color-primary);
-    }
 
     /* Product Price */
     .product-price {
@@ -3957,146 +3925,6 @@
         margin-bottom: var(--spacing-sm);
     }
 
-    /* Reviews Section */
-    .reviews-summary {
-        background: var(--color-background);
-        padding: var(--spacing-xl);
-        border-radius: var(--border-radius-lg);
-        margin-bottom: var(--spacing-xl);
-    }
-
-    .rating-breakdown {
-        display: grid;
-        grid-template-columns: auto 1fr;
-        gap: var(--spacing-xl);
-        align-items: center;
-    }
-
-    .overall-rating {
-        text-align: center;
-    }
-
-    .rating-number {
-        display: block;
-        font-size: 3rem;
-        font-weight: 700;
-        color: var(--color-primary);
-        line-height: 1;
-        margin-bottom: var(--spacing-sm);
-    }
-
-    .overall-rating .stars {
-        font-size: 1.5rem;
-        margin-bottom: var(--spacing-sm);
-    }
-
-    .total-reviews {
-        font-size: var(--font-size-sm);
-        color: var(--color-secondary);
-    }
-
-    .rating-bars {
-        display: flex;
-        flex-direction: column;
-        gap: var(--spacing-sm);
-    }
-
-    .rating-bar {
-        display: grid;
-        grid-template-columns: auto 1fr auto;
-        gap: var(--spacing-md);
-        align-items: center;
-        font-size: var(--font-size-sm);
-    }
-
-    .bar {
-        height: 8px;
-        background-color: #e5e7eb;
-        border-radius: 4px;
-        overflow: hidden;
-    }
-
-    .fill {
-        height: 100%;
-        background-color: #fbbf24;
-        border-radius: 4px;
-        transition: width 1s ease;
-    }
-
-    /* Reviews List */
-    .reviews-list {
-        display: flex;
-        flex-direction: column;
-        gap: var(--spacing-xl);
-        margin-bottom: var(--spacing-xl);
-    }
-
-    .review {
-        padding: var(--spacing-lg);
-        border: 1px solid var(--color-border);
-        border-radius: var(--border-radius);
-        background: var(--color-white);
-    }
-
-    .review-header {
-        display: flex;
-        align-items: center;
-        gap: var(--spacing-md);
-        margin-bottom: var(--spacing-md);
-    }
-
-    .reviewer-name {
-        font-weight: 600;
-        color: var(--color-primary);
-    }
-
-    .review-rating {
-        color: #fbbf24;
-    }
-
-    .review-date {
-        color: var(--color-secondary);
-        font-size: var(--font-size-sm);
-        margin-left: auto;
-    }
-
-    .review-text {
-        margin-bottom: var(--spacing-md);
-        line-height: 1.6;
-    }
-
-    .helpful-btn {
-        background: none;
-        border: 1px solid var(--color-border);
-        color: var(--color-secondary);
-        padding: var(--spacing-xs) var(--spacing-sm);
-        border-radius: var(--border-radius);
-        font-size: var(--font-size-sm);
-        cursor: pointer;
-        transition: var(--transition);
-    }
-
-    .helpful-btn:hover {
-        border-color: var(--color-primary);
-        color: var(--color-primary);
-    }
-
-    .load-more-reviews {
-        display: block;
-        margin: 0 auto;
-        padding: var(--spacing-md) var(--spacing-xl);
-        background: var(--color-white);
-        color: var(--color-primary);
-        border: 1px solid var(--color-border);
-        border-radius: var(--border-radius);
-        font-weight: 500;
-        cursor: pointer;
-        transition: var(--transition);
-    }
-
-    .load-more-reviews:hover {
-        background: var(--color-accent);
-    }
 
     /* Related Products */
     .related-products {
@@ -4286,13 +4114,6 @@
             font-size: var(--font-size-sm);
         }
 
-        .reviews-summary {
-            padding: var(--spacing-lg);
-        }
-
-        .rating-number {
-            font-size: 2rem;
-        }
 
         .related-grid {
             grid-template-columns: repeat(2, 1fr);
@@ -6759,29 +6580,6 @@
   line-height: 1.4;
 }
 
-.product-rating {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-sm);
-  margin-bottom: var(--spacing-md);
-}
-
-.stars {
-  color: #fbbf24;
-  font-weight: 600;
-  font-size: var(--font-size-sm);
-}
-
-.rating-count {
-  font-size: 0.75rem;
-  color: var(--color-secondary);
-  text-decoration: underline;
-  cursor: pointer;
-}
-
-.rating-count:hover {
-  color: var(--color-primary);
-}
 
 .product-price {
   margin-bottom: var(--spacing-md);
@@ -8028,37 +7826,6 @@
   height: 20px;
 }
 
-/* Enhanced Product Rating */
-.product-page .product-rating {
-  background: var(--color-background);
-  padding: var(--spacing-md);
-  border-radius: var(--border-radius);
-  margin-bottom: var(--spacing-lg);
-  border: 1px solid var(--color-border);
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-sm);
-}
-
-.product-page .stars {
-  font-size: 1.25rem;
-  color: #ffc107;
-  margin-right: var(--spacing-sm);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-}
-
-.product-page .rating-count {
-  font-weight: 600;
-  color: #007bff;
-  font-size: var(--font-size-base);
-  cursor: pointer;
-  transition: var(--transition);
-}
-
-.product-page .rating-count:hover {
-  color: #0056b3;
-  text-decoration: underline;
-}
 
 /* Enhanced Price Display */
 .product-page .product-price {
@@ -9190,4 +8957,42 @@
 .auth-form.loading input {
   pointer-events: none;
   opacity: 0.7;
+}
+
+/* Video Embed Styles for Product Pages */
+.video-embed {
+  position: relative;
+  width: 100%;
+  height: 400px;
+  overflow: hidden;
+}
+
+.video-embed iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.youtube-embed {
+  background-color: #000;
+}
+
+.vimeo-embed {
+  background-color: #1a1a1a;
+}
+
+/* Responsive video embeds */
+@media (max-width: 768px) {
+  .video-embed {
+    height: 300px;
+  }
+}
+
+@media (max-width: 480px) {
+  .video-embed {
+    height: 250px;
+  }
 }

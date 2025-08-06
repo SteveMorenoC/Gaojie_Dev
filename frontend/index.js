@@ -499,11 +499,12 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeSearch();
 });
 
-// Cart Management
-let cart = JSON.parse(localStorage.getItem('gaojie_cart')) || [];
-
+// Cart Management - Using unified GaojieUtils system
 function initializeCart() {
-    updateCartDisplay();
+    // Update cart display on page load
+    if (window.GaojieUtils) {
+        GaojieUtils.updateCartCount();
+    }
     
     // Add to cart event delegation for dynamic content
     document.addEventListener('click', function(e) {
@@ -525,44 +526,40 @@ async function addToCart(productId) {
         if (response.status === 'success') {
             const product = response.product;
             
-            // Check if product already in cart
-            const existingItem = cart.find(item => item.id === product.id);
-            
-            if (existingItem) {
-                existingItem.quantity += 1;
-                showNotification(`Updated ${product.name} quantity in cart`);
-            } else {
-                cart.push({
+            // Use unified cart management system
+            if (window.GaojieUtils) {
+                GaojieUtils.addToCart({
                     id: product.id,
                     name: product.name,
                     price: product.price,
-                    image: product.primary_image,
-                    slug: product.slug,
-                    quantity: 1
+                    primary_image: product.primary_image,
+                    slug: product.slug
                 });
-                showNotification(`Added ${product.name} to cart`);
+            } else {
+                // Fallback if GaojieUtils not available
+                console.warn('GaojieUtils not available, using fallback');
+                if (window.GaojieUtils) {
+                    GaojieUtils.showNotification(`Added ${product.name} to cart`, 'success');
+                } else {
+                    showNotification(`Added ${product.name} to cart`);
+                }
             }
             
-            // Save cart and update display
-            localStorage.setItem('gaojie_cart', JSON.stringify(cart));
-            updateCartDisplay();
-            
         } else {
-            showNotification('Error adding product to cart', 'error');
+            if (window.GaojieUtils) {
+                GaojieUtils.showNotification('Error adding product to cart', 'error');
+            } else {
+                showNotification('Error adding product to cart', 'error');
+            }
         }
         
     } catch (error) {
         console.error('Error adding to cart:', error);
-        showNotification('Error adding product to cart', 'error');
-    }
-}
-
-function updateCartDisplay() {
-    const cartCount = document.querySelector('.bag-count');
-    if (cartCount) {
-        const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-        cartCount.textContent = totalItems;
-        cartCount.style.display = totalItems > 0 ? 'flex' : 'none';
+        if (window.GaojieUtils) {
+            GaojieUtils.showNotification('Error adding product to cart', 'error');
+        } else {
+            showNotification('Error adding product to cart', 'error');
+        }
     }
 }
 

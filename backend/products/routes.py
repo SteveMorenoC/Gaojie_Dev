@@ -138,6 +138,55 @@ def get_product_by_slug(slug):
             'status': 'error'
         }), 500
 
+@products_bp.route('/related/<int:product_id>', methods=['GET'])
+def get_related_products(product_id):
+    """Get related products for a given product (same category first, then random)"""
+    try:
+        # Get the current product to find its category
+        current_product = Product.query.get(product_id)
+        if not current_product:
+            return jsonify({
+                'message': 'Product not found',
+                'status': 'error'
+            }), 404
+        
+        limit = request.args.get('limit', 4, type=int)
+        category = current_product.category
+        
+        # First, try to get products from the same category (excluding current product)
+        same_category_products = Product.query.filter(
+            Product.id != product_id,
+            Product.category == category,
+            Product.is_active == True
+        ).order_by(db.func.random()).limit(limit).all()
+        
+        related_products = same_category_products
+        
+        # If we don't have enough products from the same category, fill with random products
+        if len(related_products) < limit:
+            needed = limit - len(related_products)
+            existing_ids = [p.id for p in related_products] + [product_id]
+            
+            additional_products = Product.query.filter(
+                ~Product.id.in_(existing_ids),
+                Product.is_active == True
+            ).order_by(db.func.random()).limit(needed).all()
+            
+            related_products.extend(additional_products)
+        
+        return jsonify({
+            'products': [product.to_dict() for product in related_products],
+            'total': len(related_products),
+            'status': 'success'
+        })
+        
+    except Exception as e:
+        return jsonify({
+            'message': 'Error fetching related products',
+            'error': str(e),
+            'status': 'error'
+        }), 500
+
 @products_bp.route('/categories', methods=['GET'])
 def get_categories():
     """Get all unique product categories"""
@@ -199,6 +248,121 @@ def get_bestsellers():
     except Exception as e:
         return jsonify({
             'message': 'Error fetching bestsellers',
+            'error': str(e),
+            'status': 'error'
+        }), 500
+
+# ===== DEBUG ENDPOINT (TEMPORARY) =====
+
+@products_bp.route('/admin/debug', methods=['GET'])
+def debug_admin_get_products():
+    """TEMPORARY: Get all products for admin debugging (NO AUTH REQUIRED - REMOVE IN PRODUCTION)"""
+    try:
+        print("🔧 DEBUG: Admin products endpoint called")
+        
+        # Get query parameters
+        page = request.args.get('page', 1, type=int)
+        per_page = request.args.get('per_page', 50, type=int)
+        category = request.args.get('category')
+        status = request.args.get('status', 'all')  # 'active', 'inactive', 'all'
+        stock = request.args.get('stock')    # 'in-stock', 'low-stock', 'out-of-stock', 'all'
+        search = request.args.get('search')
+        
+        print(f"🔧 DEBUG: Parameters - status={status}, category={category}")
+        
+        # Build query (admin sees all products including inactive)
+        query = Product.query
+        
+        # Apply filters
+        if category and category != 'all':
+            query = query.filter(Product.category == category)
+        
+        if status and status != 'all':
+            if status == 'active':
+                query = query.filter(Product.is_active == True)
+            elif status == 'inactive':
+                query = query.filter(Product.is_active == False)
+        
+        if stock and stock != 'all':
+            if stock == 'in-stock':
+                query = query.filter(Product.stock_quantity > Product.low_stock_threshold)
+            elif stock == 'low-stock':
+                query = query.filter(
+                    Product.stock_quantity <= Product.low_stock_threshold,
+                    Product.stock_quantity > 0
+                )
+            elif stock == 'out-of-stock':
+                query = query.filter(Product.stock_quantity == 0)
+        
+        if search:
+            search_term = f"%{search}%"
+            query = query.filter(
+                or_(
+                    Product.name.ilike(search_term),
+                    Product.description.ilike(search_term),
+                    Product.slug.ilike(search_term),
+                    Product.tags.ilike(search_term)
+                )
+            )
+        
+        # Order by updated_at (most recently updated first)
+        query = query.order_by(Product.updated_at.desc())
+        
+        # Paginate results
+        products_pagination = query.paginate(
+            page=page, 
+            per_page=per_page, 
+            error_out=False
+        )
+        
+        products = products_pagination.items
+        print(f"🔧 DEBUG: Found {len(products)} products")
+        
+        # Get category counts for admin
+        category_counts = {}
+        all_categories = db.session.query(Product.category).distinct().all()
+        for cat in all_categories:
+            if cat[0]:
+                category_counts[cat[0]] = Product.query.filter_by(category=cat[0]).count()
+        
+        print(f"🔧 DEBUG: Category counts: {category_counts}")
+        
+        # Convert to dict
+        product_dicts = []
+        for product in products:
+            try:
+                product_dict = product.to_dict()
+                product_dicts.append(product_dict)
+            except Exception as e:
+                print(f"🔧 DEBUG: Error converting {product.name}: {e}")
+                raise e
+        
+        print(f"🔧 DEBUG: Successfully converted {len(product_dicts)} products")
+        
+        response_data = {
+            'products': product_dicts,
+            'pagination': {
+                'page': page,
+                'per_page': per_page,
+                'total': products_pagination.total,
+                'pages': products_pagination.pages,
+                'has_next': products_pagination.has_next,
+                'has_prev': products_pagination.has_prev
+            },
+            'category_counts': category_counts,
+            'total_products': Product.query.count(),
+            'status': 'success'
+        }
+        
+        print("🔧 DEBUG: Response created successfully")
+        return jsonify(response_data)
+        
+    except Exception as e:
+        print(f"🔧 DEBUG: Error in admin products: {e}")
+        import traceback
+        traceback.print_exc()
+        return jsonify({
+            'message': 'Error fetching products',
             'error': str(e),
             'status': 'error'
         }), 500
@@ -423,6 +587,12 @@ def admin_create_product():
             import json
             gallery_images = json.dumps(gallery_images)
         
+        # Handle gallery items (convert list to JSON string if provided)
+        gallery_items = data.get('gallery_items')
+        if isinstance(gallery_items, list):
+            import json
+            gallery_items = json.dumps(gallery_items)
+        
         # Handle badge IDs (convert list to JSON string if provided)
         badge_ids = data.get('badge_ids')
         if isinstance(badge_ids, list):
@@ -443,6 +613,9 @@ def admin_create_product():
             category=data.get('category', 'uncategorized'),
             skin_type=data.get('skin_type'),
             ingredients=data.get('ingredients'),
+            usage_instructions=data.get('usage_instructions'),
+            benefits=data.get('benefits'),
+            more_details=data.get('more_details'),
             size=data.get('size'),
             is_active=data.get('is_active', True),
             is_featured=data.get('is_featured', False),
@@ -454,6 +627,8 @@ def admin_create_product():
             primary_image=data.get('primary_image'),
             secondary_image=data.get('secondary_image'),
             gallery_images=gallery_images,
+            gallery_items=gallery_items,
+            video_url=data.get('video_url'),
             badge_ids=badge_ids
         )
         
@@ -519,8 +694,8 @@ def admin_update_product(product_id):
         updateable_fields = [
             'description', 'short_description', 'price', 'original_price', 'cost_price',
             'stock_quantity', 'low_stock_threshold', 'category', 'skin_type', 'ingredients',
-            'usage_instructions', 'size', 'is_active', 'is_featured', 'is_bestseller', 'is_new', 'meta_title',
-            'meta_description', 'tags', 'primary_image', 'secondary_image', 'gallery_images', 'badge_ids'
+            'usage_instructions', 'benefits', 'more_details', 'size', 'is_active', 'is_featured', 'is_bestseller', 'is_new', 'meta_title',
+            'meta_description', 'tags', 'primary_image', 'secondary_image', 'gallery_images', 'gallery_items', 'video_url', 'badge_ids'
         ]
         
         for field in updateable_fields:
@@ -531,6 +706,10 @@ def admin_update_product(product_id):
                     setattr(product, field, int(data[field]))
                 elif field == 'gallery_images' and isinstance(data[field], list):
                     # Convert list to JSON string for gallery_images
+                    import json
+                    setattr(product, field, json.dumps(data[field]))
+                elif field == 'gallery_items' and isinstance(data[field], list):
+                    # Convert list to JSON string for gallery_items
                     import json
                     setattr(product, field, json.dumps(data[field]))
                 elif field == 'badge_ids' and isinstance(data[field], list):
@@ -711,10 +890,13 @@ def create_product():
             stock_quantity=data.get('stock_quantity', 0),
             skin_type=data.get('skin_type'),
             ingredients=data.get('ingredients'),
-            size=data.get('size'),
             usage_instructions=data.get('usage_instructions'),
+            benefits=data.get('benefits'),
+            more_details=data.get('more_details'),
+            size=data.get('size'),
             primary_image=data.get('primary_image'),
             secondary_image=data.get('secondary_image'),
+            video_url=data.get('video_url'),
             is_active=data.get('is_active', True),
             is_featured=data.get('is_featured', False),
             is_bestseller=data.get('is_bestseller', False),

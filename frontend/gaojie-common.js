@@ -12,6 +12,9 @@ document.addEventListener('DOMContentLoaded', function() {
             link.href = '/main';
         }
     });
+    
+    // Initialize cart count on page load
+    GaojieUtils.updateCartCount();
 });
 
 // Common utility functions for GAOJIE Skincare
@@ -88,6 +91,63 @@ window.GaojieUtils = {
             element.textContent = element.dataset.originalText || originalText;
             element.disabled = false;
         }
+    },
+
+    // Cart management functions
+    getCart: function() {
+        return JSON.parse(localStorage.getItem('gaojie_cart')) || [];
+    },
+
+    saveCart: function(cart) {
+        localStorage.setItem('gaojie_cart', JSON.stringify(cart));
+        this.updateCartCount();
+    },
+
+    updateCartCount: function() {
+        const cart = this.getCart();
+        const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+        
+        // Update all cart count elements on the page
+        const cartCountElements = document.querySelectorAll('.bag-count');
+        cartCountElements.forEach(element => {
+            element.textContent = totalItems;
+        });
+        
+        console.log(`🛒 Cart updated: ${totalItems} items`);
+    },
+
+    addToCart: function(product) {
+        const cart = this.getCart();
+        const existingItem = cart.find(item => item.id === product.id);
+        
+        if (existingItem) {
+            existingItem.quantity = (existingItem.quantity || 1) + 1;
+        } else {
+            cart.push({
+                id: product.id,
+                name: product.name,
+                price: product.price,
+                image: product.primary_image,
+                slug: product.slug,
+                quantity: 1
+            });
+        }
+        
+        this.saveCart(cart);
+        this.showNotification(`Added ${product.name} to cart`, 'success');
+        return cart;
+    },
+
+    removeFromCart: function(productId) {
+        let cart = this.getCart();
+        cart = cart.filter(item => item.id !== productId);
+        this.saveCart(cart);
+        return cart;
+    },
+
+    clearCart: function() {
+        localStorage.removeItem('gaojie_cart');
+        this.updateCartCount();
     }
 };
 

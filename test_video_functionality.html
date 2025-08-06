@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Functionality Test - GAOJIE</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            margin: 2rem;
+            background: #f5f5f5;
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .test-section {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+        }
+        .test-section h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        .test-controls {
+            margin: 1rem 0;
+        }
+        .test-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            margin: 0.5rem 0;
+        }
+        .test-btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 0.5rem 0.5rem 0.5rem 0;
+        }
+        .test-btn:hover {
+            background: #0056b3;
+        }
+        .test-result {
+            margin: 1rem 0;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-left: 4px solid #007bff;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🎥 Product Video Functionality Test</h1>
+        <p>This page tests the dynamic video loading functionality for product pages.</p>
+
+        <!-- Test Section 1: Direct Video File -->
+        <div class="test-section">
+            <h3>Test 1: Direct Video File (.mp4)</h3>
+            <div class="test-controls">
+                <input type="url" class="test-input" id="direct-video-url" placeholder="Enter direct video URL (e.g., https://example.com/video.mp4)">
+                <button class="test-btn" onclick="testDirectVideo()">Test Direct Video</button>
+            </div>
+            <div class="product-video" id="test-video-1" style="display: none;">
+                <video autoplay muted loop playsinline>
+                    <source src="#" type="video/mp4">
+                </video>
+                <div class="video-caption">
+                    <h4>Test Video Title</h4>
+                    <p>Test video description</p>
+                </div>
+            </div>
+            <div class="test-result" id="result-1"></div>
+        </div>
+
+        <!-- Test Section 2: YouTube Video -->
+        <div class="test-section">
+            <h3>Test 2: YouTube Video</h3>
+            <div class="test-controls">
+                <input type="url" class="test-input" id="youtube-video-url" placeholder="Enter YouTube URL (e.g., https://youtube.com/watch?v=dQw4w9WgXcQ)" value="https://www.youtube.com/watch?v=dQw4w9WgXcQ">
+                <button class="test-btn" onclick="testYouTubeVideo()">Test YouTube Video</button>
+            </div>
+            <div class="product-video" id="test-video-2" style="display: none;">
+                <video autoplay muted loop playsinline>
+                    <source src="#" type="video/mp4">
+                </video>
+                <div class="video-caption">
+                    <h4>Test YouTube Video</h4>
+                    <p>Test YouTube embed</p>
+                </div>
+            </div>
+            <div class="test-result" id="result-2"></div>
+        </div>
+
+        <!-- Test Section 3: Vimeo Video -->
+        <div class="test-section">
+            <h3>Test 3: Vimeo Video</h3>
+            <div class="test-controls">
+                <input type="url" class="test-input" id="vimeo-video-url" placeholder="Enter Vimeo URL (e.g., https://vimeo.com/123456789)" value="https://vimeo.com/148751763">
+                <button class="test-btn" onclick="testVimeoVideo()">Test Vimeo Video</button>
+            </div>
+            <div class="product-video" id="test-video-3" style="display: none;">
+                <video autoplay muted loop playsinline>
+                    <source src="#" type="video/mp4">
+                </video>
+                <div class="video-caption">
+                    <h4>Test Vimeo Video</h4>
+                    <p>Test Vimeo embed</p>
+                </div>
+            </div>
+            <div class="test-result" id="result-3"></div>
+        </div>
+
+        <!-- Test Section 4: No Video -->
+        <div class="test-section">
+            <h3>Test 4: No Video URL (Hidden)</h3>
+            <div class="test-controls">
+                <button class="test-btn" onclick="testNoVideo()">Test Empty Video URL</button>
+            </div>
+            <div class="product-video" id="test-video-4" style="display: block; background: #f0f0f0; text-align: center; padding: 2rem;">
+                <p>This video container should be hidden when no video URL is provided</p>
+            </div>
+            <div class="test-result" id="result-4"></div>
+        </div>
+    </div>
+
+    <script>
+        // Copy the video functions from product.html
+        function parseVideoUrl(url) {
+            if (!url) return null;
+            
+            // YouTube patterns
+            const youtubeRegex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/;
+            const youtubeMatch = url.match(youtubeRegex);
+            if (youtubeMatch) {
+                return { type: 'youtube', id: youtubeMatch[1] };
+            }
+            
+            // Vimeo patterns
+            const vimeoRegex = /(?:vimeo\.com\/)(\d+)/;
+            const vimeoMatch = url.match(vimeoRegex);
+            if (vimeoMatch) {
+                return { type: 'vimeo', id: vimeoMatch[1] };
+            }
+            
+            // Direct video file patterns
+            if (url.match(/\.(mp4|webm|ogg|mov)(\?.*)?$/i)) {
+                return { type: 'direct', url: url };
+            }
+            
+            return null;
+        }
+
+        function replaceWithYouTubeEmbed(container, videoId, product) {
+            const embedHtml = `
+                <div class="video-embed youtube-embed">
+                    <iframe 
+                        src="https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}&controls=1&modestbranding=1&rel=0"
+                        frameborder="0" 
+                        allow="autoplay; encrypted-media" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
+                <div class="video-caption">
+                    <h4>${product.title || 'Test YouTube Video'}</h4>
+                    <p>${product.description || 'YouTube video test'}</p>
+                </div>
+            `;
+            container.innerHTML = embedHtml;
+        }
+
+        function replaceWithVimeoEmbed(container, videoId, product) {
+            const embedHtml = `
+                <div class="video-embed vimeo-embed">
+                    <iframe 
+                        src="https://player.vimeo.com/video/${videoId}?autoplay=1&muted=1&loop=1&background=1"
+                        frameborder="0" 
+                        allow="autoplay; fullscreen; picture-in-picture" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
+                <div class="video-caption">
+                    <h4>${product.title || 'Test Vimeo Video'}</h4>
+                    <p>${product.description || 'Vimeo video test'}</p>
+                </div>
+            `;
+            container.innerHTML = embedHtml;
+        }
+
+        function testDirectVideo() {
+            const url = document.getElementById('direct-video-url').value;
+            const container = document.getElementById('test-video-1');
+            const result = document.getElementById('result-1');
+            
+            if (!url) {
+                result.innerHTML = '❌ Please enter a video URL';
+                return;
+            }
+
+            const videoInfo = parseVideoUrl(url);
+            
+            if (videoInfo && videoInfo.type === 'direct') {
+                container.style.display = 'block';
+                container.querySelector('source').src = url;
+                container.querySelector('video').load();
+                result.innerHTML = `✅ Direct video loaded: ${url}`;
+            } else {
+                result.innerHTML = `❌ Invalid direct video URL format: ${url}`;
+            }
+        }
+
+        function testYouTubeVideo() {
+            const url = document.getElementById('youtube-video-url').value;
+            const container = document.getElementById('test-video-2');
+            const result = document.getElementById('result-2');
+            
+            const videoInfo = parseVideoUrl(url);
+            
+            if (videoInfo && videoInfo.type === 'youtube') {
+                container.style.display = 'block';
+                replaceWithYouTubeEmbed(container, videoInfo.id, { title: 'Test YouTube Video', description: 'YouTube video test' });
+                result.innerHTML = `✅ YouTube video loaded: ${url} (ID: ${videoInfo.id})`;
+            } else {
+                result.innerHTML = `❌ Invalid YouTube URL format: ${url}`;
+            }
+        }
+
+        function testVimeoVideo() {
+            const url = document.getElementById('vimeo-video-url').value;
+            const container = document.getElementById('test-video-3');
+            const result = document.getElementById('result-3');
+            
+            const videoInfo = parseVideoUrl(url);
+            
+            if (videoInfo && videoInfo.type === 'vimeo') {
+                container.style.display = 'block';
+                replaceWithVimeoEmbed(container, videoInfo.id, { title: 'Test Vimeo Video', description: 'Vimeo video test' });
+                result.innerHTML = `✅ Vimeo video loaded: ${url} (ID: ${videoInfo.id})`;
+            } else {
+                result.innerHTML = `❌ Invalid Vimeo URL format: ${url}`;
+            }
+        }
+
+        function testNoVideo() {
+            const container = document.getElementById('test-video-4');
+            const result = document.getElementById('result-4');
+            
+            // Simulate hiding video container when no URL is provided
+            container.style.display = 'none';
+            result.innerHTML = '✅ Video container hidden successfully when no URL is provided';
+        }
+    </script>
+</body>
+</html>

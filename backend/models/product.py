@@ -27,11 +27,18 @@ class Product(db.Model):
     low_stock_threshold = db.Column(db.Integer, default=10)
     track_inventory = db.Column(db.Boolean, default=True)
     
+    # Urgency Indicator Controls (for marketing)
+    show_urgency_override = db.Column(db.Boolean, default=False)  # Manual urgency toggle
+    urgency_message = db.Column(db.String(200))  # Custom urgency message
+    urgency_stock_display = db.Column(db.Integer)  # Fake stock number for marketing
+    
     # Skincare Specific Fields
     category = db.Column(db.String(50), nullable=False, index=True)  # cleanser, moisturizer, serum, etc.
     skin_type = db.Column(db.String(100))  # "all", "oily", "dry", "combination", "sensitive"
     ingredients = db.Column(db.Text)  # Key ingredients list
     usage_instructions = db.Column(db.Text)  # How to use instructions
+    benefits = db.Column(db.Text)  # Key benefits and what makes it special
+    more_details = db.Column(db.Text)  # Additional product details
     size = db.Column(db.String(20))  # "50ml", "100ml", etc.
     
     # Product Status
@@ -48,7 +55,9 @@ class Product(db.Model):
     # Images
     primary_image = db.Column(db.String(200))  # Main product image
     secondary_image = db.Column(db.String(200))  # Hover/secondary image
-    gallery_images = db.Column(db.Text)  # JSON string of additional images
+    gallery_images = db.Column(db.Text)  # JSON string of additional images (for thumbnails)
+    gallery_items = db.Column(db.Text)  # JSON string of gallery items with captions
+    video_url = db.Column(db.String(500))  # YouTube/Vimeo video URL
     
     # Badges
     badge_ids = db.Column(db.Text)  # JSON string of badge IDs
@@ -117,6 +126,64 @@ class Product(db.Model):
             return False
         return self.stock_quantity <= self.low_stock_threshold
     
+    @property
+    def should_show_urgency(self):
+        """Determine if urgency indicator should be shown"""
+        # Handle case where urgency fields don't exist yet (during migration)
+        try:
+            # Manual override takes precedence
+            if getattr(self, 'show_urgency_override', False):
+                return True
+        except:
+            pass
+        
+        # Automatic mode: show when stock is low (less than 10% of 100, or below threshold)
+        if not getattr(self, 'track_inventory', True):
+            return False
+            
+        # Show urgency if stock is less than 10 items OR less than 10% of reasonable baseline (100)
+        stock_qty = getattr(self, 'stock_quantity', 0)
+        threshold = getattr(self, 'low_stock_threshold', 10)
+        return stock_qty <= max(10, threshold)
+    
+    @property
+    def urgency_display_data(self):
+        """Get urgency display data (message and stock count)"""
+        if not self.should_show_urgency:
+            return None
+            
+        # Handle case where urgency fields don't exist yet (during migration)
+        try:
+            show_override = getattr(self, 'show_urgency_override', False)
+            urgency_message = getattr(self, 'urgency_message', None)
+            urgency_stock_display = getattr(self, 'urgency_stock_display', None)
+            stock_quantity = getattr(self, 'stock_quantity', 0)
+            
+            # Use manual override data if available
+            if show_override:
+                message = urgency_message or f"Only {urgency_stock_display or stock_quantity} left in stock"
+                stock_count = urgency_stock_display if urgency_stock_display is not None else stock_quantity
+                is_override = True
+            else:
+                # Automatic mode
+                message = f"Only {stock_quantity} left in stock"
+                stock_count = stock_quantity
+                is_override = False
+                
+            return {
+                'message': message,
+                'stock_count': stock_count,
+                'is_override': is_override
+            }
+        except Exception as e:
+            # Fallback during migration
+            stock_quantity = getattr(self, 'stock_quantity', 0)
+            return {
+                'message': f"Only {stock_quantity} left in stock",
+                'stock_count': stock_quantity,
+                'is_override': False
+            }
+    
     def get_gallery_images_list(self):
         """Parse gallery_images JSON string to list"""
         if not self.gallery_images:
@@ -124,6 +191,16 @@ class Product(db.Model):
         try:
             import json
             return json.loads(self.gallery_images) if isinstance(self.gallery_images, str) else self.gallery_images
+        except (json.JSONDecodeError, TypeError):
+            return []
+    
+    def get_gallery_items_list(self):
+        """Parse gallery_items JSON string to list of objects with image, title, description"""
+        if not self.gallery_items:
+            return []
+        try:
+            import json
+            return json.loads(self.gallery_items) if isinstance(self.gallery_items, str) else self.gallery_items
         except (json.JSONDecodeError, TypeError):
             return []
     
@@ -167,9 +244,17 @@ class Product(db.Model):
             'skin_type': self.skin_type,
             'ingredients': self.ingredients,
             'usage_instructions': self.usage_instructions,
+            'benefits': self.benefits,
+            'more_details': self.more_details,
             'size': self.size,
             'stock_quantity': self.stock_quantity,
             'low_stock_threshold': self.low_stock_threshold,
+            'track_inventory': getattr(self, 'track_inventory', True),
+            'show_urgency_override': getattr(self, 'show_urgency_override', False),
+            'urgency_message': getattr(self, 'urgency_message', None),
+            'urgency_stock_display': getattr(self, 'urgency_stock_display', None),
+            'should_show_urgency': self.should_show_urgency,
+            'urgency_display_data': self.urgency_display_data,
             'is_active': self.is_active,
             'is_featured': self.is_featured,
             'is_bestseller': self.is_bestseller,
@@ -180,6 +265,9 @@ class Product(db.Model):
             'secondary_image': self.secondary_image,
             'gallery_images': self.gallery_images,
             'gallery_images_list': self.get_gallery_images_list(),
+            'gallery_items': self.gallery_items,
+            'gallery_items_list': self.get_gallery_items_list(),
+            'video_url': self.video_url,
             'badge_ids': getattr(self, 'badge_ids', None),
             'badge_ids_list': self.get_badge_ids_list(),
             'badges': [badge.to_dict() for badge in self.get_badges()],

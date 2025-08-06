@@ -435,6 +435,32 @@ def create_app(config_name=None):
             from flask import abort
             abort(404)
     
+    # ===== CART ROUTE =====
+    @app.route('/cart')
+    def cart_page():
+        """Serve cart page"""
+        from flask import send_from_directory
+        import os
+        frontend_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'frontend')
+        try:
+            return send_from_directory(frontend_dir, 'cart.html')
+        except FileNotFoundError:
+            from flask import abort
+            abort(404)
+    
+    # ===== CHECKOUT ROUTE =====
+    @app.route('/checkout')
+    def checkout_page():
+        """Serve checkout page"""
+        from flask import send_from_directory
+        import os
+        frontend_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'frontend')
+        try:
+            return send_from_directory(frontend_dir, 'checkout.html')
+        except FileNotFoundError:
+            from flask import abort
+            abort(404)
+    
     # Category page routes
     @app.route('/cleanser')
     @app.route('/moisturiser')

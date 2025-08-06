@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart System Test - GAOJIE</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 40px auto; padding: 20px; }
+        .test-section { margin: 20px 0; padding: 20px; border: 1px solid #ddd; border-radius: 8px; }
+        .success { color: green; } .error { color: red; } .info { color: blue; }
+        button { padding: 10px 15px; margin: 5px; border: none; border-radius: 4px; cursor: pointer; }
+        .primary { background: #007bff; color: white; }
+        .secondary { background: #6c757d; color: white; }
+        .cart-display { background: #f8f9fa; padding: 10px; border-radius: 4px; margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <h1>🛒 Cart System Test</h1>
+    <p>This page tests the unified cart system functionality.</p>
+    
+    <div class="test-section">
+        <h3>Cart Display Test</h3>
+        <p>Cart Count: <span class="bag-count">0</span></p>
+        <div class="cart-display" id="cart-contents">Loading cart...</div>
+    </div>
+    
+    <div class="test-section">
+        <h3>Cart Operations Test</h3>
+        <button class="primary" onclick="testAddToCart()">Add Test Product</button>
+        <button class="secondary" onclick="testUpdateCart()">Update Cart Count</button>
+        <button class="secondary" onclick="testClearCart()">Clear Cart</button>
+        <button class="secondary" onclick="showCartData()">Show Raw Cart Data</button>
+    </div>
+    
+    <div class="test-section">
+        <h3>Test Results</h3>
+        <div id="test-results"></div>
+    </div>
+
+    <script src="gaojie-common.js"></script>
+    <script>
+        let testResults = [];
+        
+        function addTestResult(message, type = 'info') {
+            testResults.push({message, type, time: new Date().toLocaleTimeString()});
+            updateTestResults();
+            console.log(`[${type.toUpperCase()}] ${message}`);
+        }
+        
+        function updateTestResults() {
+            const container = document.getElementById('test-results');
+            container.innerHTML = testResults.map(result => 
+                `<div class="${result.type}">[${result.time}] ${result.message}</div>`
+            ).join('');
+        }
+        
+        function updateCartDisplay() {
+            const cartContents = document.getElementById('cart-contents');
+            const cart = GaojieUtils.getCart();
+            
+            if (cart.length === 0) {
+                cartContents.innerHTML = '<em>Cart is empty</em>';
+            } else {
+                cartContents.innerHTML = cart.map(item => 
+                    `${item.name} - ฿${item.price} (Qty: ${item.quantity})`
+                ).join('<br>');
+            }
+        }
+        
+        function testAddToCart() {
+            const testProduct = {
+                id: 'test-' + Date.now(),
+                name: 'Test Product',
+                price: 999,
+                primary_image: 'https://via.placeholder.com/100',
+                slug: 'test-product'
+            };
+            
+            try {
+                GaojieUtils.addToCart(testProduct);
+                addTestResult('✅ Successfully added product to cart', 'success');
+                updateCartDisplay();
+            } catch (error) {
+                addTestResult('❌ Failed to add product: ' + error.message, 'error');
+            }
+        }
+        
+        function testUpdateCart() {
+            try {
+                GaojieUtils.updateCartCount();
+                addTestResult('✅ Cart count updated successfully', 'success');
+            } catch (error) {
+                addTestResult('❌ Failed to update cart count: ' + error.message, 'error');
+            }
+        }
+        
+        function testClearCart() {
+            try {
+                GaojieUtils.clearCart();
+                addTestResult('✅ Cart cleared successfully', 'success');
+                updateCartDisplay();
+            } catch (error) {
+                addTestResult('❌ Failed to clear cart: ' + error.message, 'error');
+            }
+        }
+        
+        function showCartData() {
+            const cart = GaojieUtils.getCart();
+            addTestResult(`📋 Raw cart data: ${JSON.stringify(cart, null, 2)}`, 'info');
+        }
+        
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            addTestResult('🚀 Cart system test initialized', 'info');
+            
+            // Test if GaojieUtils is available
+            if (typeof GaojieUtils !== 'undefined') {
+                addTestResult('✅ GaojieUtils loaded successfully', 'success');
+                
+                // Test basic cart functions
+                try {
+                    const cart = GaojieUtils.getCart();
+                    addTestResult(`✅ getCart() works: ${cart.length} items`, 'success');
+                    
+                    GaojieUtils.updateCartCount();
+                    addTestResult('✅ updateCartCount() works', 'success');
+                    
+                    updateCartDisplay();
+                } catch (error) {
+                    addTestResult('❌ Basic cart functions failed: ' + error.message, 'error');
+                }
+            } else {
+                addTestResult('❌ GaojieUtils not loaded!', 'error');
+            }
+            
+            // Test localStorage key
+            const cartData = localStorage.getItem('gaojie_cart');
+            if (cartData !== null) {
+                addTestResult('✅ localStorage key "gaojie_cart" found', 'success');
+                try {
+                    JSON.parse(cartData);
+                    addTestResult('✅ Cart data is valid JSON', 'success');
+                } catch {
+                    addTestResult('❌ Cart data is corrupted JSON', 'error');
+                }
+            } else {
+                addTestResult('ℹ️ No cart data in localStorage (empty cart)', 'info');
+            }
+        });
+    </script>
+</body>
+</html>
